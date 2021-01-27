@@ -1,6 +1,8 @@
 package library;
 
 import library.books.Book;
+
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +11,10 @@ import java.util.stream.Collectors;
 
 public class Library {
 
-    HashMap <String, Book> bookCollection = new HashMap<>();
+    HashMap<String, Book> bookCollection = new HashMap<>();
 
 
-    public void displayBookCollection (){
+    public void displayBookCollection() {
         System.out.println("The Library have the following books: ");
 
         List<Map.Entry<String, Book>> bookList =
@@ -26,17 +28,17 @@ public class Library {
     }
 
     //method to set a collection of 20-30 books.
-    public void addStartBooks(){
+    public void addStartBooks() {
 
         bookCollection.put("Sofies World", new Book("Sofies World", "Jostein Gaarder", "Philosophy", true));
         bookCollection.put("Eileen",
                 new Book("Eileen", "Ottessa Moshfegh", "Fiction", true));
         bookCollection.put("Lord of the Rings: The Fellowship of the Rings",
-                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Toliken","Fantasy, Classic", true ));
+                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Toliken", "Fantasy, Classic", true));
         bookCollection.put("Lord of the Rings: The Two Towers",
-                new Book("Lord of the Rings: The Two Towers", "J.R.R Toliken","Fantasy, Classic", true ));
+                new Book("Lord of the Rings: The Two Towers", "J.R.R Toliken", "Fantasy, Classic", true));
         bookCollection.put("Lord of the Rings: The Return of the King",
-                new Book("Lord of the Rings: The Return of the King", "J.R.R Toliken","Fantasy, Classic", true ));
+                new Book("Lord of the Rings: The Return of the King", "J.R.R Toliken", "Fantasy, Classic", true));
         bookCollection.put("Alice in Wonderland", new Book("Alice in Wonderland", "Lewis Carroll", "Classic", true));
         bookCollection.put("Crime and Punishment", new Book("Crime and Punishment", "Fjodor Dostojevskij", "Classic", true));
         bookCollection.put("Coraline", new Book("Coraline", "Neil Gaiman", "Fantasy", true));
@@ -57,8 +59,8 @@ public class Library {
         bookCollection.put("Nocturner", new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true));
     }
 
-//Add book after libarians choice
-    public void addBook() {
+    //Add book after libarians choice
+    public boolean addBook() {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter book title: ");
         String bookTitle = input.nextLine();
@@ -66,10 +68,31 @@ public class Library {
         System.out.println("Enter author: ");
         String author = input.nextLine();
 
+
         System.out.println("Enter genre: ");
         String genre = input.nextLine();
 
-        bookCollection.put(bookTitle, new Book(bookTitle,author,genre,true));
-        System.out.println("Book added!");
+        if (validateStringInput(bookTitle, author, genre)) {
+            bookCollection.put(bookTitle, new Book(bookTitle, author, genre, true));
+            System.out.println("Book added!");
+            return true; // TODO use this value to return to meny
+        }
+        else{
+            System.out.println("Your input was not valid");
+            return false; // TODO use this value to return to meny
+        }
+    }
+
+    // Validation method to check string input
+    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
+        boolean valid = true;
+        //loop through inparameter inputs array
+        for (String input : inputs) {
+            if (!input.matches("[a-zA-Z0-9\\-]")) { // regex to check a-z, 0-9 and -
+                valid = false;
+            }
+        }
+        return valid;
     }
 }
+

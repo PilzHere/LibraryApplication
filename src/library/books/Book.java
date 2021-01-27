@@ -1,3 +1,5 @@
+package library.books;
+
 public class Book {
     private String title;
     private String author;
@@ -45,11 +47,10 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Book: " +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", genres='" + genres + '\'' +
-                ", available=" + available +
-                '}';
+                ", available=" + available + '.';
     }
 }

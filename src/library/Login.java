@@ -63,7 +63,7 @@ public class Login {
         Login login = new Login();
         System.out.println(login.users());
         System.out.println(login.admins());
-        login.checkUser("Adla");
+        login.checkUser("bla");
 
     }*/
 

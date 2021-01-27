@@ -20,13 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibraryApplication.iml" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryApplication.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/books/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/books/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +28,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1neJ5DFy5GC6oP7FbnXJ29El9R9" />
@@ -96,6 +95,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1237" height="523" key="GridCell.Tab.0.bottom" timestamp="1611748942455">
@@ -114,5 +114,17 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="1237" height="523" key="GridCell.Tab.0.right/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611748942455" />
+    <state x="121" y="51" key="MergeDialog" timestamp="1611750523305">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="121" y="51" key="MergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523305" />
+    <state x="280" y="102" key="MultipleFileMergeDialog" timestamp="1611750523322">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="280" y="102" key="MultipleFileMergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523322" />
+    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog" timestamp="1611750665466">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750665466" />
   </component>
 </project>

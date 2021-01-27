@@ -1,4 +1,5 @@
 import library.Library;
+import library.Login;
 import library.users.Lender;
 import library.users.Librarian;
 import library.users.User;
@@ -9,9 +10,11 @@ import java.util.Scanner;
 
 public class LibraryApplication {
     private static boolean loggedIn = false, isRunning = true;
+    private Login login = new Login();
     public static List<User> users = new ArrayList<>();
 
     public static void main(String[] args) {
+        Login login = new Login();
         printWelcomeMessage();
         addLibraryUsers();
 
@@ -36,25 +39,16 @@ public class LibraryApplication {
         System.out.println("Welcome to the library.");
     }
 
-    private static boolean askForUsername() {
-        System.out.println("Please type your username... or type exit to quit.");
+    private static Boolean askForUsername() {
+        System.out.println("Please type your username...");
         Scanner scanner = new Scanner(System.in);
         final String username = scanner.next();
-
-        if (username.equalsIgnoreCase("exit")) {
-            isRunning = false;
-            return false;
-        } else {
-            for (User user : users) {
-                if (username.equalsIgnoreCase(user.getName())) {
-                    System.out.println("Welcome " + username + ".");
-                    return true;
-                }
-            }
-        }
-
-        System.out.println("No matching username found.");
-        return false;
+        return true;
+       /*
+        if(login.checkUser(username))
+            return true;
+        else
+            return false;*/
     }
 
     private static void getUserRequest() {

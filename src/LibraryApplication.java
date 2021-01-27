@@ -16,7 +16,7 @@ public class LibraryApplication {
         addLibraryUsers();
 
         while(!loggedIn && isRunning)
-             loggedIn = askForUsername();
+            loggedIn = askForUsername();
 
         if (loggedIn) {
             Library library = new Library();

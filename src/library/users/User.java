@@ -4,6 +4,8 @@ public class User {
     protected String name;
     protected boolean isAdmin;
 
+    public User() {}
+
     public User(String name, boolean isAdmin) {
         this.name = name;
         this.isAdmin = isAdmin;

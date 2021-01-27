@@ -12,21 +12,6 @@ import java.util.stream.Collectors;
 public class Library {
 
     HashMap<String, Book> bookCollection = new HashMap<>();
-
-
-    public void displayBookCollection() {
-        System.out.println("The Library have the following books: ");
-
-        List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream()
-                        .collect(Collectors.toList());
-
-        bookList.forEach(book -> System.out.println(book.getValue()));
-        //change property available to a better printout, ex. available: yes/no
-        //System.out.println(bookList.size());
-
-    }
-
     //method to set a collection of 20-30 books.
     public void addStartBooks() {
 
@@ -57,6 +42,39 @@ public class Library {
         bookCollection.put("The Luminaries", new Book("The Luminaries", "Elenor Catton", "Fiction", true));
         bookCollection.put("The Plague", new Book("The Plague", "Albert Camus", "Modern Classic", true));
         bookCollection.put("Nocturner", new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true));
+    }
+
+    public void displayBookCollection() {
+        System.out.println("The Library have the following books: ");
+
+        List<Map.Entry<String, Book>> bookList =
+                bookCollection.entrySet().stream()
+                        .collect(Collectors.toList());
+
+        bookList.forEach(book -> System.out.println(book.getValue()));
+        //change property available to a better printout, ex. available: yes/no
+        //System.out.println(bookList.size());
+
+    }
+
+    //admin to remove book from bookCollection
+    public void removeBook (){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter title of the book you wish to remove: \n");
+
+        String adminInput = scan.nextLine();
+
+        //Call try/catch method here to check input
+
+        List<Map.Entry<String, Book>> bookList =
+                bookCollection.entrySet().stream()
+                        .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
+                        .collect(Collectors.toList());
+
+
+        bookCollection.remove(bookList.get(0).getKey());
+        System.out.println(adminInput + " was deleted from book collections");
+
     }
 
     //Add book after libarians choice
@@ -94,5 +112,5 @@ public class Library {
         }
         return valid;
     }
-}
 
+}

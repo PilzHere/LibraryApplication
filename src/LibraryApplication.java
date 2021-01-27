@@ -39,12 +39,14 @@ public class LibraryApplication {
         final String username = scanner.next();
 
         // TODO: Uncomment this
-        /*for (User user: users) {
+
+/*for (User user: users) {
             if (username.equals(user.name)) {
                 System.out.println("Welcome " + username + ".");
                 return true;
             }
         }*/
+
 
         // FIXME: Remove this after User class is done.
         if (username.equals("admin")) {
@@ -66,3 +68,4 @@ public class LibraryApplication {
         System.out.println(action);
     }
 }
+

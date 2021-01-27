@@ -33,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="annika-add-books" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -100,6 +100,7 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="WindowStateProjectService">
     <state width="1237" height="523" key="GridCell.Tab.0.bottom" timestamp="1611758289347">
       <screen x="0" y="0" width="1280" height="680" />
@@ -129,5 +130,20 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611757777126" />
+=======
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/LibraryApplication.java</url>
+          <line>29</line>
+          <properties class="LibraryApplication">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+>>>>>>> master
   </component>
 </project>

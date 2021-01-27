@@ -25,6 +25,43 @@ public class Library {
 
     }
 
+    //Add book after libarians choice
+    public void addBook() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter book title: ");
+        String bookTitle = input.nextLine();
+
+        System.out.println("Enter author: ");
+        String author = input.nextLine();
+
+        System.out.println("Enter genre: ");
+        String genre = input.nextLine();
+
+        bookCollection.put(bookTitle, new Book(bookTitle,author,genre,true));
+        System.out.println("Book added!");
+    }
+
+    //admin to remove book from bookCollection
+    public void removeBook (){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter title of the book you wish to remove: \n");
+
+        String adminInput = scan.nextLine();
+
+        //Call try/catch method here to check input
+
+        List<Map.Entry<String, Book>> bookList =
+                bookCollection.entrySet().stream()
+                        .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
+                        .collect(Collectors.toList());
+
+
+        bookCollection.remove(bookList.get(0).getKey());
+        System.out.println(adminInput + " was deleted from book collections");
+
+    }
+
+
     //method to set a collection of 20-30 books.
     public void addStartBooks(){
 
@@ -57,19 +94,6 @@ public class Library {
         bookCollection.put("Nocturner", new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true));
     }
 
-//Add book after libarians choice
-    public void addBook() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter book title: ");
-        String bookTitle = input.nextLine();
 
-        System.out.println("Enter author: ");
-        String author = input.nextLine();
 
-        System.out.println("Enter genre: ");
-        String genre = input.nextLine();
-
-        bookCollection.put(bookTitle, new Book(bookTitle,author,genre,true));
-        System.out.println("Book added!");
-    }
 }

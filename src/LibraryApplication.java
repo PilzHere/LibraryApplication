@@ -1,3 +1,6 @@
+import library.Library;
+import library.users.User;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

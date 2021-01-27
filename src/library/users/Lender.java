@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Lender extends User {
 
+    public Lender(String name) {
+        super(name, false);
+    }
+
     // List of books the user is currently lending
     List<String> lendedBooks; // = new ArrayList<>();
 

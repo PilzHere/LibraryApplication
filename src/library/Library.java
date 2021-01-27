@@ -4,6 +4,7 @@ import library.books.Book;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Library {
@@ -56,4 +57,19 @@ public class Library {
         bookCollection.put("Nocturner", new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true));
     }
 
+//Add book after libarians choice
+    public void addBook() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter book title: ");
+        String bookTitle = input.nextLine();
+
+        System.out.println("Enter author: ");
+        String author = input.nextLine();
+
+        System.out.println("Enter genre: ");
+        String genre = input.nextLine();
+
+        bookCollection.put(bookTitle, new Book(bookTitle,author,genre,true));
+        System.out.println("Book added!");
+    }
 }

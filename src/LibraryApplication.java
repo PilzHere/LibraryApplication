@@ -58,7 +58,7 @@ public class LibraryApplication {
     }
 
     private static void getUserRequest() {
-        // TODO: Implement switch for each user request.
+        // TODO: Implement switch for each user request. a
 
         // this is where we ask for: search book, lend book, print books...
         System.out.println("What would you like to do?");

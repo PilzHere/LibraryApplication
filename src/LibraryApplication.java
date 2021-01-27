@@ -1,15 +1,21 @@
+import library.Library;
+import library.users.Lender;
+import library.users.Librarian;
+import library.users.User;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class LibraryApplication {
     private static boolean loggedIn = false, isRunning = true;
-    public List<User> users = new ArrayList<>();
-    // TODO: add/hardcode users when User class is done.
+    public static List<User> users = new ArrayList<>();
 
     public static void main(String[] args) {
         printWelcomeMessage();
-        while(!loggedIn)
+        addLibraryUsers();
+
+        while(!loggedIn && isRunning)
              loggedIn = askForUsername();
 
         if (loggedIn) {
@@ -31,22 +37,20 @@ public class LibraryApplication {
     }
 
     private static boolean askForUsername() {
-        System.out.println("Please type your username...");
+        System.out.println("Please type your username... or type exit to quit.");
         Scanner scanner = new Scanner(System.in);
         final String username = scanner.next();
 
-        // TODO: Uncomment this
-        /*for (User user: users) {
-            if (username.equals(user.name)) {
-                System.out.println("Welcome " + username + ".");
-                return true;
+        if (username.equalsIgnoreCase("exit")) {
+            isRunning = false;
+            return false;
+        } else {
+            for (User user : users) {
+                if (username.equalsIgnoreCase(user.getName())) {
+                    System.out.println("Welcome " + username + ".");
+                    return true;
+                }
             }
-        }*/
-
-        // FIXME: Remove this after User class is done.
-        if (username.equals("admin")) {
-            System.out.println("Welcome " + username + ".");
-            return true;
         }
 
         System.out.println("No matching username found.");
@@ -61,5 +65,18 @@ public class LibraryApplication {
         Scanner scanner = new Scanner(System.in);
         final String action = scanner.next();
         System.out.println(action);
+    }
+
+    private static void addLibraryUsers() {
+        // Librarians
+        users.add(new Librarian("Marcel"));
+        users.add(new Librarian("Johan"));
+
+        // Lenders
+        users.add(new Lender("Adam"));
+        users.add(new Lender("Amin"));
+        users.add(new Lender("Annika"));
+        users.add(new Lender("Christian"));
+        users.add(new Lender("Sandra"));
     }
 }

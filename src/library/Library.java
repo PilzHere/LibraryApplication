@@ -1,6 +1,8 @@
 package library;
 
 import library.books.Book;
+import library.users.Lender;
+import library.users.User;
 import library.utils.FileUtils;
 
 import java.util.regex.Matcher;
@@ -43,18 +45,28 @@ public class Library {
         System.out.println("Enter title of the book you wish to remove: ");
 
         String adminInput = scan.nextLine();
-        if (validateStringInput(adminInput)) {
-            List<Map.Entry<String, Book>> bookList =
-                    bookCollection.entrySet().stream()
-                            .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
-                            .collect(Collectors.toList());
 
-            bookCollection.remove(bookList.get(0).getKey());
-            System.out.println(adminInput + " was deleted from book collections");
-        } else {
-            System.out.println("Your input was not valid");
+        if (validateStringInput(adminInput)) {
+
+            if((bookCollection.containsKey(adminInput))) { //NOT working with lower case letters!!
+
+                List<Map.Entry<String, Book>> bookList =
+                        bookCollection.entrySet().stream()
+                                .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
+                                .collect(Collectors.toList());
+                bookCollection.remove(bookList.get(0).getKey());
+
+                System.out.println(adminInput + " was deleted from book collections");
+            }
+            else{
+                System.out.println("No book with that title was found");
+                //Back to meny here
+            }
+
+        }else{
+            System.out.println("No valid input");
+            //Back to meny here
         }
-        //Call try/catch method here to check input
     }
 
     //librarian - Add book
@@ -133,6 +145,20 @@ public class Library {
         }
     }
 
+    //Admin to get list of Lenders
+    public void getLenderList (List<User> users){
+        List <Lender> lenderList = new ArrayList<>();
+
+        for(User user : users){
+            if(user instanceof Lender){
+                lenderList.add((Lender)user);
+            }
+        }
+        System.out.println("Current Lenders: \n");
+        lenderList.forEach(lender -> System.out.println(lender)); //Only prints names
+    }
+
+
     //method to set a collection of 20-30 books.
     public void addStartBooks() {
         bookCollection.put("Sofies World",
@@ -182,4 +208,6 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true));
     }
+
+
 }

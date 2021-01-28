@@ -2,7 +2,6 @@ package library;
 
 import library.books.Book;
 
-import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +11,7 @@ import java.util.stream.Collectors;
 public class Library {
 
     HashMap<String, Book> bookCollection = new HashMap<>();
+
     //method to set a collection of 20-30 books.
     public void addStartBooks() {
 
@@ -58,7 +58,7 @@ public class Library {
     }
 
     //admin to remove book from bookCollection
-    public void removeBook (){
+    public void removeBook() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter title of the book you wish to remove: \n");
 
@@ -77,7 +77,7 @@ public class Library {
 
     }
 
-    //Add book after libarians choice
+    //librarian - Add book
     public boolean addBook() {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter book title: ");
@@ -94,14 +94,13 @@ public class Library {
             bookCollection.put(bookTitle, new Book(bookTitle, author, genre, true));
             System.out.println("Book added!");
             return true; // TODO use this value to return to meny
-        }
-        else{
+        } else {
             System.out.println("Your input was not valid");
             return false; // TODO use this value to return to meny
         }
     }
 
-    // Validation method to check string input
+    //Validation method to check string input
     public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
         //loop through inparameter inputs array
@@ -111,6 +110,19 @@ public class Library {
             }
         }
         return valid;
+    }
+
+    //User - See available books
+    public void checkAvailableBooks() {
+        System.out.println("Available books to lend:");
+
+        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
+            if (entry.getValue().isAvailable() == true) {
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() +  " | Genres: " + entry.getValue().getGenres()+"\n");
+                System.out.printf("Title: %s Author: %s Genres: %s\n" + entry.getValue().getTitle() + entry.getValue().getAuthor() + entry.getValue().getGenres());
+
+            }
+        }
     }
 
 }

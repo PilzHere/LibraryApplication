@@ -16,18 +16,15 @@ public class Login {
         printWelcomeMessage();
         addLibraryUsers();
 
-        while(!loggedIn && isRunning)
-            loggedIn = askForUsername();
-
-        if (loggedIn) {
-            Library library = new Library();
-
-            while (isRunning) {
-                // ask what to do...
-                getUserRequest();
+        while (isRunning) {
+            if (!loggedIn) {
+                loggedIn = askForUsername();
             }
 
-            loggedIn = false;
+            if (loggedIn) {
+                Library library = Library.getInstance();
+                getUserRequest();
+            }
         }
 
         System.out.println("Thank you for visiting the Library. Please come back. We love you!");
@@ -52,11 +49,7 @@ public class Login {
     }
 
     private boolean checkUserNameForExit(String username) {
-        if (username.equalsIgnoreCase("exit")) {
-            return true;
-        } else {
-            return false;
-        }
+        return username.equalsIgnoreCase("exit");
     }
 
     private boolean checkUser(final String userName) {
@@ -78,7 +71,12 @@ public class Login {
         System.out.println("What would you like to do?");
         Scanner scanner = new Scanner(System.in);
         final String action = scanner.next();
-        System.out.println(action);
+
+        if (action.equalsIgnoreCase("back")) {
+            loggedIn = false;
+        }
+
+        //System.out.println(action);
     }
 
     private void addLibraryUsers() {

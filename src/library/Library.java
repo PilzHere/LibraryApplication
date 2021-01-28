@@ -9,6 +9,15 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Library {
+    private static final Library instance = new Library();
+
+    public static Library getInstance() {
+        return instance;
+    }
+
+    public Library() {
+        System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
+    }
 
     HashMap<String, Book> bookCollection = new HashMap<>();
 

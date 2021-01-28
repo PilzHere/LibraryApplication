@@ -101,7 +101,7 @@ public class Library {
                         .collect(Collectors.toList());
 
         for (Map.Entry<String, Book> book : bookList) {
-            if (bookList.contains(searchPhrase)) {
+            if (bookCollection.containsKey(searchPhrase)) {
                 System.out.println("Book found!\n" + book.getValue());
             } else { // <--- Why does this not work??
                 System.out.println("No book title matching your search was found.\n" + "Please search for the full title.");

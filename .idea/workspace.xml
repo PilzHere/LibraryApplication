@@ -19,13 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="Updated userclasses">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryApplication.java" afterDir="false" />
+    <list default="true" id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="Added search function for book titles">
       <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/books/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/books/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/utils/FileUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611754143834</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added search function for book titles">
+      <created>1611837104962</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1611837104962</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -121,6 +123,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated userclasses" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated userclasses" />
+    <MESSAGE value="Added search function for book titles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added search function for book titles" />
   </component>
 </project>

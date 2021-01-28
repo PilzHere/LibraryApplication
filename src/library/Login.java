@@ -1,70 +1,96 @@
 package library;
 
-import java.lang.reflect.Array;
+import library.users.Lender;
+import library.users.Librarian;
+import library.users.User;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Login {
-    ArrayList<String> listOfUsers;
-    ArrayList<String> listOfAdmins;
+    private boolean loggedIn = false, isRunning = true;
+    public List<User> users = new ArrayList<>();
 
     public Login(){
-        listOfUsers = new ArrayList<String>();
-        listOfUsers.add("Amin");
-        listOfUsers.add("Annika");
-        listOfUsers.add("Sandra");
-        listOfUsers.add("Christian");
-        listOfUsers.add("Adam");
-        listOfAdmins = new ArrayList<String>();
-        listOfAdmins.add("Marcel");
-        listOfAdmins.add("Johan");
-    }
-    /*
-     * Returns the list of users
-     */
-    public ArrayList<String> users() {
-        return listOfUsers;
+        printWelcomeMessage();
+        addLibraryUsers();
+
+        while(!loggedIn && isRunning)
+            loggedIn = askForUsername();
+
+        if (loggedIn) {
+            Library library = new Library();
+
+            while (isRunning) {
+                // ask what to do...
+                getUserRequest();
+            }
+
+            loggedIn = false;
+        }
+
+        System.out.println("Thank you for visiting the Library. Please come back. We love you!");
     }
 
-    /*
-     * Returns the list of admins
-     */
-    public ArrayList<String> admins() {
-        return listOfAdmins;
+    private void printWelcomeMessage() {
+        System.out.println("Welcome to the library.");
     }
-    /*
-     * Checks if a user is registered in the system. Returns true if it is.
-     */
-    public Boolean checkUser(String username){
-        if(listOfUsers.contains(username) || listOfAdmins.contains(username)){
-            return true;
-        } else{
+
+    private boolean askForUsername() {
+        System.out.println("Please type your username... or type 'exit' to quit.");
+        Scanner scanner = new Scanner(System.in);
+        final String username = scanner.next();
+
+
+        if (!checkUserNameForExit(username)) {
+            return checkUser(username);
+        } else {
+            isRunning = false;
             return false;
         }
     }
 
-    /*
-     * Checks if current user is a regular user or an admin.
-     */
-    public void currentUser(String username) {
-        if(this.checkUser(username) == true){
-            if(listOfAdmins.contains(username)){
-                System.out.println("Hi " + username + "!\n" +  "This user is an admin!");
-            }else{
-                System.out.print("Hi " + username + "!\n" +  "This user is a regular user!");
-            }
-        }else{
-            System.out.println("This username is not in the system. Please try again!");
+    private boolean checkUserNameForExit(String username) {
+        if (username.equalsIgnoreCase("exit")) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    //Just for testing
-    /*
-    public static void main(String args[]) {
-        Login login = new Login();
-        System.out.println(login.users());
-        System.out.println(login.admins());
-        login.checkUser("bla");
+    private boolean checkUser(final String userName) {
+        for (User user: users) {
+            if (user.getName().equalsIgnoreCase(userName)) {
+                System.out.println("Logged in as " + userName);
+                return true;
+            }
+        }
 
-    }*/
+        System.out.println("User " + userName + " could not be found.");
+        return false;
+    }
 
+    private void getUserRequest() {
+        // TODO: Implement switch for each user request. a
+
+        // this is where we ask for: search book, lend book, print books...
+        System.out.println("What would you like to do?");
+        Scanner scanner = new Scanner(System.in);
+        final String action = scanner.next();
+        System.out.println(action);
+    }
+
+    private void addLibraryUsers() {
+        // Librarians
+        users.add(new Librarian("Marcel"));
+        users.add(new Librarian("Johan"));
+
+        // Lenders
+        users.add(new Lender("Adam"));
+        users.add(new Lender("Amin"));
+        users.add(new Lender("Annika"));
+        users.add(new Lender("Christian"));
+        users.add(new Lender("Sandra"));
+    }
 }

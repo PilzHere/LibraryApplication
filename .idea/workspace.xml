@@ -20,10 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/users/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,37 +99,6 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-<<<<<<< HEAD
-  <component name="WindowStateProjectService">
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state width="1237" height="523" key="GridCell.Tab.0.center" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.center/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state width="1237" height="523" key="GridCell.Tab.0.left" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.left/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state width="1237" height="523" key="GridCell.Tab.0.right" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.right/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state x="121" y="51" key="MergeDialog" timestamp="1611750523305">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="121" y="51" key="MergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523305" />
-    <state x="280" y="102" key="MultipleFileMergeDialog" timestamp="1611750523322">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="280" y="102" key="MultipleFileMergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523322" />
-    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog" timestamp="1611757777126">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611757777126" />
-=======
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -144,6 +112,5 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
->>>>>>> master
   </component>
 </project>

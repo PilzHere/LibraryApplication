@@ -1,3 +1,6 @@
+import library.Library;
+import library.users.User;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +11,11 @@ public class LibraryApplication {
     // TODO: add/hardcode users when User class is done.
 
     public static void main(String[] args) {
+
+        Library lib = new Library();
+        lib.addStartBooks();
+        lib.searchBookTitle();
+
         printWelcomeMessage();
         while(!loggedIn)
              loggedIn = askForUsername();
@@ -59,7 +67,7 @@ public class LibraryApplication {
         // this is where we ask for: search book, lend book, print books...
         System.out.println("What would you like to do?");
         Scanner scanner = new Scanner(System.in);
-        final String action = scanner.next();
+        String action = scanner.next();
         System.out.println(action);
     }
 }

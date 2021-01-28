@@ -19,9 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="">
+    <list default="true" id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="Updated userclasses">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/books/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/books/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/utils/FileUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="annika-add-books" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -43,8 +47,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
-  <component name="RunManager" selected="Application.Library (1)">
+  <component name="RunManager" selected="Application.LibraryApplication">
     <configuration name="Library (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="library.Library" />
       <module name="LibraryApplication" />
@@ -65,13 +71,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LibraryApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="LibraryApplication" />
+      <module name="LibraryApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.LibraryApplication" />
         <item itemvalue="Application.Library (1)" />
         <item itemvalue="Application.Library" />
         <item itemvalue="Application.Library (1)" />
         <item itemvalue="Application.Library" />
-        <item itemvalue="Application.Library (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -84,6 +97,14 @@
       <option name="presentableId" value="Default" />
       <updated>1611744440227</updated>
     </task>
+    <task id="LOCAL-00001" summary="Updated userclasses">
+      <created>1611754143834</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1611754143834</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -98,34 +119,8 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom" timestamp="1611748942455">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611748942455" />
-    <state width="1237" height="523" key="GridCell.Tab.0.center" timestamp="1611748942455">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.center/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611748942455" />
-    <state width="1237" height="523" key="GridCell.Tab.0.left" timestamp="1611748942455">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.left/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611748942455" />
-    <state width="1237" height="523" key="GridCell.Tab.0.right" timestamp="1611748942455">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.right/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611748942455" />
-    <state x="121" y="51" key="MergeDialog" timestamp="1611750523305">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="121" y="51" key="MergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523305" />
-    <state x="280" y="102" key="MultipleFileMergeDialog" timestamp="1611750523322">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="280" y="102" key="MultipleFileMergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523322" />
-    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog" timestamp="1611750665466">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750665466" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated userclasses" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated userclasses" />
   </component>
 </project>

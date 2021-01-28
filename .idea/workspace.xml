@@ -21,6 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="089a852a-3c86-4680-9c87-a1d85a2f5413" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/library/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Login.java" afterDir="false" />

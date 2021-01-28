@@ -5,8 +5,11 @@ import library.users.Lender;
 import library.users.User;
 import library.utils.FileUtils;
 
-import java.util.*;
 import java.util.regex.Matcher;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -34,17 +37,16 @@ public class Library {
 
         bookList.forEach(book -> System.out.println(book.getValue()));
         //change property available to a better printout, ex. available: yes/no
-
     }
 
     //admin to remove book from bookCollection
     public void removeBook() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter title of the book you wish to remove: \n");
+        System.out.println("Enter title of the book you wish to remove: ");
 
         String adminInput = scan.nextLine();
 
-        if (validateStringInput(adminInput)){
+        if (validateStringInput(adminInput)) {
 
             if((bookCollection.containsKey(adminInput))) { //NOT working with lower case letters!!
 
@@ -75,7 +77,6 @@ public class Library {
 
         System.out.println("Enter author: ");
         String author = input.nextLine();
-
 
         System.out.println("Enter genre: ");
         String genre = input.nextLine();
@@ -109,10 +110,19 @@ public class Library {
         System.out.println("Available books to lend:");
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
-            if (entry.getValue().isAvailable() == true) {
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres() + "\n");
-                System.out.printf("Title: %s Author: %s Genres: %s\n" + entry.getValue().getTitle() + entry.getValue().getAuthor() + entry.getValue().getGenres());
+            if (entry.getValue().isAvailable()) {
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
+            }
+        }
+    }
 
+    //librarian - check laoned books
+    public void checkLoanedBooks() {
+        System.out.println("Following book/books is lent out at the moment:");
+
+        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
+            if (!entry.getValue().isAvailable()) {
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
             }
         }
         //System.out.println(bookList.size());

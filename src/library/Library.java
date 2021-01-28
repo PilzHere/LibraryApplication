@@ -22,7 +22,7 @@ public class Library {
 
     HashMap<String, Book> bookCollection = new HashMap<>();
 
-    public void displayBookCollection (){
+    public void displayBookCollection() {
         System.out.println("The Library have the following books: ");
 
         bookCollection = FileUtils.readObjectFromFile("src/books.txt");
@@ -97,7 +97,7 @@ public class Library {
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (entry.getValue().isAvailable() == true) {
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() +  " | Genres: " + entry.getValue().getGenres()+"\n");
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres() + "\n");
                 System.out.printf("Title: %s Author: %s Genres: %s\n" + entry.getValue().getTitle() + entry.getValue().getAuthor() + entry.getValue().getGenres());
 
             }
@@ -105,9 +105,25 @@ public class Library {
         //System.out.println(bookList.size());
     }
 
+    // Search for a specific book by title
+    public void searchBookTitle() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter search: ");
+        String searchPhrase = input.nextLine();
+
+        List<Map.Entry<String, Book>> bookList =
+                bookCollection.entrySet().stream().filter(book -> book.getValue().getTitle().equals(searchPhrase))
+                        .collect(Collectors.toList());
+
+        for (Map.Entry<String, Book> book : bookList) {
+            if (bookCollection.containsKey(searchPhrase)) {
+                System.out.println("Book found!\n" + book.getValue());
+            }
+        }
+    }
+
     //method to set a collection of 20-30 books.
     public void addStartBooks() {
-
         bookCollection.put("Sofies World",
                 new Book("Sofies World", "Jostein Gaarder", "Philosophy", true));
         bookCollection.put("Eileen",
@@ -117,7 +133,7 @@ public class Library {
         bookCollection.put("Lord of the Rings: The Two Towers",
                 new Book("Lord of the Rings: The Two Towers", "J.R.R Toliken", "Fantasy, Classic", true));
         bookCollection.put("Lord of the Rings: The Return of the King",
-                new Book("Lord of the Rings: The Return of the King", "J.R.R Toliken","Fantasy, Classic", true ));
+                new Book("Lord of the Rings: The Return of the King", "J.R.R Toliken", "Fantasy, Classic", true));
         bookCollection.put("Alice in Wonderland",
                 new Book("Alice in Wonderland", "Lewis Carroll", "Classic", true));
         bookCollection.put("Crime and Punishment",
@@ -155,38 +171,4 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true));
     }
-
-//Add book after libarians choice
-    public void addBook() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter book title: ");
-        String bookTitle = input.nextLine();
-
-        System.out.println("Enter author: ");
-        String author = input.nextLine();
-
-        System.out.println("Enter genre: ");
-        String genre = input.nextLine();
-
-        bookCollection.put(bookTitle, new Book(bookTitle,author,genre,true));
-        System.out.println("Book added!");
-    }
-
-    // Search for a specific book by title
-    public void searchBookTitle() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter search: ");
-        String searchPhrase = input.nextLine();
-
-        List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream().filter(book -> book.getValue().getTitle().equals(searchPhrase))
-                        .collect(Collectors.toList());
-
-        for (Map.Entry<String, Book> book : bookList) {
-            if (bookCollection.containsKey(searchPhrase)) {
-                System.out.println("Book found!\n" + book.getValue());
-            } else { // <--- Why does this not work??
-                System.out.println("No book title matching your search was found.\n" + "Please search for the full title.");
-            }
-        }
-    }
+}

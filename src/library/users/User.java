@@ -1,6 +1,6 @@
 package library.users;
 
-public class User {
+public abstract class User {
     protected String name;
     protected boolean isAdmin;
 

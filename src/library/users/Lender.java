@@ -24,4 +24,11 @@ public class Lender extends User {
         this.lendedBooks = lendedBooks;
     }
     // a
+
+    @Override
+    public String toString() {
+        return "Lender{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

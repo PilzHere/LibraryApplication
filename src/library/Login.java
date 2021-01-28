@@ -13,7 +13,7 @@ public class Login {
     public List<User> users = new ArrayList<>();
     private User currentUser;
 
-    public Login(){
+    public Login () {
         printWelcomeMessage();
         addLibraryUsers();
 
@@ -30,11 +30,11 @@ public class Login {
         System.out.println("Thank you for visiting the Library. Please come back. We have hotdogs and carbonated soda!");
     }
 
-    private void printWelcomeMessage() {
+    private void printWelcomeMessage () {
         System.out.println("Welcome to the library.");
     }
 
-    private boolean askForUsername() {
+    private boolean askForUsername () {
         System.out.println("Please type your username... or type 'exit' to quit.");
         Scanner scanner = new Scanner(System.in);
         final String username = scanner.next();
@@ -48,12 +48,12 @@ public class Login {
         }
     }
 
-    private boolean checkUserNameForExit(String username) {
+    private boolean checkUserNameForExit (String username) {
         return username.equalsIgnoreCase("exit");
     }
 
-    private boolean checkUser(final String userName) {
-        for (User user: users) {
+    private boolean checkUser (final String userName) {
+        for (User user : users) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 currentUser = user;
                 System.out.println("Logged in as " + userName + ".");
@@ -65,7 +65,7 @@ public class Login {
         return false;
     }
 
-    private void getUserRequest() {
+    private void getUserRequest () {
         System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: Show time left lending for book.\n5: Log out user.");
         Scanner scanner = new Scanner(System.in);
 
@@ -73,19 +73,6 @@ public class Login {
         if (scanner.hasNextInt()) {
             userRequest = scanner.nextInt();
         }
-
-        /*if (userRequest.equalsIgnoreCase("back")) {
-            currentUser = null;
-            loggedIn = false;
-            return;
-        }*/
-
-        /*int request = 0;
-        try { // Because the String might not contain an integer.
-            request = Integer.parseInt(userRequest);
-        } catch (NumberFormatException e) {
-            //e.printStackTrace();
-        }*/
 
         if (currentUser instanceof Librarian) {
             switch (userRequest) {
@@ -140,7 +127,7 @@ public class Login {
         }
     }
 
-    private void addLibraryUsers() {
+    private void addLibraryUsers () {
         // Librarians
         users.add(new Librarian("Marcel"));
         users.add(new Librarian("Johan"));

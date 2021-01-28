@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Login {
     private boolean loggedIn = false, isRunning = true;
     public List<User> users = new ArrayList<>();
+    private User currentUser;
 
     public Login(){
         printWelcomeMessage();
@@ -22,12 +23,11 @@ public class Login {
             }
 
             if (loggedIn) {
-                Library library = Library.getInstance();
                 getUserRequest();
             }
         }
 
-        System.out.println("Thank you for visiting the Library. Please come back. We love you!");
+        System.out.println("Thank you for visiting the Library. Please come back. We have hotdogs and carbonated soda!");
     }
 
     private void printWelcomeMessage() {
@@ -55,28 +55,89 @@ public class Login {
     private boolean checkUser(final String userName) {
         for (User user: users) {
             if (user.getName().equalsIgnoreCase(userName)) {
-                System.out.println("Logged in as " + userName);
+                currentUser = user;
+                System.out.println("Logged in as " + userName + ".");
                 return true;
             }
         }
 
-        System.out.println("User " + userName + " could not be found.");
+        System.out.println("User '" + userName + "' could not be found.");
         return false;
     }
 
     private void getUserRequest() {
-        // TODO: Implement switch for each user request. a
-
-        // this is where we ask for: search book, lend book, print books...
-        System.out.println("What would you like to do?");
+        System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: Show time left lending for book.\n5: Log out user.");
         Scanner scanner = new Scanner(System.in);
-        final String action = scanner.next();
 
-        if (action.equalsIgnoreCase("back")) {
-            loggedIn = false;
+        int userRequest = 0;
+        if (scanner.hasNextInt()) {
+            userRequest = scanner.nextInt();
         }
 
-        //System.out.println(action);
+        /*if (userRequest.equalsIgnoreCase("back")) {
+            currentUser = null;
+            loggedIn = false;
+            return;
+        }*/
+
+        /*int request = 0;
+        try { // Because the String might not contain an integer.
+            request = Integer.parseInt(userRequest);
+        } catch (NumberFormatException e) {
+            //e.printStackTrace();
+        }*/
+
+        if (currentUser instanceof Librarian) {
+            switch (userRequest) {
+                case 1:
+                    System.out.println("Searching for book title...");
+                    // FIXME Example usage
+                    //Library.getInstance().serchFoorBookTitle("title");
+                    break;
+                case 2:
+                    System.out.println("Lending book...");
+                    break;
+                case 3:
+                    System.out.println("List user's lended books...");
+                    break;
+                case 4:
+                    System.out.println("Showing time left on lended book...");
+                    break;
+                case 5:
+                    System.out.println("Logging out " + currentUser.getName() + "...");
+                    currentUser = null;
+                    loggedIn = false;
+                    break;
+                default:
+                    System.out.println("That is not a known command.");
+                    break;
+            }
+        } else if (currentUser instanceof Lender) {
+            switch (userRequest) {
+                case 1:
+                    System.out.println("Searching for book title...");
+                    //Library.getInstance().serchFoorBookTitle("title"); EXAMPLE
+                    break;
+                case 2:
+                    System.out.println("Lending book...");
+                    break;
+                case 3:
+                    System.out.println("List user's lended books...");
+                    break;
+                case 4:
+                    System.out.println("Showing time left on lended book...");
+                    break;
+                case 5:
+                    System.out.println("Logging out " + currentUser.getName() + "...");
+                    currentUser = null;
+                    loggedIn = false;
+                    break;
+                default:
+
+                    System.out.println("That is not a known command.");
+                    break;
+            }
+        }
     }
 
     private void addLibraryUsers() {

@@ -20,30 +20,37 @@ public class Book implements Serializable {
     }
 
     public void setTitle(String title) {
+
         this.title = title;
     }
 
     public String getAuthor() {
+
         return author;
     }
 
     public void setAuthor(String author) {
+
         this.author = author;
     }
 
     public String getGenres() {
+
         return genres;
     }
 
     public void setGenres(String genres) {
+
         this.genres = genres;
     }
 
     public boolean isAvailable() {
+
         return available;
     }
 
     public void setAvailable(boolean available) {
+
         this.available = available;
     }
 

@@ -20,14 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="089a852a-3c86-4680-9c87-a1d85a2f5413" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/books/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/books/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/utils/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/users/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +83,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1611829070814">

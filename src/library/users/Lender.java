@@ -25,10 +25,12 @@ public class Lender extends User {
     }
     // a
 
+
     @Override
     public String toString() {
         return "Lender{" +
-                "name='" + name + '\'' +
+                 lendedBooks +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

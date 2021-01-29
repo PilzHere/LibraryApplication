@@ -66,7 +66,7 @@ public class Login {
     }
 
     private void getUserRequest () {
-        System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Show time left lending for book.\n6: Log out user.");
+        System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Search for Lender and view lended books.\n6: Show time left lending for book.\n7: Log out user.");
         Scanner scanner = new Scanner(System.in);
 
         int userRequest = 0;
@@ -89,12 +89,16 @@ public class Login {
                     break;
                 case 4:
                     System.out.println("See list of Lenders...");
-                    //Library.getInstance().getLenderList(users); TEST// SANDRA
+                    Library.getInstance().getLenderList(users); //TEST// SANDRA
                     break;
                 case 5:
-                    System.out.println("Showing time left on lended book...");
+                    System.out.println("Search for Lender and view lended books...");
+                    Library.getInstance().searchForLender(users);
                     break;
                 case 6:
+                    System.out.println("Showing time left on lended book...");
+                    break;
+                case 7:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;

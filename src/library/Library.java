@@ -5,11 +5,8 @@ import library.users.Lender;
 import library.users.User;
 import library.utils.FileUtils;
 
+import java.util.*;
 import java.util.regex.Matcher;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -27,10 +24,11 @@ public class Library {
     HashMap<String, Book> bookCollection = new HashMap<>();
 
     public void displayBookCollection() {
-        System.out.println("The Library have the following books: ");
+        System.out.println("The Library have the following books: \n");
 
-        bookCollection = FileUtils.readObjectFromFile("src/books.txt");
+        bookCollection = FileUtils.readObjectFromFile("src/books.ser");
 
+        //TODO seperate method
         List<Map.Entry<String, Book>> bookList =
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());
@@ -60,12 +58,12 @@ public class Library {
             }
             else{
                 System.out.println("No book with that title was found");
-                //Back to meny here
+                //TODO Back to meny here
             }
 
         }else{
             System.out.println("No valid input");
-            //Back to meny here
+            //TODO Back to meny here
         }
     }
 
@@ -116,7 +114,7 @@ public class Library {
         }
     }
 
-    //librarian - check laoned books
+    //librarian - check lended books
     public void checkLoanedBooks() {
         System.out.println("Following book/books is lent out at the moment:");
 
@@ -146,7 +144,7 @@ public class Library {
     }
 
     //Admin to get list of Lenders
-    public void getLenderList (List<User> users){
+    public List <Lender> getLenderList (List<User> users){
         List <Lender> lenderList = new ArrayList<>();
 
         for(User user : users){
@@ -155,9 +153,33 @@ public class Library {
             }
         }
         System.out.println("Current Lenders: \n");
-        lenderList.forEach(lender -> System.out.println(lender)); //Only prints names
+        lenderList.forEach(lender -> System.out.println(lender.getName())); //Only prints names
+
+        return lenderList;
     }
 
+    //Admin to search for a Lender and view Lenders books
+    public void searchForLender (List<User> users){
+        Scanner scan = new Scanner(System.in);
+        List <Lender> lenderList = getLenderList(users);
+
+        System.out.println("Enter name of Lender you wish to view: ");
+        final String name = scan.next();
+
+        if(validateStringInput(name)){
+
+            for (Lender lender : lenderList) {
+                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() != null) {
+                    System.out.println(lender.getName() + " have lended: " + lender.getLendedBooks() + "\n");
+                }
+                if(lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null){
+                    System.out.println(name + " has not lended any books.\n");
+                }
+            }
+        }else{
+            System.out.println("Not a valid input.");
+        }
+    }
 
     //method to set a collection of 20-30 books.
     public void addStartBooks() {

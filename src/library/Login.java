@@ -99,7 +99,7 @@ public class Login {
             switch (userRequest) {
                 case 1:
                     System.out.println("Searching for book title...");
-                    //Library.getInstance().serchFoorBookTitle("title");
+                    //Library.getInstance().searchFoorBookTitle("title");
                     break;
                 case 2:
                     System.out.println("Lending book...");
@@ -109,7 +109,7 @@ public class Login {
                     break;
                 case 4:
                     System.out.println("See list of Lenders...");
-                    Library.getInstance().getLenderList(users); //TEST// SANDRA
+                    Library.getInstance().getLenderList(users);
                     break;
                 case 5:
                     System.out.println("Search for Lender and view lended books...");

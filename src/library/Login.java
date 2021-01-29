@@ -66,7 +66,7 @@ public class Login {
     }
 
     private void getUserRequest () {
-        System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: Show time left lending for book.\n5: Log out user.");
+        System.out.println("What would you like to do?\n1: Search for books.\n2: Lend book.\n3: List your lended books.\n4: Show time left lending for book.\n5: Log out user.");
         Scanner scanner = new Scanner(System.in);
 
         int userRequest = 0;
@@ -79,7 +79,7 @@ public class Login {
                 case 1:
                     System.out.println("Searching for book title...");
                     // FIXME Example usage
-                    //Library.getInstance().serchFoorBookTitle("title");
+                    //Library.getInstance().searchBookTitle("title");
                     break;
                 case 2:
                     System.out.println("Lending book...");
@@ -102,8 +102,20 @@ public class Login {
         } else if (currentUser instanceof Lender) {
             switch (userRequest) {
                 case 1:
-                    System.out.println("Searching for book title...");
-                    //Library.getInstance().serchFoorBookTitle("title"); EXAMPLE
+                    System.out.println("What do you want to search for?\n1: Title\n2: Author");
+                    int userInput = scanner.nextInt();
+                    switch (userInput) {
+                        case 1 -> {
+                            System.out.println("Searching for book title...");
+                            Library search = new Library();
+                            search.searchBookTitle();
+                        }
+                        case 2 -> {
+                            System.out.println("Searching for author...");
+                            Library search = new Library();
+                            search.searchBookAuthor();
+                        }
+                    }
                     break;
                 case 2:
                     System.out.println("Lending book...");

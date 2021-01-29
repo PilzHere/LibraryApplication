@@ -16,6 +16,10 @@ public class Lender extends User {
         this.lendedBooks = lendedBooks;
     }
 
+    public void uppdateLendedBooks(String title){
+        this.lendedBooks.add(title);
+    }
+
     public List<String> getLendedBooks () {
         return lendedBooks;
     }
@@ -24,4 +28,11 @@ public class Lender extends User {
         this.lendedBooks = lendedBooks;
     }
     // a
+
+    @Override
+    public String toString() {
+        return "Lender{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

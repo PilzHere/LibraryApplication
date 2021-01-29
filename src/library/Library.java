@@ -40,7 +40,7 @@ public class Library {
 
             if ((bookCollection.containsKey(adminInput))) { //NOT working with lower case letters!!
 
-                List<Map.Entry<String, Book>> bookList =
+                List<Map.Entry<String, Book>> bookList =book
                         bookCollection.entrySet().stream()
                                 .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
                                 .collect(Collectors.toList());
@@ -172,6 +172,17 @@ public class Library {
         }
     }
 
+    //librarian - check laoned books
+    public void checkLoanedBooks() {
+        System.out.println("Following book/books is lent out at the moment:");
+
+        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
+            if (!entry.getValue().isAvailable()) {
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
+            }
+        }
+        //System.out.println(bookList.size());
+    }
 
     //METHODS FOR BOTH ADMIN AND LENDER
 
@@ -182,14 +193,31 @@ public class Library {
         String searchPhrase = input.nextLine();
 
         List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream().filter(book -> book.getValue().getTitle().equals(searchPhrase))
-                        .collect(Collectors.toList());
+                bookCollection.entrySet().stream().filter(book -> book.getValue().getTitle().equals(searchPhrase)).collect(Collectors.toList());
 
         for (Map.Entry<String, Book> book : bookList) {
-            if (bookCollection.containsKey(searchPhrase)) {
+            if (book.getValue().getTitle().equalsIgnoreCase(searchPhrase)) {
                 System.out.println("Book found!\n" + book.getValue());
             }
         }
+        System.out.println("Search completed");
+    }
+
+    // Search for book(s) by author
+    public void searchBookAuthor() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter search: ");
+        String searchPhrase = input.nextLine();
+
+        List<Map.Entry<String, Book>> bookList =
+                bookCollection.entrySet().stream().filter(book -> book.getValue().getAuthor().equals(searchPhrase)).collect(Collectors.toList());
+
+        for (Map.Entry<String, Book> book : bookList) {
+            if (book.getValue().getAuthor().equalsIgnoreCase(searchPhrase)) {
+                System.out.println("Author found!\n" + book.getValue());
+            }
+        }
+        System.out.println("Search completed");
     }
 
     //Validation method to check string input
@@ -227,11 +255,11 @@ public class Library {
         bookCollection.put("Eileen",
                 new Book("Eileen", "Ottessa Moshfegh", "Fiction", true, ""));
         bookCollection.put("Lord of the Rings: The Fellowship of the Rings",
-                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Toliken", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Lord of the Rings: The Two Towers",
-                new Book("Lord of the Rings: The Two Towers", "J.R.R Toliken", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Two Towers", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Lord of the Rings: The Return of the King",
-                new Book("Lord of the Rings: The Return of the King", "J.R.R Toliken", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Return of the King", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Alice in Wonderland",
                 new Book("Alice in Wonderland", "Lewis Carroll", "Classic", true, ""));
         bookCollection.put("Crime and Punishment",
@@ -269,8 +297,4 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
-
-
-
-
 }

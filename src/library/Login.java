@@ -73,15 +73,16 @@ public class Login {
                     "3: List your lent books.\n" +
                     "4: See list of lenders.\n" +
                     "5: Show time left lending for book.\n" +
-                    "6: Log out user.");
+                    "6: Add book to library." +
+                    "7: See borrowed books." +
+                    "8: Log out user.");
         else
             System.out.println("LENDER What would you like to do?\n" +
                     "1: Search for book title.\n" +
                     "2: Lend book.\n" +
                     "3: List your lent books.\n" +
-                    "4: See list of lenders.\n" +
-                    "5: Show time left lending for book.\n" +
-                    "6: Log out user.");
+                    "4: Show time left lending for book.\n" +
+                    "5: Log out user.");
 
         Scanner scanner = new Scanner(System.in);
 

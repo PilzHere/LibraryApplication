@@ -95,6 +95,14 @@ public class Login {
                     System.out.println("Showing time left on lended book...");
                     break;
                 case 6:
+                    System.out.println("Add book to library...");
+                    Library.getInstance().addBook();
+                    break;
+                case 7:
+                    System.out.println("See list of borrowed books...");
+                    Library.getInstance().checkLoanedBooks();
+                    break;
+                case 8:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
@@ -111,6 +119,7 @@ public class Login {
                     break;
                 case 2:
                     System.out.println("Lending book...");
+                    Library.getInstance().lentBook(currentUser);
                     break;
                 case 3:
                     System.out.println("List user's lended books...");

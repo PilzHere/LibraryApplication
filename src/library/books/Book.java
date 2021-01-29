@@ -7,12 +7,14 @@ public class Book implements Serializable {
     private String author;
     private String genres;
     private boolean available;
+    private String reservedBy;
 
-    public Book(String title, String author, String genres, boolean available) {
+    public Book(String title, String author, String genres, boolean available, String reservedBy) {
         this.title = title;
         this.author = author;
         this.genres = genres;
         this.available = available;
+        this.reservedBy = reservedBy;
     }
 
     public String getTitle() {
@@ -52,6 +54,14 @@ public class Book implements Serializable {
     public void setAvailable(boolean available) {
 
         this.available = available;
+    }
+
+    public String getReservedBy() {
+        return reservedBy;
+    }
+
+    public void setReservedBy(String reservedBy) {
+        this.reservedBy = reservedBy;
     }
 
     @Override

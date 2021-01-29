@@ -66,7 +66,28 @@ public class Login {
     }
 
     private void getUserRequest () {
-        System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Search for Lender and view lended books.\n6: Show time left lending for book.\n7: Log out user.");
+
+        //System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Search for Lender and view lended books.\n6: Show time left lending for book.\n7: Log out user.");
+
+        if (currentUser instanceof Librarian)
+            System.out.println("LIBRARIAN What would you like to do?\n" +
+                    "1: Search for book title.\n" +
+                    "2: Lend book.\n" +
+                    "3: List your lent books.\n" +
+                    "4: See list of lenders.\n" +
+                    "5: Search lender and view lended books.\n" +
+                    "6: Show time left lending for book.\n" +
+                    "7: Add book to library." +
+                    "8: See borrowed books." +
+                    "9: Log out user.");
+        else
+            System.out.println("LENDER What would you like to do?\n" +
+                    "1: Search for book title.\n" +
+                    "2: Lend book.\n" +
+                    "3: List your lent books.\n" +
+                    "4: Show time left lending for book.\n" +
+                    "5: Log out user.");
+
         Scanner scanner = new Scanner(System.in);
 
         int userRequest = 0;
@@ -78,7 +99,6 @@ public class Login {
             switch (userRequest) {
                 case 1:
                     System.out.println("Searching for book title...");
-                    // FIXME Example usage
                     //Library.getInstance().serchFoorBookTitle("title");
                     break;
                 case 2:
@@ -99,6 +119,14 @@ public class Login {
                     System.out.println("Showing time left on lended book...");
                     break;
                 case 7:
+                    System.out.println("Add book to library...");
+                    Library.getInstance().addBook();
+                    break;
+                case 8:
+                    System.out.println("See list of borrowed books...");
+                    Library.getInstance().checkLoanedBooks();
+                    break;
+                case 9:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
@@ -115,6 +143,7 @@ public class Login {
                     break;
                 case 2:
                     System.out.println("Lending book...");
+                    Library.getInstance().lentBook(currentUser);
                     break;
                 case 3:
                     System.out.println("List user's lended books...");
@@ -128,7 +157,6 @@ public class Login {
                     loggedIn = false;
                     break;
                 default:
-
                     System.out.println("That is not a known command.");
                     break;
             }

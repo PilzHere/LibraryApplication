@@ -69,23 +69,24 @@ public class Library {
     //librarian - Add book
     public boolean addBook() {
         Scanner input = new Scanner(System.in);
-        System.out.println(ANSI_BLUE+ "Enter book title: ");
+        System.out.println("Enter book title: ");
         String bookTitle = input.nextLine();
 
-        System.out.println(ANSI_BLUE+"Enter author: ");
+        System.out.println("Enter author: ");
         String author = input.nextLine();
 
-        System.out.println(ANSI_BLUE+"Enter genre: ");
+        System.out.println("Enter genre: ");
         String genre = input.nextLine();
 
         if (validateStringInput(bookTitle, author, genre)) {
             bookCollection.put(bookTitle, new Book(bookTitle, author, genre, true, ""));
-            System.out.println(ANSI_BLUE+"Book added!");
-            return true; // TODO use this value to return to meny
+            System.out.println("Book added!");
+            return true;
         } else {
-            System.out.println(ANSI_BLUE+"Your input was not valid");
-            return false; // TODO use this value to return to meny
+            System.out.println("Your input was not valid");
+            return false;
         }
+
     }
 
     //Validation method to check string input
@@ -113,9 +114,29 @@ public class Library {
         }
     }
 
-    public void lentBook(User user) {
-        checkAvailableBooks();
-        System.out.println(ANSI_BLUE + "Witch one would you like to rent?\nPlease enter Title or Author:");
+/*    public static void main(String[] args) {
+        Library library = new Library();
+        library.addStartBooks();
+        library.checkAvailableBooks();
+    }*/
+
+    //user - se my lended books
+    public void booksBorrowed(User user) {
+        //addStartBooks();
+
+        if (((Lender) user).getLendedBooks().isEmpty()) {//VARFÖR FUNGERAR INTE VILKORET?
+            System.out.println("You have no borrowed book/books\n");
+        } else {
+            System.out.println("Your borrowed books: \n");
+            ((Lender) user).getLendedBooks().forEach(System.out::println);
+            System.out.println();
+        }
+    }
+
+    public void lendBooks(User user) {
+        //addStartBooks();
+        //checkAvailableBooks();
+        System.out.println("Witch one would you like to rent?\nPlease enter Title or Author:");
         Scanner input = new Scanner(System.in);
         String bookToLent = input.nextLine();
         if (validateStringInput(bookToLent) && bookToLent.length() > 1) {
@@ -125,20 +146,19 @@ public class Library {
                             .filter(b -> b.getValue().getTitle().equalsIgnoreCase(bookToLent) ||
                                     b.getValue().getAuthor().equalsIgnoreCase(bookToLent)).findAny().orElse(null);
             if (book != null) {
-                System.out.println(ANSI_BLUE + "Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
+                System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
                         "\nDon't forget to return book within 2 weeks");
                 book.getValue().setReservedBy(user.getName()); //sätt ReservedBy till låntagarens namn
                 book.getValue().setAvailable(false);
-                ((Lender)user).uppdateLendedBooks(book.getValue().getTitle());
+                ((Lender) user).uppdateLendedBooks(book.getValue().getTitle());
 
             } else {
-                System.out.println(ANSI_BLUE + "No such book was found!");
+                System.out.println("No such book was found!");
             }
         } else {
-            System.out.println(ANSI_BLUE + "Your input was not valid");
+            System.out.println("Your input was not valid");
         }
     }
-
 
     //librarian - check laoned books
     public void checkLoanedBooks() {
@@ -149,7 +169,6 @@ public class Library {
                 System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
             }
         }
-        //System.out.println(bookList.size());
     }
 
     // Search for a specific book by title

@@ -10,7 +10,7 @@ public class Lender extends User {
     }
 
     // List of books the user is currently lending
-    List<String> lendedBooks; // = new ArrayList<>();
+    List<String> lendedBooks = new ArrayList<>();
 
     public Lender (List<String> lendedBooks) {
         this.lendedBooks = lendedBooks;

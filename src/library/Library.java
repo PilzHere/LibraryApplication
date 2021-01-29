@@ -139,7 +139,6 @@ public class Library {
         }
     }
 
-
     //librarian - check laoned books
     public void checkLoanedBooks() {
         System.out.println("Following book/books is lent out at the moment:");
@@ -198,8 +197,7 @@ public class Library {
         System.out.println("Current Lenders: \n");
         lenderList.forEach(lender -> System.out.println(lender)); //Only prints names
     }
-
-
+    
     //method to set a collection of 20-30 books.
     public void addStartBooks() {
         bookCollection.put("Sofies World",
@@ -207,11 +205,11 @@ public class Library {
         bookCollection.put("Eileen",
                 new Book("Eileen", "Ottessa Moshfegh", "Fiction", true, ""));
         bookCollection.put("Lord of the Rings: The Fellowship of the Rings",
-                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Tolkien", "Fantasy, Classic", true));
+                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Lord of the Rings: The Two Towers",
-                new Book("Lord of the Rings: The Two Towers", "J.R.R Tolkien", "Fantasy, Classic", true));
+                new Book("Lord of the Rings: The Two Towers", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Lord of the Rings: The Return of the King",
-                new Book("Lord of the Rings: The Return of the King", "J.R.R Tolkien", "Fantasy, Classic", true));
+                new Book("Lord of the Rings: The Return of the King", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Alice in Wonderland",
                 new Book("Alice in Wonderland", "Lewis Carroll", "Classic", true, ""));
         bookCollection.put("Crime and Punishment",
@@ -249,6 +247,4 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
-
-
 }

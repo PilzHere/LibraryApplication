@@ -36,10 +36,12 @@ public class Lender extends User {
         this.lendedBooks = lendedBooks;
     }
 
+
     @Override
     public String toString() {
         return "Lender{" +
-                "name='" + name + '\'' +
+                 lendedBooks +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

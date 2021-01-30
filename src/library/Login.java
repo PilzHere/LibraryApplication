@@ -99,19 +99,23 @@ public class Login {
      * {@link Librarian} or {@link Lender}.
      */
     private void getUserRequest () {
+
+        //System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Search for Lender and view lended books.\n6: Show time left lending for book.\n7: Log out user.");
+
         if (currentUser instanceof Librarian)
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
-                    "1: Search for book title.\n" +
+                    "1: Search for books.\n" +
                     "2: Lend book.\n" +
                     "3: List your lent books.\n" +
                     "4: See list of lenders.\n" +
-                    "5: Show time left lending for book.\n" +
-                    "6: Add book to library." +
-                    "7: See borrowed books." +
-                    "8: Log out user.");
+                    "5: Search lender and view lended books.\n" +
+                    "6: Show time left lending for book.\n" +
+                    "7: Add book to library." +
+                    "8: See borrowed books." +
+                    "9: Log out user.");
         else
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
-                    "1: Search for book title.\n" +
+                    "1: Search for books.\n" +
                     "2: Lend book.\n" +
                     "3: List your lent books.\n" +
                     "4: Show time left lending for book.\n" +
@@ -127,8 +131,7 @@ public class Login {
         if (currentUser instanceof Librarian) {
             switch (userRequest) {
                 case 1:
-                    System.out.println("Searching for book title...");
-                    //Library.getInstance().serchFoorBookTitle("title");
+                    bookSearch();
                     break;
                 case 2:
                     System.out.println("Lending book...");
@@ -138,20 +141,24 @@ public class Login {
                     break;
                 case 4:
                     System.out.println("See list of Lenders...");
-                    //Library.getInstance().getLenderList(users); TEST// SANDRA
+                    Library.getInstance().getLenderList(users);
                     break;
                 case 5:
-                    System.out.println("Showing time left on lent book...");
+                    System.out.println("Search for Lender and view lended books...");
+                    Library.getInstance().searchForLender(users);
                     break;
                 case 6:
+                    System.out.println("Showing time left on lended book...");
+                    break;
+                case 7:
                     System.out.println("Add book to library...");
                     Library.getInstance().addBook();
                     break;
-                case 7:
+                case 8:
                     System.out.println("See list of borrowed books...");
                     Library.getInstance().checkLoanedBooks();
                     break;
-                case 8:
+                case 9:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
@@ -163,8 +170,7 @@ public class Login {
         } else if (currentUser instanceof Lender) {
             switch (userRequest) {
                 case 1:
-                    System.out.println("Searching for book title...");
-                    //Library.getInstance().serchFoorBookTitle("title"); EXAMPLE
+                    bookSearch();
                     break;
                 case 2:
                     System.out.println("Lending book...");
@@ -202,5 +208,17 @@ public class Login {
         users.add(new Lender("Annika"));
         users.add(new Lender("Christian"));
         users.add(new Lender("Sandra"));
+    }
+
+    private void bookSearch() {
+        Library.getInstance().addStartBooks();
+        System.out.println("Do you wanna search for\n1: Book title\n2: Author");
+        Scanner scanner = new Scanner(System.in);
+        int userInput = scanner.nextInt();
+        switch (userInput) {
+            case 1 -> Library.getInstance().searchBookTitle();
+            case 2 -> Library.getInstance().searchBookAuthor();
+            default -> System.out.println("Error! Unknown input");
+        }
     }
 }

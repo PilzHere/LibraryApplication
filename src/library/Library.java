@@ -19,7 +19,8 @@ public class Library {
     }
 
     public Library() {
-        System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
+        // TODO Remove me before publish.
+        System.out.println("DEBUG: Singleton Library class instantiated. You should not see this message more than once!");
     }
 
     HashMap<String, Book> bookCollection = new HashMap<>();

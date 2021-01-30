@@ -1,15 +1,17 @@
 package library.users;
 
+/**
+ * A user entity.
+ */
+
 public abstract class User {
     protected String name;
-    //protected boolean isAdmin;
 
     public User () {
     }
 
-    public User (String name/*, boolean isAdmin*/) {
+    public User (String name) {
         this.name = name;
-        //this.isAdmin = isAdmin;
     }
 
     public String getName () {
@@ -19,13 +21,4 @@ public abstract class User {
     public void setName (String name) {
         this.name = name;
     }
-
-    /*public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }*/
-
 }

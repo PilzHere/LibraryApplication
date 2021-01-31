@@ -9,10 +9,10 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.Calendar;
 
 public class Library {
     private static final Library instance = new Library();
-    public static final String ANSI_BLUE = "\u001B[34m";
 
     public static Library getInstance() {
         return instance;
@@ -158,6 +158,7 @@ public class Library {
         } else {
             System.out.println("Your input was not valid");
         }
+
     }
 
     //librarian - check laoned books
@@ -170,6 +171,18 @@ public class Library {
             }
         }
     }
+// TODO CONTINUE
+    public void returnStatus() {
+        Calendar calendar=Calendar.getInstance();
+        int rentDays = +calendar.get(Calendar.DAY_OF_MONTH)+14;
+        System.out.println(rentDays);
+    }
+
+    public static void main(String[] args) {
+        Library l = new Library();
+        l.returnStatus();
+    }
+
 
     // Search for a specific book by title
     public void searchBookTitle() {

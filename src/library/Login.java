@@ -174,10 +174,11 @@ public class Login {
                     break;
                 case 2:
                     System.out.println("Lending book...");
-                    Library.getInstance().lentBook(currentUser);
+                    Library.getInstance().lendBooks(currentUser);
                     break;
                 case 3:
-                    System.out.println("List user's lent books...");
+                    System.out.println("List user's lended books...");
+                    Library.getInstance().booksBorrowed(currentUser);
                     break;
                 case 4:
                     System.out.println("Showing time left on lent book...");

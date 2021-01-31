@@ -114,12 +114,6 @@ public class Library {
         }
     }
 
-/*    public static void main(String[] args) {
-        Library library = new Library();
-        library.addStartBooks();
-        library.checkAvailableBooks();
-    }*/
-
     //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
@@ -158,7 +152,6 @@ public class Library {
         } else {
             System.out.println("Your input was not valid");
         }
-
     }
 
     //librarian - check laoned books
@@ -171,18 +164,6 @@ public class Library {
             }
         }
     }
-// TODO CONTINUE
-    public void returnStatus() {
-        Calendar calendar=Calendar.getInstance();
-        int rentDays = +calendar.get(Calendar.DAY_OF_MONTH)+14;
-        System.out.println(rentDays);
-    }
-
-    public static void main(String[] args) {
-        Library l = new Library();
-        l.returnStatus();
-    }
-
 
     // Search for a specific book by title
     public void searchBookTitle() {

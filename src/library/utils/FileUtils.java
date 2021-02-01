@@ -2,10 +2,7 @@ package library.utils;
 
 import library.books.Book;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +11,25 @@ public class FileUtils {
     //to save list/hashmap of books that unavailable by which Lender
 
     //Method to check if file exist at start of program
+    public static void checkIfFilesExists(){
+
+        try {
+            File fileBooks = new File ("src/books.ser");
+            File fileUser = new File ("src/users.ser");
+            if (!fileBooks.exists() && !fileUser.exists()) {
+                fileBooks.createNewFile();
+                fileUser.createNewFile();
+                System.out.println("File created");
+            }
+            else {
+                readFromFile();
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    }
 
 
     //needs to be generic to handle different objects?

@@ -25,8 +25,6 @@ public class Library {
     public void displayBookCollection() {
         System.out.println("The Library have the following books: ");
 
-        bookCollection = FileUtils.readObjectFromFile("src/books.txt");
-
         List<Map.Entry<String, Book>> bookList =
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());

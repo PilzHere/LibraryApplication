@@ -1,0 +1,91 @@
+Index: src/library/Library.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package library;\r\n\r\nimport library.books.Book;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\nimport java.util.Scanner;\r\nimport java.util.stream.Collectors;\r\n\r\npublic class Library {\r\n    private static final Library instance = new Library();\r\n\r\n    public static Library getInstance() {\r\n        return instance;\r\n    }\r\n\r\n    public Library() {\r\n        System.out.println(\"DEBUG: Library class instantiated. You should not see this message anymore.\");\r\n    }\r\n\r\n    HashMap<String, Book> bookCollection = new HashMap<>();\r\n\r\n    //method to set a collection of 20-30 books.\r\n    public void addStartBooks() {\r\n\r\n        bookCollection.put(\"Sofies World\", new Book(\"Sofies World\", \"Jostein Gaarder\", \"Philosophy\", true));\r\n        bookCollection.put(\"Eileen\",\r\n                new Book(\"Eileen\", \"Ottessa Moshfegh\", \"Fiction\", true));\r\n        bookCollection.put(\"Lord of the Rings: The Fellowship of the Rings\",\r\n                new Book(\"Lord of the Rings: The Fellowship of the Rings\", \"J.R.R Toliken\", \"Fantasy, Classic\", true));\r\n        bookCollection.put(\"Lord of the Rings: The Two Towers\",\r\n                new Book(\"Lord of the Rings: The Two Towers\", \"J.R.R Toliken\", \"Fantasy, Classic\", true));\r\n        bookCollection.put(\"Lord of the Rings: The Return of the King\",\r\n                new Book(\"Lord of the Rings: The Return of the King\", \"J.R.R Toliken\", \"Fantasy, Classic\", true));\r\n        bookCollection.put(\"Alice in Wonderland\", new Book(\"Alice in Wonderland\", \"Lewis Carroll\", \"Classic\", true));\r\n        bookCollection.put(\"Crime and Punishment\", new Book(\"Crime and Punishment\", \"Fjodor Dostojevskij\", \"Classic\", true));\r\n        bookCollection.put(\"Coraline\", new Book(\"Coraline\", \"Neil Gaiman\", \"Fantasy\", true));\r\n        bookCollection.put(\"Siddhartha\", new Book(\"Siddhartha\", \"Hermann Hesse\", \"Philosophy, Classic\", true));\r\n        bookCollection.put(\"Malmcolm X\", new Book(\"Malmcolm X\", \"Manning Marable\", \"Biography\", true));\r\n        bookCollection.put(\"The Age of Bowie\", new Book(\"The Age of Bowie\", \"Paul Morley\", \"Biography\", true));\r\n        bookCollection.put(\"Martin Luther King: a self-biograhpy\", new Book(\"Martin Luther King: a self-biograhpy\", \"Martin Luther King\", \"Biography\", true));\r\n        bookCollection.put(\"No Logo\", new Book(\"No Logo\", \"Naomi Klein\", \"Non-fiction\", true));\r\n        bookCollection.put(\"This Changes Everything\", new Book(\"This Changes Everything\", \"Naomi Klein\", \"Non-fiction\", true));\r\n        bookCollection.put(\"I am Malala\", new Book(\"I am Malala\", \"Malala Yousafzai\", \"Non-fiction, Biography\", true));\r\n        bookCollection.put(\"Carrie\", new Book(\"Carrie\", \"Stephen King\", \"Horror\", true));\r\n        bookCollection.put(\"It\", new Book(\"It\", \"Stephen King\", \"Horror\", true));\r\n        bookCollection.put(\"The Shining\", new Book(\"The Shining\", \"Stephen King\", \"Horror\", true));\r\n        bookCollection.put(\"The Bell Jar\", new Book(\"The Bell Jar\", \"Sylvia Plath\", \"Modern Classic, Fiction\", true));\r\n        bookCollection.put(\"The Sellout\", new Book(\"The Sellout\", \"Paul Beatty\", \"Fiction\", true));\r\n        bookCollection.put(\"The Luminaries\", new Book(\"The Luminaries\", \"Elenor Catton\", \"Fiction\", true));\r\n        bookCollection.put(\"The Plague\", new Book(\"The Plague\", \"Albert Camus\", \"Modern Classic\", true));\r\n        bookCollection.put(\"Nocturner\", new Book(\"Nocturner\", \"Kazuo Ishiguro\", \"Modern Classic\", true));\r\n    }\r\n\r\n    public void displayBookCollection() {\r\n        System.out.println(\"The Library have the following books: \");\r\n\r\n        List<Map.Entry<String, Book>> bookList =\r\n                bookCollection.entrySet().stream()\r\n                        .collect(Collectors.toList());\r\n\r\n        bookList.forEach(book -> System.out.println(book.getValue()));\r\n        //change property available to a better printout, ex. available: yes/no\r\n        //System.out.println(bookList.size());\r\n\r\n    }\r\n\r\n    //admin to remove book from bookCollection\r\n    public void removeBook() {\r\n        Scanner scan = new Scanner(System.in);\r\n        System.out.println(\"Enter title of the book you wish to remove: \\n\");\r\n\r\n        String adminInput = scan.nextLine();\r\n\r\n        //Call try/catch method here to check input\r\n\r\n        List<Map.Entry<String, Book>> bookList =\r\n                bookCollection.entrySet().stream()\r\n                        .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))\r\n                        .collect(Collectors.toList());\r\n\r\n\r\n        bookCollection.remove(bookList.get(0).getKey());\r\n        System.out.println(adminInput + \" was deleted from book collections\");\r\n\r\n    }\r\n\r\n    //librarian - Add book\r\n    public boolean addBook() {\r\n        Scanner input = new Scanner(System.in);\r\n        System.out.println(\"Enter book title: \");\r\n        String bookTitle = input.nextLine();\r\n\r\n        System.out.println(\"Enter author: \");\r\n        String author = input.nextLine();\r\n\r\n\r\n        System.out.println(\"Enter genre: \");\r\n        String genre = input.nextLine();\r\n\r\n        if (validateStringInput(bookTitle, author, genre)) {\r\n            bookCollection.put(bookTitle, new Book(bookTitle, author, genre, true));\r\n            System.out.println(\"Book added!\");\r\n            return true; // TODO use this value to return to meny\r\n        } else {\r\n            System.out.println(\"Your input was not valid\");\r\n            return false; // TODO use this value to return to meny\r\n        }\r\n    }\r\n\r\n    //Validation method to check string input\r\n    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs\r\n        boolean valid = true;\r\n        //loop through inparameter inputs array\r\n        for (String input : inputs) {\r\n            if (!input.matches(\"[a-zA-Z0-9\\\\-]\")) { // regex to check a-z, 0-9 and -\r\n                valid = false;\r\n            }\r\n        }\r\n        return valid;\r\n    }\r\n\r\n    //User - See available books\r\n    public void checkAvailableBooks() {\r\n        System.out.println(\"Available books to lend:\");\r\n\r\n        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {\r\n            if (entry.getValue().isAvailable() == true) {\r\n                System.out.println(\"Title: \" + entry.getValue().getTitle() + \" | Author: \" + entry.getValue().getAuthor() +  \" | Genres: \" + entry.getValue().getGenres()+\"\\n\");\r\n                System.out.printf(\"Title: %s Author: %s Genres: %s\\n\" + entry.getValue().getTitle() + entry.getValue().getAuthor() + entry.getValue().getGenres());\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/library/Library.java	(revision 7572e6a47a91c14faf3c5afe941c6af49b41fcde)
++++ src/library/Library.java	(date 1611841299535)
+@@ -1,11 +1,10 @@
+ package library;
+ 
+ import library.books.Book;
++import library.users.Lender;
++import library.users.User;
+ 
+-import java.util.HashMap;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Scanner;
++import java.util.*;
+ import java.util.stream.Collectors;
+ 
+ public class Library {
+@@ -56,6 +55,7 @@
+     public void displayBookCollection() {
+         System.out.println("The Library have the following books: ");
+ 
++        //Call FileUtil.readFile here
+         List<Map.Entry<String, Book>> bookList =
+                 bookCollection.entrySet().stream()
+                         .collect(Collectors.toList());
+@@ -74,15 +74,21 @@
+         String adminInput = scan.nextLine();
+ 
+         //Call try/catch method here to check input
+-
+-        List<Map.Entry<String, Book>> bookList =
+-                bookCollection.entrySet().stream()
+-                        .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
+-                        .collect(Collectors.toList());
++        //Not working at the moment
++        if(validateStringInput(adminInput)){
++            List<Map.Entry<String, Book>> bookList =
++                    bookCollection.entrySet().stream()
++                            .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
++                            .collect(Collectors.toList());
+ 
+-
+-        bookCollection.remove(bookList.get(0).getKey());
+-        System.out.println(adminInput + " was deleted from book collections");
++            bookCollection.remove(bookList.get(0).getKey());
++            System.out.println(adminInput + " was deleted from book collections");
++            // TODO use this value to return to meny
++        }
++        else {
++            System.out.println("No valid input");
++            // TODO use this value to return to meny
++        }
+ 
+     }
+ 
+@@ -134,4 +140,26 @@
+         }
+     }
+ 
++    //Admin method to get a list over all Lenders
++    public void getLenderList (ArrayList users){
++            //how do I reach user array?
++            //when method is called send in user-array as param?
++
++        List<Lender> lenderList = new ArrayList<>();
++
++            //login.users.forEach(user ->);
++        System.out.println(users.size());
++
++            for (Lender user : users){
++                if (!user.isAdmin()){
++                    lenderList.add(user);
++                }
++            }
++
++    }
++
++    public static void main(String[] args) {
++
++
++
+ }
+diff --git .idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29__Default_Changelist_.xml

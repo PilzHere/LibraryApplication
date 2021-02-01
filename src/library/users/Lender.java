@@ -3,20 +3,30 @@ package library.users;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A subclass of {@link User}.
+ * Has less access than a {@link Librarian}.
+ */
+
 public class Lender extends User {
 
+    /**
+     * The lender borrows books from the {@link library.Library}.
+     *
+     * @param name the user's name.
+     */
     public Lender (String name) {
-        super(name/*, false*/);
+        super(name);
     }
 
     // List of books the user is currently lending
-    List<String> lendedBooks; // = new ArrayList<>();
+    List<String> lendedBooks = new ArrayList<>();
 
     public Lender (List<String> lendedBooks) {
         this.lendedBooks = lendedBooks;
     }
 
-    public void uppdateLendedBooks(String title){
+    public void uppdateLendedBooks (String title) {
         this.lendedBooks.add(title);
     }
 
@@ -27,12 +37,13 @@ public class Lender extends User {
     public void setLendedBooks (List<String> lendedBooks) {
         this.lendedBooks = lendedBooks;
     }
-    // a
+
 
     @Override
-    public String toString() {
+    public String toString () {
         return "Lender{" +
-                "name='" + name + '\'' +
+                lendedBooks +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

@@ -14,11 +14,11 @@ import java.util.Calendar;
 public class Library {
     private static final Library instance = new Library();
 
-    public static Library getInstance() {
+    public static Library getInstance () {
         return instance;
     }
 
-    public Library() {
+    public Library () {
         // TODO Remove me before publish.
         System.out.println("DEBUG: Singleton Library class instantiated. You should not see this message more than once!");
         addStartBooks();
@@ -31,7 +31,7 @@ public class Library {
     //ADMIN METHODS
 
     //Admin to remove book from bookCollection
-    public void removeBook() {
+    public void removeBook () {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter title of the book you wish to remove: ");
 
@@ -41,7 +41,7 @@ public class Library {
 
             if ((bookCollection.containsKey(adminInput))) { //NOT working with lower case letters!!
 
-                List<Map.Entry<String, Book>> bookList =book
+                List<Map.Entry<String, Book>> bookList =
                         bookCollection.entrySet().stream()
                                 .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
                                 .collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class Library {
     }
 
     //Admin - Add book
-    public boolean addBook() {
+    public boolean addBook () {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter book title: ");
         String bookTitle = input.nextLine();
@@ -82,21 +82,9 @@ public class Library {
 
     }
 
-    //Admin - check loaned books
-    public void checkLoanedBooks() {
-        System.out.println("Following book/books is lent out at the moment:");
-
-        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
-            if (!entry.getValue().isAvailable()) {
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
-            }
-        }
-        //System.out.println(bookList.size());
-    }
-
     //Admin to get list of Lenders
-    public List <Lender> getLenderList (List<User> users){
-        List <Lender> lenderList = new ArrayList<>();
+    public List<Lender> getLenderList (List<User> users) {
+        List<Lender> lenderList = new ArrayList<>();
 
         for (User user : users) {
             if (user instanceof Lender) {
@@ -110,24 +98,24 @@ public class Library {
     }
 
     //Admin to search for a Lender and view Lenders books
-    public void searchForLender (List<User> users){
+    public void searchForLender (List<User> users) {
         Scanner scan = new Scanner(System.in);
-        List <Lender> lenderList = getLenderList(users);
+        List<Lender> lenderList = getLenderList(users);
 
         System.out.println("Enter name of Lender you wish to view: ");
         final String name = scan.next();
 
-        if(validateStringInput(name)){
+        if (validateStringInput(name)) {
 
             for (Lender lender : lenderList) {
                 if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() != null) {
                     System.out.println(lender.getName() + " have lended: " + lender.getLendedBooks() + "\n");
                 }
-                if(lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null){
+                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null) {
                     System.out.println(name + " has not lended any books.\n");
                 }
             }
-        }else{
+        } else {
             System.out.println("Not a valid input.");
         }
     }
@@ -136,7 +124,7 @@ public class Library {
     //LENDER METHODS
 
     //Lender - See available books
-    public void checkAvailableBooks() {
+    public void checkAvailableBooks () {
         System.out.println("Available books to lend:");
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
@@ -145,9 +133,9 @@ public class Library {
             }
         }
     }
-  
+
     //user - se my lended books
-    public void booksBorrowed(User user) {
+    public void booksBorrowed (User user) {
         //addStartBooks();
 
         if (((Lender) user).getLendedBooks().isEmpty()) {//VARFÖR FUNGERAR INTE VILKORET?
@@ -159,7 +147,7 @@ public class Library {
         }
     }
 
-    public void lendBooks(User user) {
+    public void lendBooks (User user) {
         //addStartBooks();
         //checkAvailableBooks();
         System.out.println("Witch one would you like to rent?\nPlease enter Title or Author:");
@@ -185,8 +173,8 @@ public class Library {
         }
     }
 
-    //librarian - check laoned books
-    public void checkLoanedBooks() {
+    //librarian AND lender - check laoned books
+    public void checkLoanedBooks () {
         System.out.println("Following book/books is lent out at the moment:");
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
@@ -199,7 +187,7 @@ public class Library {
     //METHODS FOR BOTH ADMIN AND LENDER
 
     // Search for a specific book by title
-    public void searchBookTitle() {
+    public void searchBookTitle () {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter search: ");
         String searchPhrase = input.nextLine();
@@ -216,7 +204,7 @@ public class Library {
     }
 
     // Search for book(s) by author
-    public void searchBookAuthor() {
+    public void searchBookAuthor () {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter search: ");
         String searchPhrase = input.nextLine();
@@ -233,7 +221,7 @@ public class Library {
     }
 
     //Validation method to check string input
-    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
+    public boolean validateStringInput (String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
         Pattern p = Pattern.compile("[a-zA-Z0-9\\-\\s\n]");
         //loop through inparameter inputs array
@@ -246,7 +234,7 @@ public class Library {
         return valid;
     }
 
-    public void displayBookCollection() {
+    public void displayBookCollection () {
         System.out.println("The Library have the following books: \n");
 
         bookCollection = FileUtils.readObjectFromFile("src/books.ser");
@@ -261,7 +249,7 @@ public class Library {
     }
 
     //method to set a collection of 20-30 books.
-    public void addStartBooks() {
+    public void addStartBooks () {
         bookCollection.put("Sofies World",
                 new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));
         bookCollection.put("Eileen",

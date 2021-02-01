@@ -16,9 +16,8 @@ public class FileUtils {
     //Method to check if file exist at start of program
 
 
-    //needs to be generic to handle different objects?
-    public static void writeObjectToFile (HashMap<String, Book> hashmap, String filename){
-
+    //Test generic read method
+    public static <T> void genericWrite(HashMap <String, T> hashmap, String filename){
         try(FileOutputStream fileOutputStream = new FileOutputStream(filename, false)){
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(hashmap);
@@ -28,8 +27,24 @@ public class FileUtils {
         }
     }
 
-    public static HashMap<String, Book> readObjectFromFile(String filename){
+    //Test generic write method
+    public static HashMap<String, Object> readGeneric(String filename){
+        HashMap<String, Object> hashMap = null;
 
+        try(FileInputStream fileInputStream = new FileInputStream(filename);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
+
+            hashMap = (HashMap<String, Object>) objectInputStream.readObject();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return hashMap;
+    }
+
+
+    //Not generic
+    public static HashMap<String, Book> readObjectFromFile(String filename){
         HashMap<String, Book> hashMap = null;
 
         try(FileInputStream fileInputStream = new FileInputStream(filename);
@@ -41,6 +56,18 @@ public class FileUtils {
             e.printStackTrace();
         }
         return hashMap;
+    }
+
+    //Not genric
+    public static void writeObjectToFile (HashMap<String, Book> hashmap, String filename){
+
+        try(FileOutputStream fileOutputStream = new FileOutputStream(filename, false)){
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(hashmap);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

@@ -5,10 +5,13 @@ import library.users.Lender;
 import library.users.User;
 import library.utils.FileUtils;
 
+//import java.text.AttributeEntry;
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Library {
     private static final Library instance = new Library();
@@ -27,41 +30,33 @@ public class Library {
     public void displayBookCollection() {
         System.out.println("The Library have the following books: ");
 
-        bookCollection = FileUtils.readObjectFromFile("src/books.txt");
+        bookCollection = FileUtils.readObjectFromFile("src/books.ser");
 
-        List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream()
-                        .collect(Collectors.toList());
-
+        List <Map.Entry<String, Book>> bookList = hashmapToList(bookCollection);
         bookList.forEach(book -> System.out.println(book.getValue()));
-        //change property available to a better printout, ex. available: yes/no
     }
 
     //admin to remove book from bookCollection
     public void removeBook() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter title of the book you wish to remove: ");
-
         String adminInput = scan.nextLine();
 
         if (validateStringInput(adminInput)) {
+            Map.Entry<String, Book> foundBook= bookCollection.entrySet().stream()
+                    .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
+                    .findAny().orElse(null);
 
-            if ((bookCollection.containsKey(adminInput))) { //NOT working with lower case letters!!
-
-                List<Map.Entry<String, Book>> bookList =
-                        bookCollection.entrySet().stream()
-                                .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
-                                .collect(Collectors.toList());
-                bookCollection.remove(bookList.get(0).getKey());
-
-                System.out.println(adminInput + " was deleted from book collections");
-            } else {
-                System.out.println("No book with that title was found");
-                //Back to meny here
+            if(foundBook != null){
+                bookCollection.remove(foundBook);
+                System.out.println(adminInput + " was deleted from book collection.");
+            }else{
+                System.out.println("No book with title " + adminInput + " was found.");
             }
+            //TODO back to meny
 
         } else {
-            System.out.println("No valid input");
+            System.out.println("Not a valid input");
             //Back to meny here
         }
     }
@@ -100,6 +95,15 @@ public class Library {
             }
         }
         return valid;
+    }
+
+    //prevent DRY. Takes bookCollection and returns a List-Map.Entry
+    public List <Map.Entry<String, Book>> hashmapToList (HashMap<String, Book> bookCollection){
+        List <Map.Entry<String, Book>> bookList = bookCollection.entrySet()
+                .stream()
+                .collect(Collectors.toList());
+
+        return bookList;
     }
 
     //User - See available books
@@ -231,7 +235,19 @@ public class Library {
                 new Book("The Plague", "Albert Camus", "Modern Classic", true, ""));
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
+
+        FileUtils.genericWrite(bookCollection, "src/books.ser");
     }
+
+    public static void main(String[] args) {
+
+        Library test = new Library();
+        //test.addStartBooks();
+        test.displayBookCollection();
+
+
+    }
+
 
 
 }

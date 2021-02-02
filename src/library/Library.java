@@ -3,6 +3,7 @@ package library;
 import library.books.Book;
 import library.utils.FileUtils;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class Library {
 
     public Library() {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
+        bookCollection = FileUtils.checkIfFilesExists(bookCollection);
     }
 
     HashMap<String, Book> bookCollection = new HashMap<>();
@@ -28,10 +30,8 @@ public class Library {
         List<Map.Entry<String, Book>> bookList =
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());
-
         bookList.forEach(book -> System.out.println(book.getValue()));
         //change property available to a better printout, ex. available: yes/no
-
     }
 
     //admin to remove book from bookCollection
@@ -103,7 +103,7 @@ public class Library {
     }
 
     //method to set a collection of 20-30 books.
-    public void addStartBooks() {
+    public HashMap <String, Book> addStartBooks() {
 
         bookCollection.put("Sofies World", new Book("Sofies World", "Jostein Gaarder", "Philosophy", true));
         bookCollection.put("Eileen",
@@ -132,6 +132,16 @@ public class Library {
         bookCollection.put("The Luminaries", new Book("The Luminaries", "Elenor Catton", "Fiction", true));
         bookCollection.put("The Plague", new Book("The Plague", "Albert Camus", "Modern Classic", true));
         bookCollection.put("Nocturner", new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true));
+
+        return bookCollection;
+    }
+
+    public static void main(String[] args) {
+        Library test = new Library();
+        //test.addStartBooks();
+        //FileUtils.writeObjectToFileG(test.bookCollection, "src/books.ser");
+        //test.bookCollection = FileUtils.readObjectFromFileG("src/books.ser");
+        test.displayBookCollection();
     }
 
 }

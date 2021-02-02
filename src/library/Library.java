@@ -136,12 +136,5 @@ public class Library {
         return bookCollection;
     }
 
-    public static void main(String[] args) {
-        Library test = new Library();
-        //test.addStartBooks();
-        //FileUtils.writeObjectToFileG(test.bookCollection, "src/books.ser");
-        //test.bookCollection = FileUtils.readObjectFromFileG("src/books.ser");
-        test.displayBookCollection();
-    }
 
 }

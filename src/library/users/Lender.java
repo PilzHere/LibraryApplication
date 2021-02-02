@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  A subclass of {@link User}.
- *  Has less access than a {@link Librarian}.
+ * A subclass of {@link User}.
+ * Has less access than a {@link Librarian}.
  */
 
 public class Lender extends User {
 
     /**
      * The lender borrows books from the {@link library.Library}.
+     *
      * @param name the user's name.
      */
     public Lender (String name) {
@@ -25,7 +26,7 @@ public class Lender extends User {
         this.lendedBooks = lendedBooks;
     }
 
-    public void uppdateLendedBooks(String title){
+    public void uppdateLendedBooks (String title) {
         this.lendedBooks.add(title);
     }
 
@@ -39,9 +40,9 @@ public class Lender extends User {
 
 
     @Override
-    public String toString() {
+    public String toString () {
         return "Lender{" +
-                 lendedBooks +
+                lendedBooks +
                 ", name='" + name + '\'' +
                 '}';
     }

@@ -22,10 +22,7 @@
     <list default="true" id="089a852a-3c86-4680-9c87-a1d85a2f5413" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-28_14_43__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-28_14_43__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LibraryApplication/books.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/books.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/utils/FileUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,16 +120,13 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="1226" height="63" key="GridCell.Tab.1.right/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1612209993236" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/library/Library.java</url>
-          <line>139</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="11" y="51" width="1250" height="579" key="MergeDialog" timestamp="1612251773964">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="11" y="51" width="1250" height="579" key="MergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1612251773964" />
+    <state x="280" y="102" key="MultipleFileMergeDialog" timestamp="1612251773980">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="280" y="102" key="MultipleFileMergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1612251773980" />
   </component>
 </project>

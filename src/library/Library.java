@@ -5,6 +5,7 @@ import library.users.Lender;
 import library.users.User;
 import library.utils.FileUtils;
 
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +42,7 @@ public class Library {
 
             if ((bookCollection.containsKey(adminInput))) { //NOT working with lower case letters!!
 
-                List<Map.Entry<String, Book>> bookList =book
+                List<Map.Entry<String, Book>> bookList =
                         bookCollection.entrySet().stream()
                                 .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
                                 .collect(Collectors.toList());
@@ -80,18 +81,6 @@ public class Library {
             return false;
         }
 
-    }
-
-    //Admin - check loaned books
-    public void checkLoanedBooks() {
-        System.out.println("Following book/books is lent out at the moment:");
-
-        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
-            if (!entry.getValue().isAvailable()) {
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
-            }
-        }
-        //System.out.println(bookList.size());
     }
 
     //Admin to get list of Lenders
@@ -256,7 +245,7 @@ public class Library {
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());
 
-        bookList.forEach(book -> System.out.println(book.getValue()));
+        bookList.forEach(book -> System.out.println(book.getValue().getTitle()));
         //change property available to a better printout, ex. available: yes/no
     }
 

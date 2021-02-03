@@ -256,7 +256,7 @@ public class Library {
         bookList.forEach(book -> System.out.println(book.getValue()));
         //change property available to a better printout, ex. available: yes/no*/
     }
-
+        // a
         /*List<Map.Entry<String, Book>> bookList =
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());

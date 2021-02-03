@@ -23,7 +23,7 @@ public class Login {
 
     /**
      * The login constructor contains the while loop where everything happens inside.
-     * It will end when boolean isRunning is false.
+     * It will end when boolean isRunning is false. a
      */
     public Login() {
         printWelcomeMessage();

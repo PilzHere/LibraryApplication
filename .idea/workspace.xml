@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="635daebb-528c-4417-9fdc-d0805f5b35bb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibraryApplication.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/Login.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/books/Book.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/users/Lender.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/users/Librarian.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/users/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/utils/FileUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibraryApplication-master/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/LibraryApplication-master/src/library/Library.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

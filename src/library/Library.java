@@ -34,46 +34,31 @@ public class Library {
 
     HashMap<String, Book> bookCollection = new HashMap<>();
 
-
     //ADMIN METHODS
 
-    //Admin to remove book from bookCollection
-    public void removeBook() {
-
+    /**Admin to remove book from bookCollection
+     * check input from admin, secondly checks if book exists, if true -> book is removed
+     */
+    public void removeBook () {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter title of the book you wish to remove: ");
         String adminInput = scan.nextLine();
 
         if (validateStringInput(adminInput)) {
-
             Map.Entry<String, Book> foundBook = bookCollection.entrySet().stream()
                     .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
                     .findAny().orElse(null);
 
             if (foundBook != null) {
-                bookCollection.remove(foundBook);
+                bookCollection.remove(foundBook.getKey());
                 System.out.println(adminInput + " was deleted from book collection.");
+
             } else {
                 System.out.println("No book with title " + adminInput + " was found.");
             }
 
-            if ((bookCollection.containsKey(adminInput))) { //NOT working with lower case letters!!
-
-                List<Map.Entry<String, Book>> bookList =
-                        bookCollection.entrySet().stream()
-                                .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
-                                .collect(Collectors.toList());
-                bookCollection.remove(bookList.get(0).getKey());
-
-                System.out.println(adminInput + " was deleted from book collections");
-            } else {
-                System.out.println("No book with that title was found");
-                //TODO Back to meny here
-            }
-            //TODO back to meny
         } else {
             System.out.println("No valid input");
-            //TODO Back to meny here
         }
     }
 
@@ -264,12 +249,19 @@ public class Library {
     public void displayBookCollection() {
         System.out.println("The Library have the following books: \n");
 
-        List<Map.Entry<String, Book>> bookList =
+        this.bookCollection.entrySet().stream().forEach(book -> System.out.println(book.getValue()));
+
+       /* List<Map.Entry<String, Book>> bookList =
+                new ArrayList<>(bookCollection.entrySet());
+        bookList.forEach(book -> System.out.println(book.getValue()));
+        //change property available to a better printout, ex. available: yes/no*/
+    }
+        // a
+        /*List<Map.Entry<String, Book>> bookList =
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());
-        bookList.forEach(book -> System.out.println(book.getValue()));
+        bookList.forEach(book -> System.out.println(book.getValue()));*/
         //change property available to a better printout, ex. available: yes/no
-    }
 
     //method to set a collection of 20-30 books.
     public HashMap<String, Book> addStartBooks() {
@@ -308,5 +300,6 @@ public class Library {
     public void seeAllBooksInLibrary(){
         this.bookCollection.entrySet().forEach(System.out::println);
     }
+
 
 }

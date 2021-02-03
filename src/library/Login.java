@@ -1,10 +1,12 @@
 package library;
 
+import library.books.Book;
 import library.users.Lender;
 import library.users.Librarian;
 import library.users.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +24,7 @@ public class Login {
      * The login constructor contains the while loop where everything happens inside.
      * It will end when boolean isRunning is false.
      */
-    public Login () {
+    public Login() {
         printWelcomeMessage();
         addLibraryUsers();
 
@@ -42,7 +44,7 @@ public class Login {
     /**
      * Prints a welcome message.
      */
-    private void printWelcomeMessage () {
+    private void printWelcomeMessage() {
         System.out.println("\u001B[33mWelcome to the library.\u001B[0m");
     }
 
@@ -51,7 +53,7 @@ public class Login {
      *
      * @return if username exists.
      */
-    private boolean askForUsername () {
+    private boolean askForUsername() {
         System.out.println("Please type your \u001B[32m" + "username" + "\u001B[0m to log in. Type " + "\u001B[32m" + "exit" + "\u001B[0m" + " to quit.");
         Scanner scanner = new Scanner(System.in);
         final String username = scanner.next();
@@ -71,7 +73,7 @@ public class Login {
      * @param username The user's name.
      * @return if username is "exit".
      */
-    private boolean checkUserNameForExit (String username) {
+    private boolean checkUserNameForExit(String username) {
         return username.equalsIgnoreCase("exit");
     }
 
@@ -81,7 +83,7 @@ public class Login {
      * @param userName The user's name.
      * @return if username exists in Username List.
      */
-    private boolean checkUser (final String userName) {
+    private boolean checkUser(final String userName) {
         for (User user : users) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 currentUser = user;
@@ -98,7 +100,7 @@ public class Login {
      * Prints and listens for usable commands depending on {@link User} type:
      * {@link Librarian} or {@link Lender}.
      */
-    private void getUserRequest () {
+    private void getUserRequest() {
 
         //System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Search for Lender and view lended books.\n6: Show time left lending for book.\n7: Log out user.");
 
@@ -119,7 +121,8 @@ public class Login {
                     "2: Lend book.\n" +
                     "3: List your lent books.\n" +
                     "4: Show time left lending for book.\n" +
-                    "5: Log out user.");
+                    "5: Showing all books in library...\n" +
+                    "6: Log out user.");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -184,6 +187,11 @@ public class Login {
                     System.out.println("Showing time left on lent book...");
                     break;
                 case 5:
+                    System.out.println("Showing all books in library...");
+                    Library.getInstance().seeAllBooksInLibrary();
+
+                    break;
+                case 6:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
@@ -198,7 +206,7 @@ public class Login {
     /**
      * Adds new users to the usersList.
      */
-    private void addLibraryUsers () {
+    private void addLibraryUsers() {
         // Librarians
         users.add(new Librarian("Marcel"));
         users.add(new Librarian("Johan"));

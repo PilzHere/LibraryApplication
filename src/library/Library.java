@@ -271,7 +271,6 @@ public class Library {
         //change property available to a better printout, ex. available: yes/no
     }
 
-
     //method to set a collection of 20-30 books.
     public HashMap<String, Book> addStartBooks() {
 
@@ -304,6 +303,10 @@ public class Library {
         bookCollection.put("Nocturner", new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
 
         return bookCollection;
+    }
+    //Metod to see ALL books avalible
+    public void seeAllBooksInLibrary(){
+        this.bookCollection.entrySet().forEach(System.out::println);
     }
 
 }

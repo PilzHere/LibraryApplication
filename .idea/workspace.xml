@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml" afterDir="false" />
+    <list default="true" id="635daebb-528c-4417-9fdc-d0805f5b35bb" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_13_42__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_2021-01-27_15_29__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/library/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibraryApplication.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LibraryApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/Library.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/books/Book.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/users/Lender.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/users/Librarian.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/users/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/library/utils/FileUtils.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,119 +28,58 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1neJ5DFy5GC6oP7FbnXJ29El9R9" />
+  <component name="ProjectId" id="1ns3RBY4VOh9AKoIoTsNCqiwWrl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Application.Library (1)">
-    <configuration name="Library (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="library.Library" />
-      <module name="LibraryApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="library.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Library" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Library" />
-      <module name="LibraryApplication" />
+  <component name="RunManager">
+    <configuration name="LibraryApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="LibraryApplication" />
+      <module name="LibraryApplication-master (1)" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Library (1)" />
-        <item itemvalue="Application.Library" />
-        <item itemvalue="Application.Library (1)" />
-        <item itemvalue="Application.Library" />
-        <item itemvalue="Application.Library (1)" />
+        <item itemvalue="Application.LibraryApplication" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5cb65ff7-d626-4660-be1e-0e4a53630569" name="Default Changelist" comment="" />
-      <created>1611744440227</created>
+      <changelist id="635daebb-528c-4417-9fdc-d0805f5b35bb" name="Default Changelist" comment="" />
+      <created>1612164960743</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1611744440227</updated>
+      <updated>1612164960743</updated>
     </task>
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-<<<<<<< HEAD
   <component name="WindowStateProjectService">
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1493" height="190" key="GridCell.Tab.0.bottom" timestamp="1612388810351">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.bottom/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state width="1237" height="523" key="GridCell.Tab.0.center" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1493" height="190" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1612388810351" />
+    <state width="1493" height="190" key="GridCell.Tab.0.center" timestamp="1612388810351">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.center/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state width="1237" height="523" key="GridCell.Tab.0.left" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1493" height="190" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1612388810351" />
+    <state width="1493" height="190" key="GridCell.Tab.0.left" timestamp="1612388810351">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.left/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state width="1237" height="523" key="GridCell.Tab.0.right" timestamp="1611758289347">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1493" height="190" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1612388810351" />
+    <state width="1493" height="190" key="GridCell.Tab.0.right" timestamp="1612388810351">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1237" height="523" key="GridCell.Tab.0.right/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611758289347" />
-    <state x="121" y="51" key="MergeDialog" timestamp="1611750523305">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="121" y="51" key="MergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523305" />
-    <state x="280" y="102" key="MultipleFileMergeDialog" timestamp="1611750523322">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="280" y="102" key="MultipleFileMergeDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611750523322" />
-    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog" timestamp="1611757777126">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="408" y="54" key="git4idea.branch.GitSmartOperationDialog/0.0.1280.680/0.-1080.1920.1040@0.0.1280.680" timestamp="1611757777126" />
-=======
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/LibraryApplication.java</url>
-          <line>29</line>
-          <properties class="LibraryApplication">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
->>>>>>> master
+    <state width="1493" height="190" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1612388810351" />
   </component>
 </project>

@@ -3,6 +3,7 @@ package library;
 import library.users.Lender;
 import library.users.Librarian;
 import library.users.User;
+import library.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,21 +106,23 @@ public class Login {
         if (currentUser instanceof Librarian)
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
-                    "2: Lend book.\n" +
+                    "2: View all books in collection.\n" +
                     "3: List your lent books.\n" +
                     "4: See list of lenders.\n" +
                     "5: Search lender and view lended books.\n" +
                     "6: Show time left lending for book.\n" +
-                    "7: Add book to library." +
-                    "8: See borrowed books." +
-                    "9: Log out user.");
+                    "7: Add book to library.\n" +
+                    "8: Remove book from collection.\n" +
+                    "9: See borrowed books.\n" +
+                    "10: Log out user.");
         else
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
                     "2: Lend book.\n" +
                     "3: List your lent books.\n" +
                     "4: Show time left lending for book.\n" +
-                    "5: Log out user.");
+                    "5: View all our books. \n" +
+                    "6: Log out user.");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -134,7 +137,8 @@ public class Login {
                     bookSearch();
                     break;
                 case 2:
-                    System.out.println("Lending book...");
+                    System.out.println("View all books in collection");
+                    Library.getInstance().displayBookCollection();
                     break;
                 case 3:
                     System.out.println("List user's lent books...");
@@ -155,13 +159,18 @@ public class Login {
                     Library.getInstance().addBook();
                     break;
                 case 8:
+                    System.out.println("Remove book from collection...");
+                    Library.getInstance().removeBook();
+                    break;
+                case 9:
                     System.out.println("See list of borrowed books...");
                     Library.getInstance().checkLoanedBooks();
                     break;
-                case 9:
+                case 10:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
+                    FileUtils.saveAtLogout(Library.getInstance().bookCollection);
                     break;
                 default:
                     System.out.println("\u001B[31mThat is not an option.\u001B[0m");
@@ -184,9 +193,14 @@ public class Login {
                     System.out.println("Showing time left on lent book...");
                     break;
                 case 5:
+                    System.out.println("View all books in collection");
+                    Library.getInstance().displayBookCollection();
+                    break;
+                case 6:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
+                    FileUtils.saveAtLogout(Library.getInstance().bookCollection);
                     break;
                 default:
                     System.out.println("\u001B[31mThat is not an option.\u001B[0m");

@@ -34,7 +34,7 @@ public class Library {
 
     HashMap<String, Book> bookCollection = new HashMap<>();
 
-    //mmer info om önskad bok
+    //mer info om önskad bok
     public void moreInfoSpecificBook(){
         System.out.println("Please enter the book title you would like more information on: ");
         Scanner input = new Scanner(System.in);

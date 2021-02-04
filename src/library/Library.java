@@ -254,7 +254,7 @@ public class Library {
         //loop through inparameter inputs array
         for (String input : inputs) {
             Matcher m = p.matcher(input);
-            if (!m.find()) { // regex to check a-z, 0-9 and -
+            if (!m.find()) { // regex to check a-z, 0-9 and -, whitespaces, newline
                 valid = false;
             }
         }
@@ -306,7 +306,6 @@ public class Library {
     }
     //Metod to see ALL books avalible
     public void seeAllBooksInLibrary(){
-        this.bookCollection.entrySet().forEach(System.out::println);
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
     }
-
 }

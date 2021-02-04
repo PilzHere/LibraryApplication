@@ -189,7 +189,6 @@ public class Login {
                 case 5:
                     System.out.println("Showing all books in library...");
                     Library.getInstance().seeAllBooksInLibrary();
-
                     break;
                 case 6:
                     System.out.println("Logging out " + currentUser.getName() + "...");

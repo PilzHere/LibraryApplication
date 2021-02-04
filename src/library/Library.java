@@ -34,6 +34,28 @@ public class Library {
 
     HashMap<String, Book> bookCollection = new HashMap<>();
 
+    //mer info om önskad bok
+    public void moreInfoSpecificBook(){
+        System.out.println("Please enter the book title you would like more information on: ");
+        Scanner input = new Scanner(System.in);
+        String bookOrAuthor  = input.nextLine();
+
+        if(bookCollection.containsKey(bookOrAuthor)){
+            System.out.println(bookCollection.get(bookOrAuthor).toString());
+        }else{
+            System.out.println("The book title you are looking for cannot be found :(");
+        }
+        //search for author
+        for(String key : bookCollection.keySet()){
+            if(bookOrAuthor.equals(bookCollection.get(key).getAuthor())){
+                System.out.println(bookCollection.get(key).toString());
+            }else{
+                System.out.println("The author you are looking for cannot be found :(");
+            }
+        }
+        input.close();
+    }
+
     //ADMIN METHODS
 
     /**Admin to remove book from bookCollection

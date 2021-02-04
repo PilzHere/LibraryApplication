@@ -22,7 +22,7 @@ public class FileUtils {
                 hashmap = readObjectFromFileG(fileBooks);
             } else {
                 System.out.println("no file exist. Call addBooks and writeToFile");
-                hashmap = Library.getInstance().addStartBooks();
+                Library.getInstance().addStartBooks();
                 writeObjectToFileG(hashmap, fileBooks);
             }
 

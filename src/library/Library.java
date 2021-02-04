@@ -29,7 +29,7 @@ public class Library {
 
     public Library() {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
-        bookCollection = FileUtils.checkIfFilesExists(bookCollection);
+        //bookCollection = FileUtils.checkIfFilesExists(bookCollection);
     }
 
     HashMap<String, Book> bookCollection = new HashMap<>();
@@ -230,6 +230,8 @@ public class Library {
             }
         }
         System.out.println("Search completed");
+
+
     }
 
     //Validation method to check string input
@@ -248,20 +250,10 @@ public class Library {
 
     public void displayBookCollection() {
         System.out.println("The Library have the following books: \n");
-
         this.bookCollection.entrySet().stream().forEach(book -> System.out.println(book.getValue()));
 
-       /* List<Map.Entry<String, Book>> bookList =
-                new ArrayList<>(bookCollection.entrySet());
-        bookList.forEach(book -> System.out.println(book.getValue()));
-        //change property available to a better printout, ex. available: yes/no*/
     }
-        // a
-        /*List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream()
-                        .collect(Collectors.toList());
-        bookList.forEach(book -> System.out.println(book.getValue()));*/
-        //change property available to a better printout, ex. available: yes/no
+
 
     //method to set a collection of 20-30 books.
     public HashMap<String, Book> addStartBooks() {
@@ -296,10 +288,16 @@ public class Library {
 
         return bookCollection;
     }
-    //Metod to see ALL books avalible
+    /*//Metod to see ALL books avalible
     public void seeAllBooksInLibrary(){
         this.bookCollection.entrySet().forEach(System.out::println);
-    }
+    }*/
+
+    /* List<Map.Entry<String, Book>> writers = bookCollection.entrySet()
+                .stream()
+                .collect(Collectors.toList());
+        writers.sort(Comparator.comparing(b -> (b.getValue().getAuthor())));
+        System.out.println(writers);*/
 
 
 }

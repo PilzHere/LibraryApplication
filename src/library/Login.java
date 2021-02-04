@@ -28,6 +28,7 @@ public class Login {
     public Login() {
         printWelcomeMessage();
         addLibraryUsers();
+        Library.getInstance().bookCollection = FileUtils.checkIfFilesExists(Library.getInstance().bookCollection);
 
         while (isRunning) {
             if (!loggedIn) {

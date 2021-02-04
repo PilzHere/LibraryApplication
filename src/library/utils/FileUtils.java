@@ -19,10 +19,8 @@ public class FileUtils {
 
         try {
             if (fileBooks.exists()) {  //&& fileUser.exists()
-                System.out.println("there are saved objects in file. Call read method");
                 hashmap = readObjectFromFileG(fileBooks);
             } else {
-                System.out.println("no file exist. Call addBooks and writeToFile");
                 hashmap = Library.getInstance().addStartBooks();
                 writeObjectToFileG(hashmap, fileBooks);
             }
@@ -30,6 +28,7 @@ public class FileUtils {
         }catch(NullPointerException e){
                 e.getMessage();
         }
+
         return hashmap;
     }
 
@@ -72,7 +71,6 @@ public class FileUtils {
        File fileBooks = new File("src/books.ser");
        writeObjectToFileG(hashmap, fileBooks);
 
-        //System.out.println(hashmap.size()); test printout
     }
 
 }

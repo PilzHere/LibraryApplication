@@ -103,6 +103,7 @@ public class Login {
      */
     private void getUserRequest() {
         Library.getInstance().bookCollection = FileUtils.checkIfFilesExists(Library.getInstance().bookCollection);
+        Library.getInstance().remindToReturnBook(currentUser);
         //System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Search for Lender and view lended books.\n6: Show time left lending for book.\n7: Log out user.");
 
         if (currentUser instanceof Librarian)
@@ -155,7 +156,7 @@ public class Login {
                     break;
                 case 6:
                     System.out.println("Showing time left on lended book...");
-                    break;
+                                       break;
                 case 7:
                     System.out.println("Add book to library...");
                     Library.getInstance().addBook();

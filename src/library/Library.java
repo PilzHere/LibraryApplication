@@ -212,7 +212,7 @@ public class Library {
             if (book != null) {
                 System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
                         "\nDon't forget to return book within 2 weeks");
-                book.getValue().setReservedBy(user.getName()); //sätt ReservedBy till låntagarens namn //TODO clear when returned
+                book.getValue().setReservedBy(user.getName()); //set ReservedBy to lendersName //TODO clear when returned
                 book.getValue().setAvailable(false); // TODO clear when returned
                 book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
                 ((Lender) user).uppdateLendedBooks(book.getValue().getTitle());

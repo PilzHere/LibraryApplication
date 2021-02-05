@@ -140,7 +140,7 @@ public class Login {
                     break;
                 case 2:
                     System.out.println("View all books in collection");
-                    Library.getInstance().displayBookCollection();
+                    Library.getInstance().displayBooksByTitle();
                     break;
                 case 3:
                     System.out.println("List user's lent books...");

@@ -123,7 +123,7 @@ public class Login {
                     "2: Lend book.\n" +
                     "3: List your lent books.\n" +
                     "4: Show time left lending for book.\n" +
-                    "5: View all our books. \n" +
+                    "5: View all books in the library.\n" +
                     "6: Log out user.");
 
         Scanner scanner = new Scanner(System.in);
@@ -140,7 +140,7 @@ public class Login {
                     break;
                 case 2:
                     System.out.println("View all books in collection");
-                    Library.getInstance().displayBookCollection();
+                    Library.getInstance().displayBooksByTitle();
                     break;
                 case 3:
                     System.out.println("List user's lent books...");
@@ -195,8 +195,7 @@ public class Login {
                     System.out.println("Showing time left on lent book...");
                     break;
                 case 5:
-                    System.out.println("View all books in collection");
-                    Library.getInstance().displayBookCollection();
+                    bookList();
                     break;
                 case 6:
                     System.out.println("Logging out " + currentUser.getName() + "...");
@@ -214,7 +213,7 @@ public class Login {
     /**
      * Adds new users to the usersList.
      */
-    private void addLibraryUsers() {
+    private void addLibraryUsers () {
         // Librarians
         users.add(new Librarian("Marcel"));
         users.add(new Librarian("Johan"));
@@ -236,6 +235,20 @@ public class Login {
             case 1 -> Library.getInstance().searchBookTitle();
             case 2 -> Library.getInstance().searchBookAuthor();
             default -> System.out.println("Error! Unknown input");
+        }
+    }
+
+    private void bookList() {
+        Library.getInstance().addStartBooks();
+        System.out.println("Please choose how you want to sort the list\n" +
+                "1. Sort by title\n" +
+                "2. Sort by author");
+        Scanner scanner = new Scanner(System.in);
+        int userInput = scanner.nextInt();
+        switch (userInput) {
+            case 1 -> Library.getInstance().displayBooksByTitle();
+            case 2 -> Library.getInstance().displayBooksByAuthor();
+            default -> System.out.println("Error! unknown input");
         }
     }
 }

@@ -263,25 +263,26 @@ public class Library {
     }
 
     public void displayBooksByTitle() {
-        List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream()
-                        .collect(Collectors.toList());
-
-        TreeMap<String, Book> sortedList = new TreeMap<>();
-        sortedList.putAll(bookCollection);
-
-        System.out.println(sortedList);
+        List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
+                .stream().collect(Collectors.toList());
+        listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
+        System.out.println(listByTitle);
 
         //bookList.forEach(book -> System.out.println("Title: " + book.getValue().getTitle() + "| Author: " + book.getValue().getAuthor() + "| Genre: " + book.getValue().getGenres() + "| Available: " + book.getValue().isAvailable()));
         //change property available to a better printout, ex. available: yes/no
     }
 
     public void displayBooksByAuthor() {
-        List<Map.Entry<String, Book>> bookList =
+        List<Map.Entry<String, Book>> listByAuthor = bookCollection.entrySet()
+                .stream().collect(Collectors.toList());
+        listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
+        System.out.println(listByAuthor);
+
+        /*List<Map.Entry<String, Book>> bookList =
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());
 
-        //java.util.Collections.sort();
+        //java.util.Collections.sort();*/
     }
 
     //method to set a collection of 20-30 books.

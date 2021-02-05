@@ -1,10 +1,13 @@
 package library;
 
+import library.books.Book;
 import library.users.Lender;
 import library.users.Librarian;
 import library.users.User;
+import library.utils.FileUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,9 +23,9 @@ public class Login {
 
     /**
      * The login constructor contains the while loop where everything happens inside.
-     * It will end when boolean isRunning is false.
+     * It will end when boolean isRunning is false. a
      */
-    public Login () {
+    public Login() {
         printWelcomeMessage();
         addLibraryUsers();
 
@@ -42,7 +45,7 @@ public class Login {
     /**
      * Prints a welcome message.
      */
-    private void printWelcomeMessage () {
+    private void printWelcomeMessage() {
         System.out.println("\u001B[33mWelcome to the library.\u001B[0m");
     }
 
@@ -51,7 +54,7 @@ public class Login {
      *
      * @return if username exists.
      */
-    private boolean askForUsername () {
+    private boolean askForUsername() {
         System.out.println("Please type your \u001B[32m" + "username" + "\u001B[0m to log in. Type " + "\u001B[32m" + "exit" + "\u001B[0m" + " to quit.");
         Scanner scanner = new Scanner(System.in);
         final String username = scanner.next();
@@ -71,7 +74,7 @@ public class Login {
      * @param username The user's name.
      * @return if username is "exit".
      */
-    private boolean checkUserNameForExit (String username) {
+    private boolean checkUserNameForExit(String username) {
         return username.equalsIgnoreCase("exit");
     }
 
@@ -81,7 +84,7 @@ public class Login {
      * @param userName The user's name.
      * @return if username exists in Username List.
      */
-    private boolean checkUser (final String userName) {
+    private boolean checkUser(final String userName) {
         for (User user : users) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 currentUser = user;
@@ -98,21 +101,22 @@ public class Login {
      * Prints and listens for usable commands depending on {@link User} type:
      * {@link Librarian} or {@link Lender}.
      */
-    private void getUserRequest () {
-
+    private void getUserRequest() {
+        Library.getInstance().bookCollection = FileUtils.checkIfFilesExists(Library.getInstance().bookCollection);
         //System.out.println("What would you like to do?\n1: Search for book title.\n2: Lend book.\n3: List your lended books.\n4: See list of lenders. \n5: Search for Lender and view lended books.\n6: Show time left lending for book.\n7: Log out user.");
 
         if (currentUser instanceof Librarian)
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
-                    "2: Lend book.\n" +
+                    "2: View all books in collection.\n" +
                     "3: List your lent books.\n" +
                     "4: See list of lenders.\n" +
                     "5: Search lender and view lended books.\n" +
                     "6: Show time left lending for book.\n" +
-                    "7: Add book to library." +
-                    "8: See borrowed books." +
-                    "9: Log out user.");
+                    "7: Add book to library.\n" +
+                    "8: Remove book from collection.\n" +
+                    "9: See borrowed books.\n" +
+                    "10: Log out user.");
         else
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
@@ -135,7 +139,8 @@ public class Login {
                     bookSearch();
                     break;
                 case 2:
-                    System.out.println("Lending book...");
+                    System.out.println("View all books in collection");
+                    Library.getInstance().displayBookCollection();
                     break;
                 case 3:
                     System.out.println("List user's lent books...");
@@ -156,13 +161,18 @@ public class Login {
                     Library.getInstance().addBook();
                     break;
                 case 8:
+                    System.out.println("Remove book from collection...");
+                    Library.getInstance().removeBook();
+                    break;
+                case 9:
                     System.out.println("See list of borrowed books...");
                     Library.getInstance().checkLoanedBooks();
                     break;
-                case 9:
+                case 10:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
+                    FileUtils.saveAtLogout(Library.getInstance().bookCollection);
                     break;
                 default:
                     System.out.println("\u001B[31mThat is not an option.\u001B[0m");
@@ -191,6 +201,7 @@ public class Login {
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
+                    FileUtils.saveAtLogout(Library.getInstance().bookCollection);
                     break;
                 default:
                     System.out.println("\u001B[31mThat is not an option.\u001B[0m");

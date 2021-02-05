@@ -6,6 +6,7 @@ import library.users.User;
 import library.utils.FileUtils;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,21 +36,21 @@ public class Library {
     HashMap<String, Book> bookCollection = new HashMap<>();
 
     //mer info om önskad bok
-    public void moreInfoSpecificBook(){
+    public void moreInfoSpecificBook() {
         System.out.println("Please enter the book title you would like more information on: ");
         Scanner input = new Scanner(System.in);
-        String bookOrAuthor  = input.nextLine();
+        String bookOrAuthor = input.nextLine();
 
-        if(bookCollection.containsKey(bookOrAuthor)){
+        if (bookCollection.containsKey(bookOrAuthor)) {
             System.out.println(bookCollection.get(bookOrAuthor).toString());
-        }else{
+        } else {
             System.out.println("The book title you are looking for cannot be found :(");
         }
         //search for author
-        for(String key : bookCollection.keySet()){
-            if(bookOrAuthor.equals(bookCollection.get(key).getAuthor())){
+        for (String key : bookCollection.keySet()) {
+            if (bookOrAuthor.equals(bookCollection.get(key).getAuthor())) {
                 System.out.println(bookCollection.get(key).toString());
-            }else{
+            } else {
                 System.out.println("The author you are looking for cannot be found :(");
             }
         }
@@ -58,10 +59,11 @@ public class Library {
 
     //ADMIN METHODS
 
-    /**Admin to remove book from bookCollection
+    /**
+     * Admin to remove book from bookCollection
      * check input from admin, secondly checks if book exists, if true -> book is removed
      */
-    public void removeBook () {
+    public void removeBook() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter title of the book you wish to remove: ");
         String adminInput = scan.nextLine();
@@ -145,6 +147,19 @@ public class Library {
         }
     }
 
+    //Admin - get list of borrowed books
+    public HashMap<String, Book> getBorrowedBooks() {
+        return (HashMap<String, Book>) bookCollection.entrySet().stream().filter(b -> !b.getValue().isAvailable()).collect(Collectors.toList());
+    }
+
+    //Admin - check borrowed and return date
+    public void printBorrowedAndReturnDate() {
+        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
+        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
+            LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
+            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Borrowed Date: " + entry.getValue().getBorrowedDate() + " | Return Date: " + returnDate);
+        }
+    }
 
     //prevent DRY. Takes bookCollection and returns a List-Map.Entry
     public List<Map.Entry<String, Book>> hashmapToList(HashMap<String, Book> bookCollection) {
@@ -182,6 +197,7 @@ public class Library {
         }
     }
 
+    //user - lend books
     public void lendBooks(User user) {
         checkAvailableBooks();
         System.out.println("Witch one would you like to rent?\nPlease enter Title or Author:");
@@ -196,8 +212,9 @@ public class Library {
             if (book != null) {
                 System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
                         "\nDon't forget to return book within 2 weeks");
-                book.getValue().setReservedBy(user.getName()); //sätt ReservedBy till låntagarens namn
-                book.getValue().setAvailable(false);
+                book.getValue().setReservedBy(user.getName()); //sätt ReservedBy till låntagarens namn //TODO clear when returned
+                book.getValue().setAvailable(false); // TODO clear when returned
+                book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
                 ((Lender) user).uppdateLendedBooks(book.getValue().getTitle());
             } else {
                 System.out.println("No such book was found!");
@@ -210,11 +227,9 @@ public class Library {
     //librarian AND lender - check laoned books
     public void checkLoanedBooks() {
         System.out.println("Following book/books is lent out at the moment:");
-
-        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
-            if (!entry.getValue().isAvailable()) {
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
-            }
+        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
+        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
+            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
         }
     }
 
@@ -278,12 +293,12 @@ public class Library {
         bookList.forEach(book -> System.out.println(book.getValue()));
         //change property available to a better printout, ex. available: yes/no*/
     }
-        // a
+    // a
         /*List<Map.Entry<String, Book>> bookList =
                 bookCollection.entrySet().stream()
                         .collect(Collectors.toList());
         bookList.forEach(book -> System.out.println(book.getValue()));*/
-        //change property available to a better printout, ex. available: yes/no
+    //change property available to a better printout, ex. available: yes/no
 
     //method to set a collection of 20-30 books.
     public HashMap<String, Book> addStartBooks() {
@@ -318,8 +333,9 @@ public class Library {
 
         return bookCollection;
     }
+
     //Metod to see ALL books avalible
-    public void seeAllBooksInLibrary(){
+    public void seeAllBooksInLibrary() {
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
     }
 

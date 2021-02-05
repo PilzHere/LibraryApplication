@@ -169,6 +169,10 @@ public class Login {
                     Library.getInstance().checkLoanedBooks();
                     break;
                 case 10:
+                    System.out.println("Show borrowed books with borrowed/return date...");
+                    Library.getInstance().printBorrowedAndReturnDate();
+                    break;
+                case 11:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;

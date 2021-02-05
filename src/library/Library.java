@@ -30,7 +30,6 @@ public class Library {
 
     public Library() {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
-        bookCollection = FileUtils.checkIfFilesExists(bookCollection);
     }
 
     HashMap<String, Book> bookCollection = new HashMap<>();
@@ -75,6 +74,7 @@ public class Library {
 
             if (foundBook != null) {
                 bookCollection.remove(foundBook.getKey());
+                FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
                 System.out.println(adminInput + " was deleted from book collection.");
 
             } else {
@@ -100,6 +100,7 @@ public class Library {
 
         if (validateStringInput(bookTitle, author, genre)) {
             bookCollection.put(bookTitle, new Book(bookTitle, author, genre, true, ""));
+            FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
             System.out.println("Book added!");
             return true;
         } else {
@@ -287,20 +288,8 @@ public class Library {
         System.out.println("The Library have the following books: \n");
 
         this.bookCollection.entrySet().stream().forEach(book -> System.out.println(book.getValue()));
-
-       /* List<Map.Entry<String, Book>> bookList =
-                new ArrayList<>(bookCollection.entrySet());
-        bookList.forEach(book -> System.out.println(book.getValue()));
-        //change property available to a better printout, ex. available: yes/no*/
     }
-    // a
-        /*List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream()
-                        .collect(Collectors.toList());
-        bookList.forEach(book -> System.out.println(book.getValue()));*/
-    //change property available to a better printout, ex. available: yes/no
 
-    //method to set a collection of 20-30 books.
     public HashMap<String, Book> addStartBooks() {
 
         bookCollection.put("Sofies World", new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));
@@ -335,7 +324,7 @@ public class Library {
     }
 
     //Metod to see ALL books avalible
-    public void seeAllBooksInLibrary() {
+    public void seeAllBooksInLibrary(){
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
     }
 

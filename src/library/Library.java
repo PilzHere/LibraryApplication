@@ -108,49 +108,49 @@ public class Library {
             return false;
         }
 
-        }
+    }
 
-        //Admin to get list of Lenders
-        public List<Lender> getLenderList (List < User > users) {
-            List<Lender> lenderList = new ArrayList<>();
+    //Admin to get list of Lenders
+    public List<Lender> getLenderList(List<User> users) {
+        List<Lender> lenderList = new ArrayList<>();
 
-            for (User user : users) {
-                if (user instanceof Lender) {
-                    lenderList.add((Lender) user);
-                }
-            }
-            System.out.println("Current Lenders: \n");
-            lenderList.forEach(lender -> System.out.println(lender.getName())); //Only prints names
-
-            return lenderList;
-        }
-
-        //Admin to search for a Lender and view Lenders books
-        public void searchForLender (List < User > users) {
-            Scanner scan = new Scanner(System.in);
-            List<Lender> lenderList = getLenderList(users);
-
-            System.out.println("Enter name of Lender you wish to view: ");
-            final String name = scan.next();
-
-            if (validateStringInput(name)) {
-
-                for (Lender lender : lenderList) {
-                    if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() != null) {
-                        System.out.println(lender.getName() + " have lended: " + lender.getLendedBooks() + "\n");
-                    }
-                    if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null) {
-                        System.out.println(name + " has not lended any books.\n");
-                    }
-                }
-            } else {
-                System.out.println("Not a valid input.");
+        for (User user : users) {
+            if (user instanceof Lender) {
+                lenderList.add((Lender) user);
             }
         }
+        System.out.println("Current Lenders: \n");
+        lenderList.forEach(lender -> System.out.println(lender.getName())); //Only prints names
+
+        return lenderList;
+    }
+
+    //Admin to search for a Lender and view Lenders books
+    public void searchForLender(List<User> users) {
+        Scanner scan = new Scanner(System.in);
+        List<Lender> lenderList = getLenderList(users);
+
+        System.out.println("Enter name of Lender you wish to view: ");
+        final String name = scan.next();
+
+        if (validateStringInput(name)) {
+
+            for (Lender lender : lenderList) {
+                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() != null) {
+                    System.out.println(lender.getName() + " have lended: " + lender.getLendedBooks() + "\n");
+                }
+                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null) {
+                    System.out.println(name + " has not lended any books.\n");
+                }
+            }
+        } else {
+            System.out.println("Not a valid input.");
+        }
+    }
 
     //Admin - get list of borrowed books
     public HashMap<String, Book> getBorrowedBooks() {
-        return (HashMap<String, Book>) bookCollection.entrySet().stream().filter(b -> !b.getValue().isAvailable()).collect(Collectors.toList());
+        return (HashMap<String, Book>) bookCollection.entrySet().stream().filter(b -> !b.getValue().isAvailable()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     //Admin - check borrowed and return date
@@ -181,6 +181,22 @@ public class Library {
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (entry.getValue().isAvailable()) {
                 System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
+            }
+        }
+    }
+
+    //Lender - reminder to return book (SHOWS WHEN LENDERLOGS IN)
+    public void remindToReturnBook(User user) {
+        HashMap<String, Book> borrowedBooks = getBorrowedBooks();
+
+        for (Map.Entry<String, Book> entry : borrowedBooks.entrySet()) {
+            if (user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())) {
+                LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
+                LocalDate currentDate = LocalDate.now();
+                
+                if (returnDate.isEqual(currentDate) || returnDate.isBefore(currentDate)) {
+                    System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor()+"\u001B[O");
+                }
             }
         }
     }
@@ -358,7 +374,7 @@ public class Library {
     }
 
     //Metod to see ALL books avalible
-    public void seeAllBooksInLibrary(){
+    public void seeAllBooksInLibrary() {
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
     }
 

@@ -29,10 +29,32 @@ public class Library {
 
     public Library() {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
-        //bookCollection = FileUtils.checkIfFilesExists(bookCollection);
+
     }
 
     HashMap<String, Book> bookCollection = new HashMap<>();
+
+    //mer info om önskad bok
+    public void moreInfoSpecificBook(){
+        System.out.println("Please enter the book title you would like more information on: ");
+        Scanner input = new Scanner(System.in);
+        String bookOrAuthor  = input.nextLine();
+
+        if(bookCollection.containsKey(bookOrAuthor)){
+            System.out.println(bookCollection.get(bookOrAuthor).toString());
+        }else{
+            System.out.println("The book title you are looking for cannot be found :(");
+        }
+        //search for author
+        for(String key : bookCollection.keySet()){
+            if(bookOrAuthor.equals(bookCollection.get(key).getAuthor())){
+                System.out.println(bookCollection.get(key).toString());
+            }else{
+                System.out.println("The author you are looking for cannot be found :(");
+            }
+        }
+        input.close();
+    }
 
     //ADMIN METHODS
 
@@ -51,6 +73,7 @@ public class Library {
 
             if (foundBook != null) {
                 bookCollection.remove(foundBook.getKey());
+                FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
                 System.out.println(adminInput + " was deleted from book collection.");
 
             } else {
@@ -76,6 +99,7 @@ public class Library {
 
         if (validateStringInput(bookTitle, author, genre)) {
             bookCollection.put(bookTitle, new Book(bookTitle, author, genre, true, ""));
+            FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
             System.out.println("Book added!");
             return true;
         } else {
@@ -241,7 +265,7 @@ public class Library {
         //loop through inparameter inputs array
         for (String input : inputs) {
             Matcher m = p.matcher(input);
-            if (!m.find()) { // regex to check a-z, 0-9 and -
+            if (!m.find()) { // regex to check a-z, 0-9 and -, whitespaces, newline
                 valid = false;
             }
         }
@@ -253,7 +277,6 @@ public class Library {
         this.bookCollection.entrySet().stream().forEach(book -> System.out.println(book.getValue()));
 
     }
-
 
     //method to set a collection of 20-30 books.
     public HashMap<String, Book> addStartBooks() {
@@ -288,16 +311,5 @@ public class Library {
 
         return bookCollection;
     }
-    /*//Metod to see ALL books avalible
-    public void seeAllBooksInLibrary(){
-        this.bookCollection.entrySet().forEach(System.out::println);
-    }*/
-
-    /* List<Map.Entry<String, Book>> writers = bookCollection.entrySet()
-                .stream()
-                .collect(Collectors.toList());
-        writers.sort(Comparator.comparing(b -> (b.getValue().getAuthor())));
-        System.out.println(writers);*/
-
-
+    
 }

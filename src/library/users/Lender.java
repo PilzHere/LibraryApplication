@@ -1,5 +1,6 @@
 package library.users;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Has less access than a {@link Librarian}.
  */
 
-public class Lender extends User {
+public class Lender extends User implements Serializable {
 
     /**
      * The lender borrows books from the {@link library.Library}.

@@ -6,6 +6,7 @@ import library.users.Librarian;
 import library.users.User;
 import library.utils.FileUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Login {
     private boolean loggedIn = false, isRunning = true;
     public List<User> users = new ArrayList<>();
     private User currentUser; // The logged in user.
+
 
     /**
      * The login constructor contains the while loop where everything happens inside.
@@ -152,6 +154,7 @@ public class Login {
                 case 5:
                     System.out.println("Search for Lender and view lended books...");
                     Library.getInstance().searchForLender(users);
+                    //Library.getInstance().getInfoOfLenders();
                     break;
                 case 6:
                     System.out.println("Showing time left on lended book...");
@@ -173,6 +176,7 @@ public class Login {
                     currentUser = null;
                     loggedIn = false;
                     FileUtils.saveAtLogout(Library.getInstance().bookCollection);
+
                     break;
                 default:
                     System.out.println("\u001B[31mThat is not an option.\u001B[0m");
@@ -188,8 +192,8 @@ public class Login {
                     Library.getInstance().lendBooks(currentUser);
                     break;
                 case 3:
-                    System.out.println("List user's lended books...");
-                    Library.getInstance().booksBorrowed(currentUser);
+                    System.out.println("View my lended books...");
+                    Library.getInstance().booksBorrowed2(currentUser);
                     break;
                 case 4:
                     System.out.println("Showing time left on lent book...");
@@ -225,6 +229,7 @@ public class Login {
         users.add(new Lender("Annika"));
         users.add(new Lender("Christian"));
         users.add(new Lender("Sandra"));
+
     }
 
     private void bookSearch() {

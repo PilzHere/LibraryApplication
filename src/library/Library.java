@@ -5,6 +5,7 @@ import library.users.Lender;
 import library.users.User;
 import library.utils.FileUtils;
 
+import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -119,10 +120,12 @@ public class Library {
             }
         }
         System.out.println("Current Lenders: \n");
-        lenderList.forEach(lender -> System.out.println(lender.getName())); //Only prints names
+        lenderList.forEach(lender -> System.out.println(lender.getName() + " \n")); //Only prints names
 
         return lenderList;
     }
+
+    //TODO combine getInfoOfLenders and searchForLenders
 
     //Admin to search for a Lender and view Lenders books
     public void searchForLender(List<User> users) {
@@ -134,13 +137,17 @@ public class Library {
 
         if (validateStringInput(name)) {
 
-            for (Lender lender : lenderList) {
-                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() != null) {
-                    System.out.println(lender.getName() + " have lended: " + lender.getLendedBooks() + "\n");
-                }
-                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null) {
-                    System.out.println(name + " has not lended any books.\n");
-                }
+        //filter out all books reserved by one lender
+        List <Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
+                .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+
+            if(booksOnLend.size() != 0){
+                System.out.println(name + " have lended: ");
+                booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
+            }
+            else{
+                System.out.println(name + " has not lended any books.\n");
             }
         } else {
             System.out.println("Not a valid input.");
@@ -161,7 +168,6 @@ public class Library {
 
     //Lender - See available books
     public void checkAvailableBooks() {
-
         System.out.println("Available books to lend:");
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
@@ -174,13 +180,29 @@ public class Library {
     //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
-
         if (((Lender) user).getLendedBooks().isEmpty()) {
             System.out.println("You have no borrowed book/books\n");
         } else {
             System.out.println("Your borrowed books: \n");
             ((Lender) user).getLendedBooks().forEach(System.out::println);
             System.out.println();
+        }
+    }
+
+    //Use bookcollection instead of lender
+    public void booksBorrowed2(User user) {
+
+        List <Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
+                .stream()
+                .filter(book ->book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
+                .collect(Collectors.toList());
+
+        if(foundMatch.size() != 0){
+            System.out.println(user.getName() + " have borrowed: ");
+            foundMatch.stream().forEach(book-> System.out.println(book.getValue().getTitle()));
+        }
+        else{
+            System.out.println("No borrowed book/books");
         }
     }
 
@@ -200,7 +222,9 @@ public class Library {
                         "\nDon't forget to return book within 2 weeks");
                 book.getValue().setReservedBy(user.getName()); //sätt ReservedBy till låntagarens namn
                 book.getValue().setAvailable(false);
-                ((Lender) user).uppdateLendedBooks(book.getValue().getTitle());
+                //((Lender) user).uppdateLendedBooks(book.getValue().getTitle());
+                FileUtils.writeObjectToFileG(bookCollection, new File ("src/books.ser"));
+
             } else {
                 System.out.println("No such book was found!");
             }
@@ -211,6 +235,7 @@ public class Library {
 
     //librarian AND lender - check laoned books
     public void checkLoanedBooks() {
+        //FileUtils.readObjectFromFileG(new File ("src/books.ser"));
         System.out.println("Following book/books is lent out at the moment:");
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
@@ -219,6 +244,8 @@ public class Library {
             }
         }
     }
+
+
 
     //METHODS FOR BOTH ADMIN AND LENDER
 
@@ -274,7 +301,9 @@ public class Library {
 
     public void displayBookCollection() {
         System.out.println("The Library have the following books: \n");
-        this.bookCollection.entrySet().stream().forEach(book -> System.out.println(book.getValue()));
+        this.bookCollection.entrySet().forEach(book ->
+                System.out.println("Title: " + book.getValue().getTitle()
+                        + "| Author: " + book.getValue().getAuthor()));
 
     }
 
@@ -311,5 +340,5 @@ public class Library {
 
         return bookCollection;
     }
-    
+
 }

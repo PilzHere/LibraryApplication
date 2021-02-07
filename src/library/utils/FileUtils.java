@@ -21,7 +21,7 @@ public class FileUtils {
             if (fileBooks.exists()) {  //&& fileUser.exists()
                 hashmap = readObjectFromFileG(fileBooks);
             } else {
-                hashmap = Library.getInstance().addStartBooks();
+                Library.getInstance().addStartBooks();
                 writeObjectToFileG(hashmap, fileBooks);
             }
 

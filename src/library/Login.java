@@ -110,25 +110,25 @@ public class Login {
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
                     "2: View all books in collection.\n" +
-                    "3: List your lent books.\n" +
-                    "4: See list of lenders.\n" +
-                    "5: Search lender and view lended books.\n" +
-                    "6: Show time left lending for book.\n" +
-                    "7: Add book to library.\n" +
-                    "8: Remove book from collection.\n" +
-                    "9: See borrowed books.\n" +
-                    "10: Log out user.");
+                    "3: See list of lenders.\n" +
+                    "4: Search lender and view lent books.\n" +
+                    "5: Add book.\n" +
+                    "6: Remove book.\n" +
+                    "7: View all borrowed books.\n" +
+                    "8: View books by borrowed/return date.\n" +
+                    "9: Log out user.");
         else
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
                     "2: Lend book.\n" +
-                    "3: List your lent books.\n" +
+                    "3: My lent books.\n" +
                     "4: Show time left lending for book.\n" +
-                    "5: ???????????\n" + //TODO
-                    "6: View all books in the library.\n" +
-                    "7: Book specific. (more information)\n" +
-                    "8: View available books.\n"+
-                    "9: Log out user.");
+                    "5: View book by title/author.\n" + 
+                    "6: View all books.\n" +
+                    "7: More detailed book info\n" +
+                    "8: View available books.\n" +
+                    "9: Return book.\n" +
+                    "10: Log out user.");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -140,43 +140,38 @@ public class Login {
         if (currentUser instanceof Librarian) {
             switch (userRequest) {
                 case 1:
+                    System.out.println("Search for books...");
                     bookSearch();
                     break;
                 case 2:
-                    System.out.println("View all books in collection");
+                    System.out.println("View all books...");
                     Library.getInstance().displayBooksByTitle();
                     break;
                 case 3:
-                    System.out.println("List user's lent books...");
-                    break;
-                case 4:
                     System.out.println("See list of Lenders...");
                     Library.getInstance().getLenderList(users);
                     break;
-                case 5:
-                    System.out.println("Search for Lender and view lended books...");
+                case 4:
+                    System.out.println("Search for Lender and view lent books...");
                     Library.getInstance().searchForLender(users);
                     break;
-                case 6:
-                    System.out.println("Showing time left on lended book...");
-                                       break;
-                case 7:
+                case 5:
                     System.out.println("Add book...");
                     Library.getInstance().addBook();
                     break;
-                case 8:
+                case 6:
                     System.out.println("Remove book...");
                     Library.getInstance().removeBook();
                     break;
-                case 9:
-                    System.out.println("All borrowed books...");
+                case 7:
+                    System.out.println("View all borrowed books...");
                     Library.getInstance().checkLoanedBooks();
                     break;
-                case 10:
-                    System.out.println("Show borrowed books with borrowed/return date...");
+                case 8:
+                    System.out.println("View books by borrowed/return date...");
                     Library.getInstance().printBorrowedAndReturnDate();
                     break;
-                case 11:
+                case 9:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
@@ -189,29 +184,30 @@ public class Login {
         } else if (currentUser instanceof Lender) {
             switch (userRequest) {
                 case 1:
+                    System.out.println("Search for books...");
                     bookSearch();
                     break;
                 case 2:
-                    System.out.println("Lending book...");
+                    System.out.println("Lend book...");
                     Library.getInstance().lendBooks(currentUser);
                     break;
                 case 3:
-                    System.out.println("List user's lended books...");
+                    System.out.println("My lent books...");
                     Library.getInstance().booksBorrowed(currentUser);
                     break;
                 case 4:
-                    System.out.println("Showing time left on lent book...");
-                    break;
+                    System.out.println("View time left on lent book...");
+                    //TODO AMIN
                 case 5:
-                    System.out.println("Book Sorted????????"); //TODO
+                    System.out.println("View book by title/author...");
                     bookList();
                     break;
                 case 6:
-                    System.out.println("View all books in collection");
+                    System.out.println("View all books...");
                     Library.getInstance().displayBookCollection();
                     break;
                 case 7:
-                    System.out.println("Book specific?????"); //TODO
+                    System.out.println("More detailed book info...");
                     Library.getInstance().moreInfoSpecificBook();
                     break;
                 case 8:
@@ -219,6 +215,10 @@ public class Login {
                     Library.getInstance().checkAvailableBooks();
                     break;
                 case 9:
+                    System.out.println("Return book...");
+                    //TODO
+                    break;
+                case 10:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;
@@ -234,7 +234,7 @@ public class Login {
     /**
      * Adds new users to the usersList.
      */
-    private void addLibraryUsers () {
+    private void addLibraryUsers() {
         // Librarians
         users.add(new Librarian("Marcel"));
         users.add(new Librarian("Johan"));

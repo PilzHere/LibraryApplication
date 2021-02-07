@@ -247,7 +247,7 @@ public class Library {
         System.out.println("Following book/books is lent out at the moment:");
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (!entry.getValue().isAvailable()) {
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor());
             }
         }
     }
@@ -330,8 +330,7 @@ public class Library {
         System.out.println("The Library have the following books: \n");
         this.bookCollection.entrySet().forEach(book ->
                 System.out.println("Title: " + book.getValue().getTitle()
-                        + ", Author: " + book.getValue().getAuthor()
-                        + ", Genre: " + book.getValue().getGenres()));
+                        + ", Author: " + book.getValue().getAuthor()));
     }
 
     //method to set a collection of 20-30 books.
@@ -386,7 +385,7 @@ public class Library {
 
     //Metod to see ALL books avalible
     public void seeAllBooksInLibrary() {
-        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
     }
 
 

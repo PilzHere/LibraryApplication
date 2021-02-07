@@ -233,11 +233,11 @@ public class Login {
         }
     }
 
-    private void printMessageNoOption() {
+    private void printMessageNoOption () {
         System.out.println("\u001B[31mThat is not an option.\u001B[0m");
     }
 
-    private void printMessageErrorUnknownInput() {
+    private void printMessageErrorUnknownInput () {
         System.out.println("Error! unknown input");
     }
 

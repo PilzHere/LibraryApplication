@@ -13,8 +13,12 @@ public enum LoginMenuChoiceLender {
     LEND_BOOKS(2),
     LIST_LENT_BOOKS(3),
     SHOW_TIME_LEFT_ON_LENT_BOOK(4),
-    BOOK_LIST(5),
-    LOG_OUT_USER(6);
+    VIEW_BOOK_BY_TITLE_OR_AUTHOR(5),
+    VIEW_ALL_BOOKS(6),
+    MORE_DETAIL_BOOK(7),
+    VIEW_AVAILABLE_BOOKS(8),
+    RETURN_BOOK(9),
+    LOG_OUT_USER(10);
 
     private final int value;
     private static final Map map = new HashMap();

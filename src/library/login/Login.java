@@ -110,23 +110,25 @@ public class Login {
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
                     "2: View all books in collection.\n" +
-                    "3: List your lent books.\n" +
-                    "4: See list of lenders.\n" +
-                    "5: Search lender and view lended books.\n" +
-                    "6: Show time left lending for book.\n" +
-                    "7: Add book to library.\n" +
-                    "8: Remove book from collection.\n" +
-                    "9: See borrowed books.\n" +
-                    "10: See borrowed books with return dates.\n" +
-                    "11: Log out user.");
+                    "3: See list of lenders.\n" +
+                    "4: Search lender and view lent books.\n" +
+                    "5: Add book.\n" +
+                    "6: Remove book.\n" +
+                    "7: View all borrowed books.\n" +
+                    "8: View books by borrowed/return date.\n" +
+                    "9: Log out user.");
         else
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
                     "2: Lend book.\n" +
-                    "3: List your lent books.\n" +
+                    "3: My lent books.\n" +
                     "4: Show time left lending for book.\n" +
-                    "5: View all books in the library.\n" +
-                    "6: Log out user.");
+                    "5: View book by title/author.\n" +
+                    "6: View all books.\n" +
+                    "7: More detailed book info\n" +
+                    "8: View available books.\n" +
+                    "9: Return book.\n" +
+                    "10: Log out user.");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -144,14 +146,12 @@ public class Login {
 
                 switch (choice) {
                     case SEARCH_FOR_BOOKS:
+                        System.out.println("Search for books...");
                         bookSearch();
                         break;
                     case VIEW_ALL_BOOKS:
                         System.out.println("View all books in collection");
                         Library.getInstance().displayBooksByTitle();
-                        break;
-                    case LIST_LENT_BOOKS:
-                        System.out.println("List user's lent books...");
                         break;
                     case SEE_LIST_OF_LENDERS:
                         System.out.println("See list of Lenders...");
@@ -160,9 +160,6 @@ public class Login {
                     case SEARCH_LENDER_AND_VIEW_LENDED_BOOKS:
                         System.out.println("Search for Lender and view lended books...");
                         Library.getInstance().searchForLender(users);
-                        break;
-                    case SHOW_TIME_LEFT_ON_LENT_BOOK:
-                        System.out.println("Showing time left on lended book...");
                         break;
                     case ADD_BOOK_TO_LIBARY:
                         System.out.println("Add book to library...");
@@ -201,6 +198,7 @@ public class Login {
 
                 switch (choice) {
                     case SEARCH_FOR_BOOKS:
+                        System.out.println("Search for books...");
                         bookSearch();
                         break;
                     case LEND_BOOKS:
@@ -213,9 +211,27 @@ public class Login {
                         break;
                     case SHOW_TIME_LEFT_ON_LENT_BOOK:
                         System.out.println("Showing time left on lent book...");
+                        //TODO AMIN
                         break;
-                    case BOOK_LIST:
+                    case VIEW_BOOK_BY_TITLE_OR_AUTHOR:
+                        System.out.println("Booklist...");
                         bookList();
+                        break;
+                    case VIEW_ALL_BOOKS:
+                        System.out.println("View all books...");
+                        Library.getInstance().displayBookCollection();
+                        break;
+                    case MORE_DETAIL_BOOK:
+                        System.out.println("More details from book...");
+                        Library.getInstance().moreInfoSpecificBook();
+                        break;
+                    case VIEW_AVAILABLE_BOOKS:
+                        System.out.println("View available books...");
+                        Library.getInstance().checkAvailableBooks();
+                        break;
+                    case RETURN_BOOK:
+                        System.out.println("Return book...");
+                        //TODO
                         break;
                     case LOG_OUT_USER:
                         System.out.println("Logging out \u001B[34m" + currentUser.getName() + "\u001B[0m.");

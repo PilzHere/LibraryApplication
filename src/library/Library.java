@@ -113,17 +113,18 @@ public class Library {
 
         if (validateStringInput(name)) {
 
+        //TODO second validate, check if user is in userslist
         //filter out all books reserved by one lender
         List <Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
                 .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
 
             if(booksOnLend.size() != 0){
-                System.out.println(name + " have lended: ");
+                System.out.println(name + " have lent: ");
                 booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
             }
             else{
-                System.out.println(name + " has not lended any books.\n");
+                System.out.println(name + " has not lent any books.\n");
             }
         } else {
             System.out.println("Not a valid input.");
@@ -144,14 +145,14 @@ public class Library {
         }
     }
 
-    //prevent DRY. Takes bookCollection and returns a List-Map.Entry
+    /*//prevent DRY. Takes bookCollection and returns a List-Map.Entry
     public List<Map.Entry<String, Book>> hashmapToList(HashMap<String, Book> bookCollection) {
         List<Map.Entry<String, Book>> bookList = bookCollection.entrySet()
                 .stream()
                 .collect(Collectors.toList());
 
         return bookList;
-    }
+    }*/
 
     //LENDER METHODS
 
@@ -183,7 +184,7 @@ public class Library {
         }
     }
 
-    //user - se my lended books
+   /* //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
 
@@ -194,9 +195,9 @@ public class Library {
             ((Lender) user).getLendedBooks().forEach(System.out::println);
             System.out.println();
         }
-    }
+    }*/
 
-    //Use bookcollection instead of lender
+    //User to view lent books
     public void booksBorrowed2(User user) {
 
         List <Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
@@ -403,8 +404,8 @@ public class Library {
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
 
-    //Metod to see ALL books avalible
+    /*//Metod to see ALL books avalible
     public void seeAllBooksInLibrary() {
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
-    }
+    }*/
 }

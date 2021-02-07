@@ -32,7 +32,7 @@ public class Library {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
     }
 
-    HashMap<String, Book> bookCollection = new HashMap<>();
+    public HashMap<String, Book> bookCollection = new HashMap<>();
 
     //mer info om önskad bok
     public void moreInfoSpecificBook() {

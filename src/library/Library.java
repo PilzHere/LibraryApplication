@@ -5,8 +5,8 @@ import library.users.Lender;
 import library.users.User;
 import library.utils.FileUtils;
 
-import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,36 +33,14 @@ public class Library {
 
     }
 
-    HashMap<String, Book> bookCollection = new HashMap<>();
-
-    //mer info om önskad bok
-    public void moreInfoSpecificBook(){
-        System.out.println("Please enter the book title you would like more information on: ");
-        Scanner input = new Scanner(System.in);
-        String bookOrAuthor  = input.nextLine();
-
-        if(bookCollection.containsKey(bookOrAuthor)){
-            System.out.println(bookCollection.get(bookOrAuthor).toString());
-        }else{
-            System.out.println("The book title you are looking for cannot be found :(");
-        }
-        //search for author
-        for(String key : bookCollection.keySet()){
-            if(bookOrAuthor.equals(bookCollection.get(key).getAuthor())){
-                System.out.println(bookCollection.get(key).toString());
-            }else{
-                System.out.println("The author you are looking for cannot be found :(");
-            }
-        }
-        input.close();
-    }
+    public HashMap<String, Book> bookCollection = new HashMap<>();
 
     //ADMIN METHODS
 
     /**Admin to remove book from bookCollection
      * check input from admin, secondly checks if book exists, if true -> book is removed
      */
-    public void removeBook () {
+    public void removeBook() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter title of the book you wish to remove: ");
         String adminInput = scan.nextLine();
@@ -125,8 +103,6 @@ public class Library {
         return lenderList;
     }
 
-    //TODO combine getInfoOfLenders and searchForLenders
-
     //Admin to search for a Lender and view Lenders books
     public void searchForLender(List<User> users) {
         Scanner scan = new Scanner(System.in);
@@ -154,6 +130,19 @@ public class Library {
         }
     }
 
+    //Admin - get list of borrowed books
+    public HashMap<String, Book> getBorrowedBooks() {
+        return (HashMap<String, Book>) bookCollection.entrySet().stream().filter(b -> !b.getValue().isAvailable()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    //Admin - check borrowed and return date
+    public void printBorrowedAndReturnDate() {
+        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
+        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
+            LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
+            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Borrowed Date: " + entry.getValue().getBorrowedDate() + " | Return Date: " + returnDate);
+        }
+    }
 
     //prevent DRY. Takes bookCollection and returns a List-Map.Entry
     public List<Map.Entry<String, Book>> hashmapToList(HashMap<String, Book> bookCollection) {
@@ -168,6 +157,7 @@ public class Library {
 
     //Lender - See available books
     public void checkAvailableBooks() {
+
         System.out.println("Available books to lend:");
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
@@ -177,9 +167,26 @@ public class Library {
         }
     }
 
+    //Lender - reminder to return book (SHOWS WHEN LENDERLOGS IN)
+    public void remindToReturnBook(User user) {
+        HashMap<String, Book> borrowedBooks = getBorrowedBooks();
+
+        for (Map.Entry<String, Book> entry : borrowedBooks.entrySet()) {
+            if (user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())) {
+                LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
+                LocalDate currentDate = LocalDate.now();
+
+                if (returnDate.isEqual(currentDate) || returnDate.isBefore(currentDate)) {
+                    System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor()+"\u001B[O");
+                }
+            }
+        }
+    }
+
     //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
+
         if (((Lender) user).getLendedBooks().isEmpty()) {
             System.out.println("You have no borrowed book/books\n");
         } else {
@@ -206,6 +213,7 @@ public class Library {
         }
     }
 
+    //user - lend books
     public void lendBooks(User user) {
         checkAvailableBooks();
         System.out.println("Witch one would you like to rent?\nPlease enter Title or Author:");
@@ -220,9 +228,10 @@ public class Library {
             if (book != null) {
                 System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
                         "\nDon't forget to return book within 2 weeks");
-                book.getValue().setReservedBy(user.getName()); //sätt ReservedBy till låntagarens namn
-                book.getValue().setAvailable(false);
-                //((Lender) user).uppdateLendedBooks(book.getValue().getTitle());
+                book.getValue().setReservedBy(user.getName()); //set ReservedBy to lendersName //TODO clear when returned
+                book.getValue().setAvailable(false); // TODO clear when returned
+                book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
+
                 FileUtils.writeObjectToFileG(bookCollection, new File ("src/books.ser"));
 
             } else {
@@ -233,18 +242,37 @@ public class Library {
         }
     }
 
+    //mer info om önskad bok
+    public void moreInfoSpecificBook() {
+        System.out.println("Please enter the book title you would like more information on: ");
+        Scanner input = new Scanner(System.in);
+        String bookOrAuthor = input.nextLine();
+
+        if (bookCollection.containsKey(bookOrAuthor)) {
+            System.out.println(bookCollection.get(bookOrAuthor).toString());
+        } else {
+            System.out.println("The book title you are looking for cannot be found :(");
+        }
+        //search for author
+        for (String key : bookCollection.keySet()) {
+            if (bookOrAuthor.equals(bookCollection.get(key).getAuthor())) {
+                System.out.println(bookCollection.get(key).toString());
+            } else {
+                System.out.println("The author you are looking for cannot be found :(");
+            }
+        }
+     /*   input.close();*/
+    }
+
     //librarian AND lender - check laoned books
     public void checkLoanedBooks() {
-        //FileUtils.readObjectFromFileG(new File ("src/books.ser"));
         System.out.println("Following book/books is lent out at the moment:");
-
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (!entry.getValue().isAvailable()) {
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor());
             }
         }
     }
-
 
 
     //METHODS FOR BOTH ADMIN AND LENDER
@@ -299,6 +327,24 @@ public class Library {
         return valid;
     }
 
+    public void displayBooksByTitle () {
+        List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
+                .stream().collect(Collectors.toList());
+        listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
+        System.out.println(listByTitle);
+
+        //bookList.forEach(book -> System.out.println("Title: " + book.getValue().getTitle() + "| Author: " + book.getValue().getAuthor() + "| Genre: " + book.getValue().getGenres() + "| Available: " + book.getValue().isAvailable()));
+        //change property available to a better printout, ex. available: yes/no
+    }
+
+
+    public void displayBooksByAuthor() {
+        List<Map.Entry<String, Book>> listByAuthor = bookCollection.entrySet()
+                .stream().collect(Collectors.toList());
+        listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
+        System.out.println(listByAuthor);
+    }
+
     public void displayBookCollection() {
         System.out.println("The Library have the following books: \n");
         this.bookCollection.entrySet().forEach(book ->
@@ -308,37 +354,57 @@ public class Library {
     }
 
     //method to set a collection of 20-30 books.
-    public HashMap<String, Book> addStartBooks() {
-
-        bookCollection.put("Sofies World", new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));
+    public void addStartBooks() {
+        bookCollection.put("Sofies World",
+                new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));
         bookCollection.put("Eileen",
                 new Book("Eileen", "Ottessa Moshfegh", "Fiction", true, ""));
         bookCollection.put("Lord of the Rings: The Fellowship of the Rings",
-                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Toliken", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Lord of the Rings: The Two Towers",
-                new Book("Lord of the Rings: The Two Towers", "J.R.R Toliken", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Two Towers", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
         bookCollection.put("Lord of the Rings: The Return of the King",
-                new Book("Lord of the Rings: The Return of the King", "J.R.R Toliken", "Fantasy, Classic", true, ""));
-        bookCollection.put("Alice in Wonderland", new Book("Alice in Wonderland", "Lewis Carroll", "Classic", true, ""));
-        bookCollection.put("Crime and Punishment", new Book("Crime and Punishment", "Fjodor Dostojevskij", "Classic", true, ""));
-        bookCollection.put("Coraline", new Book("Coraline", "Neil Gaiman", "Fantasy", true, ""));
-        bookCollection.put("Siddhartha", new Book("Siddhartha", "Hermann Hesse", "Philosophy, Classic", true, ""));
-        bookCollection.put("Malmcolm X", new Book("Malmcolm X", "Manning Marable", "Biography", true, ""));
-        bookCollection.put("The Age of Bowie", new Book("The Age of Bowie", "Paul Morley", "Biography", true, ""));
-        bookCollection.put("Martin Luther King: a self-biograhpy", new Book("Martin Luther King: a self-biograhpy", "Martin Luther King", "Biography", true, ""));
-        bookCollection.put("No Logo", new Book("No Logo", "Naomi Klein", "Non-fiction", true, ""));
-        bookCollection.put("This Changes Everything", new Book("This Changes Everything", "Naomi Klein", "Non-fiction", true, ""));
-        bookCollection.put("I am Malala", new Book("I am Malala", "Malala Yousafzai", "Non-fiction, Biography", true, ""));
-        bookCollection.put("Carrie", new Book("Carrie", "Stephen King", "Horror", true, ""));
-        bookCollection.put("It", new Book("It", "Stephen King", "Horror", true, ""));
-        bookCollection.put("The Shining", new Book("The Shining", "Stephen King", "Horror", true, ""));
-        bookCollection.put("The Bell Jar", new Book("The Bell Jar", "Sylvia Plath", "Modern Classic, Fiction", true, ""));
-        bookCollection.put("The Sellout", new Book("The Sellout", "Paul Beatty", "Fiction", true, ""));
-        bookCollection.put("The Luminaries", new Book("The Luminaries", "Elenor Catton", "Fiction", true, ""));
-        bookCollection.put("The Plague", new Book("The Plague", "Albert Camus", "Modern Classic", true, ""));
-        bookCollection.put("Nocturner", new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
-
-        return bookCollection;
+                new Book("Lord of the Rings: The Return of the King", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
+        bookCollection.put("Alice in Wonderland",
+                new Book("Alice in Wonderland", "Lewis Carroll", "Classic", true, ""));
+        bookCollection.put("Crime and Punishment",
+                new Book("Crime and Punishment", "Fjodor Dostojevskij", "Classic", true, ""));
+        bookCollection.put("Coraline",
+                new Book("Coraline", "Neil Gaiman", "Fantasy", true, ""));
+        bookCollection.put("Siddhartha",
+                new Book("Siddhartha", "Hermann Hesse", "Philosophy, Classic", true, ""));
+        bookCollection.put("Malmcolm X",
+                new Book("Malmcolm X", "Manning Marable", "Biography", true, ""));
+        bookCollection.put("The Age of Bowie",
+                new Book("The Age of Bowie", "Paul Morley", "Biography", true, ""));
+        bookCollection.put("Martin Luther King: a self-biograhpy",
+                new Book("Martin Luther King: a self-biograhpy", "Martin Luther King", "Biography", true, ""));
+        bookCollection.put("No Logo",
+                new Book("No Logo", "Naomi Klein", "Non-fiction", true, ""));
+        bookCollection.put("This Changes Everything",
+                new Book("This Changes Everything", "Naomi Klein", "Non-fiction", true, ""));
+        bookCollection.put("I am Malala",
+                new Book("I am Malala", "Malala Yousafzai", "Non-fiction, Biography", true, ""));
+        bookCollection.put("Carrie",
+                new Book("Carrie", "Stephen King", "Horror", true, ""));
+        bookCollection.put("It",
+                new Book("It", "Stephen King", "Horror", true, ""));
+        bookCollection.put("The Shining",
+                new Book("The Shining", "Stephen King", "Horror", true, ""));
+        bookCollection.put("The Bell Jar",
+                new Book("The Bell Jar", "Sylvia Plath", "Modern Classic, Fiction", true, ""));
+        bookCollection.put("The Sellout",
+                new Book("The Sellout", "Paul Beatty", "Fiction", true, ""));
+        bookCollection.put("The Luminaries",
+                new Book("The Luminaries", "Elenor Catton", "Fiction", true, ""));
+        bookCollection.put("The Plague",
+                new Book("The Plague", "Albert Camus", "Modern Classic", true, ""));
+        bookCollection.put("Nocturner",
+                new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
 
+    //Metod to see ALL books avalible
+    public void seeAllBooksInLibrary() {
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
+    }
 }

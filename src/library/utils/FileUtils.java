@@ -27,7 +27,7 @@ public class FileUtils {
                 hashmap = readObjectFromFileG(fileBooks);
 
             } else {
-                hashmap = Library.getInstance().addStartBooks();
+                Library.getInstance().addStartBooks();
                 writeObjectToFileG(hashmap, fileBooks);
             }
         }catch(NullPointerException e){

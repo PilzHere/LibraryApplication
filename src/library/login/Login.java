@@ -89,7 +89,7 @@ public class Login {
         for (User user : users) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 currentUser = user;
-                System.out.println("Logged in as \u001B[34m" + userName + "\u001B[0m.");
+                System.out.println("Logged in as \u001B[34m" + currentUser.getName() + "\u001B[0m.");
                 return true;
             }
         }
@@ -136,6 +136,12 @@ public class Login {
             if (currentUser instanceof Librarian) {
                 final LoginMenuChoiceLibrarian choice = LoginMenuChoiceLibrarian.valueOf(userRequest);
 
+                // Enum can be null if integer parameter is not an option.
+                if (choice == null) {
+                    printMessageNoOption();
+                    return;
+                }
+
                 switch (choice) {
                     case SEARCH_FOR_BOOKS:
                         bookSearch();
@@ -175,17 +181,23 @@ public class Login {
                         Library.getInstance().printBorrowedAndReturnDate();
                         break;
                     case LOG_OUT_USER:
-                        System.out.println("Logging out " + currentUser.getName() + "...");
+                        System.out.println("Logging out \u001B[34m" + currentUser.getName() + "\u001B[0m.");
                         currentUser = null;
                         loggedIn = false;
                         FileUtils.saveAtLogout(Library.getInstance().bookCollection);
                         break;
                     default:
-                        System.out.println("\u001B[31mThat is not an option.\u001B[0m");
+                        printMessageNoOption();
                         break;
                 }
             } else if (currentUser instanceof Lender) {
                 final LoginMenuChoiceLender choice = LoginMenuChoiceLender.valueOf(userRequest);
+
+                // Enum can be null if integer parameter is not an option.
+                if (choice == null) {
+                    printMessageNoOption();
+                    return;
+                }
 
                 switch (choice) {
                     case SEARCH_FOR_BOOKS:
@@ -206,19 +218,27 @@ public class Login {
                         bookList();
                         break;
                     case LOG_OUT_USER:
-                        System.out.println("Logging out " + currentUser.getName() + "...");
+                        System.out.println("Logging out \u001B[34m" + currentUser.getName() + "\u001B[0m.");
                         currentUser = null;
                         loggedIn = false;
                         FileUtils.saveAtLogout(Library.getInstance().bookCollection);
                         break;
                     default:
-                        System.out.println("\u001B[31mThat is not an option.\u001B[0m");
+                        printMessageNoOption();
                         break;
                 }
             }
         } else {
-            System.out.println("\u001B[31mThat is not an option.\u001B[0m");
+            printMessageNoOption();
         }
+    }
+
+    private void printMessageNoOption () {
+        System.out.println("\u001B[31mThat is not an option.\u001B[0m");
+    }
+
+    private void printMessageErrorUnknownInput () {
+        System.out.println("Error! unknown input");
     }
 
     /**
@@ -245,7 +265,7 @@ public class Login {
         switch (userInput) {
             case 1 -> Library.getInstance().searchBookTitle();
             case 2 -> Library.getInstance().searchBookAuthor();
-            default -> System.out.println("Error! Unknown input");
+            default -> printMessageErrorUnknownInput();
         }
     }
 
@@ -259,7 +279,7 @@ public class Login {
         switch (userInput) {
             case 1 -> Library.getInstance().displayBooksByTitle();
             case 2 -> Library.getInstance().displayBooksByAuthor();
-            default -> System.out.println("Error! unknown input");
+            default -> printMessageErrorUnknownInput();
         }
     }
 }

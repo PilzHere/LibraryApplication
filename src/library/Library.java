@@ -30,14 +30,14 @@ public class Library {
 
     public Library() {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
+
     }
 
     public HashMap<String, Book> bookCollection = new HashMap<>();
 
     //ADMIN METHODS
 
-    /**
-     * Admin to remove book from bookCollection
+    /**Admin to remove book from bookCollection
      * check input from admin, secondly checks if book exists, if true -> book is removed
      */
     public void removeBook() {
@@ -98,7 +98,7 @@ public class Library {
             }
         }
         System.out.println("Current Lenders: \n");
-        lenderList.forEach(lender -> System.out.println(lender.getName())); //Only prints names
+        lenderList.forEach(lender -> System.out.println(lender.getName() + " \n")); //Only prints names
 
         return lenderList;
     }
@@ -113,13 +113,18 @@ public class Library {
 
         if (validateStringInput(name)) {
 
-            for (Lender lender : lenderList) {
-                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() != null) {
-                    System.out.println(lender.getName() + " have lended: " + lender.getLendedBooks() + "\n");
-                }
-                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null) {
-                    System.out.println(name + " has not lended any books.\n");
-                }
+        //TODO second validate, check if user is in userslist
+        //filter out all books reserved by one lender
+        List <Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
+                .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+
+            if(booksOnLend.size() != 0){
+                System.out.println(name + " have lent: ");
+                booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
+            }
+            else{
+                System.out.println(name + " has not lent any books.\n");
             }
         } else {
             System.out.println("Not a valid input.");
@@ -140,14 +145,14 @@ public class Library {
         }
     }
 
-    //prevent DRY. Takes bookCollection and returns a List-Map.Entry
+    /*//prevent DRY. Takes bookCollection and returns a List-Map.Entry
     public List<Map.Entry<String, Book>> hashmapToList(HashMap<String, Book> bookCollection) {
         List<Map.Entry<String, Book>> bookList = bookCollection.entrySet()
                 .stream()
                 .collect(Collectors.toList());
 
         return bookList;
-    }
+    }*/
 
     //LENDER METHODS
 
@@ -171,7 +176,7 @@ public class Library {
             if (user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())) {
                 LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
                 LocalDate currentDate = LocalDate.now();
-                
+
                 if (returnDate.isEqual(currentDate) || returnDate.isBefore(currentDate)) {
                     System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor()+"\u001B[O");
                 }
@@ -179,7 +184,7 @@ public class Library {
         }
     }
 
-    //user - se my lended books
+   /* //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
 
@@ -189,6 +194,23 @@ public class Library {
             System.out.println("Your borrowed books: \n");
             ((Lender) user).getLendedBooks().forEach(System.out::println);
             System.out.println();
+        }
+    }*/
+
+    //User to view lent books
+    public void booksBorrowed2(User user) {
+
+        List <Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
+                .stream()
+                .filter(book ->book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
+                .collect(Collectors.toList());
+
+        if(foundMatch.size() != 0){
+            System.out.println(user.getName() + " have borrowed: ");
+            foundMatch.stream().forEach(book-> System.out.println(book.getValue().getTitle()));
+        }
+        else{
+            System.out.println("No borrowed book/books");
         }
     }
 
@@ -210,7 +232,9 @@ public class Library {
                 book.getValue().setReservedBy(user.getName()); //set ReservedBy to lendersName //TODO clear when returned
                 book.getValue().setAvailable(false); // TODO clear when returned
                 book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
-                ((Lender) user).uppdateLendedBooks(book.getValue().getTitle());
+
+                FileUtils.writeObjectToFileG(bookCollection, new File ("src/books.ser"));
+
             } else {
                 System.out.println("No such book was found!");
             }
@@ -243,7 +267,6 @@ public class Library {
 
     //librarian AND lender - check laoned books
     public void checkLoanedBooks() {
-        //FileUtils.readObjectFromFileG(new File ("src/books.ser"));
         System.out.println("Following book/books is lent out at the moment:");
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (!entry.getValue().isAvailable()) {
@@ -287,6 +310,8 @@ public class Library {
             }
         }
         System.out.println("Search completed");
+
+
     }
 
     //Validation method to check string input
@@ -303,7 +328,7 @@ public class Library {
         return valid;
     }
 
-    public void displayBooksByTitle() {
+    public void displayBooksByTitle () {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
@@ -313,24 +338,20 @@ public class Library {
         //change property available to a better printout, ex. available: yes/no
     }
 
+
     public void displayBooksByAuthor() {
         List<Map.Entry<String, Book>> listByAuthor = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
         System.out.println(listByAuthor);
-
-        /*List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream()
-                        .collect(Collectors.toList());
-
-        //java.util.Collections.sort();*/
     }
 
     public void displayBookCollection() {
         System.out.println("The Library have the following books: \n");
         this.bookCollection.entrySet().forEach(book ->
                 System.out.println("Title: " + book.getValue().getTitle()
-                        + ", Author: " + book.getValue().getAuthor()));
+                        + "| Author: " + book.getValue().getAuthor()));
+
     }
 
     //method to set a collection of 20-30 books.
@@ -383,10 +404,8 @@ public class Library {
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
 
-    //Metod to see ALL books avalible
+    /*//Metod to see ALL books avalible
     public void seeAllBooksInLibrary() {
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
-    }
-
-
+    }*/
 }

@@ -34,28 +34,6 @@ public class Library {
 
     public HashMap<String, Book> bookCollection = new HashMap<>();
 
-    //mer info om önskad bok
-    public void moreInfoSpecificBook() {
-        System.out.println("Please enter the book title you would like more information on: ");
-        Scanner input = new Scanner(System.in);
-        String bookOrAuthor = input.nextLine();
-
-        if (bookCollection.containsKey(bookOrAuthor)) {
-            System.out.println(bookCollection.get(bookOrAuthor).toString());
-        } else {
-            System.out.println("The book title you are looking for cannot be found :(");
-        }
-        //search for author
-        for (String key : bookCollection.keySet()) {
-            if (bookOrAuthor.equals(bookCollection.get(key).getAuthor())) {
-                System.out.println(bookCollection.get(key).toString());
-            } else {
-                System.out.println("The author you are looking for cannot be found :(");
-            }
-        }
-        input.close();
-    }
-
     //ADMIN METHODS
 
     /**
@@ -241,14 +219,39 @@ public class Library {
         }
     }
 
+    //mer info om önskad bok
+    public void moreInfoSpecificBook() {
+        System.out.println("Please enter the book title you would like more information on: ");
+        Scanner input = new Scanner(System.in);
+        String bookOrAuthor = input.nextLine();
+
+        if (bookCollection.containsKey(bookOrAuthor)) {
+            System.out.println(bookCollection.get(bookOrAuthor).toString());
+        } else {
+            System.out.println("The book title you are looking for cannot be found :(");
+        }
+        //search for author
+        for (String key : bookCollection.keySet()) {
+            if (bookOrAuthor.equals(bookCollection.get(key).getAuthor())) {
+                System.out.println(bookCollection.get(key).toString());
+            } else {
+                System.out.println("The author you are looking for cannot be found :(");
+            }
+        }
+     /*   input.close();*/
+    }
+
     //librarian AND lender - check laoned books
     public void checkLoanedBooks() {
+        //FileUtils.readObjectFromFileG(new File ("src/books.ser"));
         System.out.println("Following book/books is lent out at the moment:");
-        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
-        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
-            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Genres: " + entry.getValue().getGenres());
+        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
+            if (!entry.getValue().isAvailable()) {
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor());
+            }
         }
     }
+
 
     //METHODS FOR BOTH ADMIN AND LENDER
 
@@ -323,6 +326,13 @@ public class Library {
         //java.util.Collections.sort();*/
     }
 
+    public void displayBookCollection() {
+        System.out.println("The Library have the following books: \n");
+        this.bookCollection.entrySet().forEach(book ->
+                System.out.println("Title: " + book.getValue().getTitle()
+                        + ", Author: " + book.getValue().getAuthor()));
+    }
+
     //method to set a collection of 20-30 books.
     public void addStartBooks() {
         bookCollection.put("Sofies World",
@@ -375,7 +385,7 @@ public class Library {
 
     //Metod to see ALL books avalible
     public void seeAllBooksInLibrary() {
-        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
     }
 
 

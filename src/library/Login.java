@@ -123,8 +123,11 @@ public class Login {
                     "2: Lend book.\n" +
                     "3: List your lent books.\n" +
                     "4: Show time left lending for book.\n" +
-                    "5: View all books in the library.\n" +
-                    "6: Log out user.");
+                    "5: ???????????\n" + //TODO
+                    "6: View all books in the library.\n" +
+                    "7: Book specific. (more information)\n" +
+                    "8: View available books.\n"+
+                    "9: Log out user.");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -157,15 +160,15 @@ public class Login {
                     System.out.println("Showing time left on lended book...");
                     break;
                 case 7:
-                    System.out.println("Add book to library...");
+                    System.out.println("Add book...");
                     Library.getInstance().addBook();
                     break;
                 case 8:
-                    System.out.println("Remove book from collection...");
+                    System.out.println("Remove book...");
                     Library.getInstance().removeBook();
                     break;
                 case 9:
-                    System.out.println("See list of borrowed books...");
+                    System.out.println("All borrowed books...");
                     Library.getInstance().checkLoanedBooks();
                     break;
                 case 10:
@@ -199,9 +202,22 @@ public class Login {
                     System.out.println("Showing time left on lent book...");
                     break;
                 case 5:
+                    System.out.println("Book Sorted????????"); //TODO
                     bookList();
                     break;
                 case 6:
+                    System.out.println("View all books in collection");
+                    Library.getInstance().displayBookCollection();
+                    break;
+                case 7:
+                    System.out.println("Book specific?????"); //TODO
+                    Library.getInstance().moreInfoSpecificBook();
+                    break;
+                case 8:
+                    System.out.println("View all available books...");
+                    Library.getInstance().checkAvailableBooks();
+                    break;
+                case 9:
                     System.out.println("Logging out " + currentUser.getName() + "...");
                     currentUser = null;
                     loggedIn = false;

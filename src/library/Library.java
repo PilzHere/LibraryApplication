@@ -478,10 +478,6 @@ public class Library {
         return valid;
     }
 
-    private void printMessageErrorUnknownInput () {
-        System.out.println("Error! unknown input");
-    }
-
     // List all books alphabetically sorted by title
     public void displayBooksByTitle() {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()

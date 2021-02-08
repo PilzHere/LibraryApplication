@@ -4,22 +4,17 @@ import library.books.Book;
 import library.users.Lender;
 import library.users.User;
 import library.utils.FileUtils;
-
 import java.io.File;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-//import java.text.AttributeEntry;
-import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.Calendar;
+
 
 
 public class Library {
@@ -96,32 +91,30 @@ public class Library {
      * @return list of Lenders
      */
     //Admin to get list of Lenders
-    public List<Lender> getLenderList (List<User> users) {
-        List<Lender> lenderList = new ArrayList<>();
-
-        for (User user : users) {
-            if (user instanceof Lender) {
-                lenderList.add((Lender) user);
-            }
-        }
+    public void getLenderList (List<User> users) {
         System.out.println("Current Lenders: \n");
-        lenderList.forEach(lender -> System.out.println(lender.getName() + " \n")); //Only prints names
 
-        return lenderList;
+        users.stream().forEach(user -> {if(user instanceof Lender){
+            System.out.println(user.getName());
+        }});
     }
 
     //Admin to search for a Lender and view Lenders books
     public void searchForLender (List<User> users) {
         Scanner scan = new Scanner(System.in);
-        List<Lender> lenderList = getLenderList(users);
-
-        System.out.println("Enter name of Lender you wish to view: ");
+        getLenderList(users);
+        System.out.println("\nEnter name of Lender you wish to view: ");
         final String name = scan.next();
+        boolean foundMatch = false;
 
-        if (validateStringInput(name)) {
-
-            //TODO second validate, check if user is in userslist
-            //filter out all books reserved by one lender
+        for (User user : users){ //checks if name is in user-list
+            if (user.getName().equalsIgnoreCase(name)) {
+                foundMatch = true;
+                break;
+            }
+        }
+        if(foundMatch){
+            //filter out all books reserved by specific lender
             List<Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
                     .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
                     .collect(Collectors.toList());
@@ -129,11 +122,11 @@ public class Library {
             if (booksOnLend.size() != 0) {
                 System.out.println(name + " have lent: ");
                 booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
-            } else {
+            }else {
                 System.out.println(name + " has not lent any books.\n");
             }
-        } else {
-            System.out.println("Not a valid input.");
+        }else{
+            System.out.println("No lender with that name was found");
         }
     }
 
@@ -152,22 +145,19 @@ public class Library {
     }
 
     public void addOrRemoveMenu(List <User> users) {
-
-        System.out.println("Do you want to add or remove a lender \nAdd \nRemove");
+        System.out.println("Do you want to add or remove a lender \n1: Add lender \n2: Remove lender");
         Scanner scanner = new Scanner(System.in);
-        String adminInput = scanner.nextLine().toLowerCase();
-
-        if(validateStringInput(adminInput)) {
+        try {
+            int adminInput = scanner.nextInt();
             switch (adminInput) {
-                case "add" -> addLender(users);
-                case "remove" -> removeLender(users);
-                default -> printMessageErrorUnknownInput();
+                case 1 -> addLender(users);
+                case 2 -> removeLender(users);
+                default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
             }
         }
-    }
-
-    private void printMessageErrorUnknownInput () {
-        System.out.println("Error! unknown input");
+        catch (Exception e) {
+            printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
+        }
     }
 
     //Admin to remove user
@@ -206,16 +196,16 @@ public class Library {
     public void addLender(List <User> users){
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Enter name of new lender: ");
+        System.out.println("Enter name of new lender: \n");
         String adminInput = scan.nextLine();
 
         if(validateStringInputLetters(adminInput)){
             users.add(new Lender(adminInput));
-            System.out.println(adminInput + " was added as a Lender");
+            System.out.println(adminInput + " was added as a Lender\n");
 
         }
         else{
-            System.out.println("Not a valid input");
+            System.out.println("Not a valid input\n");
         }
     }
     public boolean validateStringInputLetters(String... inputs) { //... = uncertain amount of inputs
@@ -303,7 +293,7 @@ public class Library {
                                     b.getValue().getAuthor().equalsIgnoreCase(bookToLent)).findAny().orElse(null);
             if (book != null) {
                 System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
-                        "\nDon't forget to return book within 2 weeks");
+                        "\nDon't forget to return book within 2 weeks \n");
                 book.getValue().setReservedBy(user.getName()); //set ReservedBy to lendersName //TODO clear when returned
                 book.getValue().setAvailable(false); // TODO clear when returned
                 book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
@@ -464,6 +454,10 @@ public class Library {
         return valid;
     }
 
+    private void printMessageErrorUnknownInput () {
+        System.out.println("Error! unknown input");
+    }
+
     // List all books alphabetically sorted by title
     public void displayBooksByTitle() {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
@@ -515,12 +509,12 @@ public class Library {
         System.out.println("The Library have the following books: \n");
         this.bookCollection.entrySet().forEach(book ->
                 System.out.println("Title: " + book.getValue().getTitle()
-                        + "| Author: " + book.getValue().getAuthor()));
+                        + "| Author: " + book.getValue().getAuthor() + " \n"));
 
     }
 
     public void bookSearch() {
-        addStartBooks();
+        //addStartBooks();
         System.out.println("Please choose what you would like to search for\n" +
                 "1: Book title\n" +
                 "2: Author");
@@ -539,7 +533,7 @@ public class Library {
     }
 
     public void bookList() {
-        addStartBooks();
+        //addStartBooks();
         System.out.println("Please choose how you want to sort the list\n" +
                 "1. Sort by title\n" +
                 "2. Sort by author");
@@ -557,7 +551,7 @@ public class Library {
         }
     }
 
-    //method to set a collection of 20-30 books.
+    //DO NOT USE IN METHODS - ONLY FOR SAVE TO FILE
     public void addStartBooks() {
         bookCollection.put("Sofies World",
                 new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));

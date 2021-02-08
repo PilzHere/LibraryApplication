@@ -37,6 +37,15 @@ public class Login {
 
             if (loggedIn) {
                 getUserRequest();
+
+                // Sleep before getting user request again.
+                try {
+                    long napTime = 3L;
+                    napTime *= 1000L; // to seconds.
+                    Thread.sleep(napTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

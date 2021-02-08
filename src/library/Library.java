@@ -166,8 +166,8 @@ public class Library {
         }
     }
 
-    private void printMessageErrorUnknownInput () {
-        System.out.println("Error! unknown input");
+    private void printMessageErrorUnknownInput() {
+        System.out.println("\u001B[31mThat is not an option.\u001B[0m");
     }
 
     //Admin to remove user
@@ -526,18 +526,17 @@ public class Library {
         System.out.println("Please choose what you would like to search for\n" +
                 "1: Book title\n" +
                 "2: Author");
+
         Scanner scanner = new Scanner(System.in);
-        try {
+        if (scanner.hasNextInt()) {
             int userInput = scanner.nextInt();
-            switch (userInput) {
-                case 1 -> searchBookTitle();
-                case 2 -> searchBookAuthor();
-                default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
-            }
+            System.out.println(userInput);
+
+            getChoiceBookSearchAndBookListFunctions(userInput);
+            return;
         }
-        catch (Exception e) {
-            printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
-        }
+
+        printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
     }
 
     public void bookList() {
@@ -546,16 +545,23 @@ public class Library {
                 "1. Sort by title\n" +
                 "2. Sort by author");
         Scanner scanner = new Scanner(System.in);
-        try {
+
+        if (scanner.hasNextInt()) {
             int userInput = scanner.nextInt();
-            switch (userInput) {
-                case 1 -> displayBooksByTitle();
-                case 2 -> displayBooksByAuthor();
-                default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
-            }
+            System.out.println(userInput);
+
+            getChoiceBookSearchAndBookListFunctions(userInput);
+            return;
         }
-        catch (Exception e) {
-            printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
+
+        printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
+    }
+
+    private void getChoiceBookSearchAndBookListFunctions(final int choice) {
+        switch (choice) {
+            case 1 -> displayBooksByTitle();
+            case 2 -> displayBooksByAuthor();
+            default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
         }
     }
 

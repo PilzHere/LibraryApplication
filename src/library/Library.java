@@ -388,19 +388,51 @@ public class Library {
         return valid;
     }
 
+    // List all books alphabetically sorted by title
     public void displayBooksByTitle() {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
-        System.out.println(listByTitle);
+
+        String checkAvailable;
+
+        for (int i = 0; i < listByTitle.size(); i++) {
+            if (listByTitle.get(i).getValue().isAvailable() == true) {
+                checkAvailable = "Available!";
+            }
+            else {
+                checkAvailable = "Not available";
+            }
+            System.out.println(
+                    "Title: " + listByTitle.get(i).getValue().getTitle() +
+                            "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
+                            "\nGenre: " + listByTitle.get(i).getValue().getGenres() +
+                            "\nAvailability: " + checkAvailable + "\n");
+        }
+        //change property available to a better printout, ex. available: yes/no
     }
 
-
-    public void displayBooksByAuthor () {
+    // List all books alphabetically sorted by author
+    public void displayBooksByAuthor() {
         List<Map.Entry<String, Book>> listByAuthor = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
-        System.out.println(listByAuthor);
+
+        String checkAvailable;
+
+        for (int i = 0; i < listByAuthor.size(); i++) {
+            if (listByAuthor.get(i).getValue().isAvailable() == true) {
+                checkAvailable = "Available!";
+            }
+            else {
+                checkAvailable = "Not available";
+            }
+            System.out.println(
+                    "Author: " + listByAuthor.get(i).getValue().getAuthor() +
+                            "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
+                            "\nGenre: " + listByAuthor.get(i).getValue().getGenres() +
+                            "\nAvailability: " + checkAvailable + "\n");
+        }
     }
 
     public void displayBookCollection () {

@@ -279,7 +279,7 @@ public class Login {
     }
 
     private void bookSearch () {
-        Library.getInstance().addStartBooks();
+        //Library.getInstance().addStartBooks();
         System.out.println("Do you wanna search for\n1: Book title\n2: Author");
         Scanner scanner = new Scanner(System.in);
         int userInput = scanner.nextInt();
@@ -291,7 +291,7 @@ public class Login {
     }
 
     private void bookList () {
-        Library.getInstance().addStartBooks();
+        //Library.getInstance().addStartBooks();
         System.out.println("Please choose how you want to sort the list\n" +
                 "1. Sort by title\n" +
                 "2. Sort by author");

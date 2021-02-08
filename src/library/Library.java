@@ -36,7 +36,7 @@ public class Library {
 
     public HashMap<String, Book> bookCollection = new HashMap<>();
 
-    //ADMIN METHODS
+    //******************ADMIN/LIBRARIAN METHODS*********************************************
 
     /**
      * Admin to remove book from bookCollection
@@ -90,6 +90,11 @@ public class Library {
 
     }
 
+    /**
+     *
+     * @param users from Login - userList
+     * @return list of Lenders
+     */
     //Admin to get list of Lenders
     public List<Lender> getLenderList (List<User> users) {
         List<Lender> lenderList = new ArrayList<>();
@@ -225,18 +230,7 @@ public class Library {
         return valid;
     }
 
-
-    //prevent DRY. Takes bookCollection and returns a List-Map.Entry
-    /*//prevent DRY. Takes bookCollection and returns a List-Map.Entry
-    public List<Map.Entry<String, Book>> hashmapToList(HashMap<String, Book> bookCollection) {
-        List<Map.Entry<String, Book>> bookList = bookCollection.entrySet()
-                .stream()
-                .collect(Collectors.toList());
-
-        return bookList;
-    }*/
-
-    //LENDER METHODS
+    //*****************LENDER METHODS**********************************************************
 
     //Lender - See available books
     public void checkAvailableBooks () {
@@ -378,7 +372,7 @@ public class Library {
         }
     }
 
-    //METHODS FOR BOTH ADMIN AND LENDER
+    //***************METHODS FOR BOTH ADMIN AND LENDER********************************************
 
     // Search for a specific book by title
     public void searchBookTitle () {
@@ -589,10 +583,10 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
-    //Metod to see ALL books avalible
+    /*//Metod to see ALL books avalible
     public void seeAllBooksInLibrary(){
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
-    }
+    }*/
 
 
 }

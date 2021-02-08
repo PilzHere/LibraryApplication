@@ -465,7 +465,7 @@ public class Library {
     //Validation method to check one or more string input
     public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
-        Pattern p = Pattern.compile("[a-zA-Z0-9\\-\\s\n]");
+        Pattern p = Pattern.compile("^[a-zA-Z0-9\\-\\s\n]+$");
         //loop through inparameter inputs array
         for (String input : inputs) {
             Matcher m = p.matcher(input);
@@ -517,7 +517,7 @@ public class Library {
         System.out.println("The Library have the following books: \n");
         this.bookCollection.entrySet().forEach(book ->
                 System.out.println("Title: " + book.getValue().getTitle()
-                        + "| Author: " + book.getValue().getAuthor()));
+                        + " | Author: " + book.getValue().getAuthor()));
 
     }
 

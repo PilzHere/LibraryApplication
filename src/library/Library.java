@@ -199,7 +199,7 @@ public class Library {
     }*/
 
     //User to view lent books
-    public void booksBorrowed2 (User user) {    
+    public void booksBorrowed2 (User user) {
         List<Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
                 .stream()
                 .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
@@ -391,7 +391,7 @@ public class Library {
     }
 
     //Validation method to check string input
-    public boolean validateStringInput (String... inputs) { //... = uncertain amount of inputs
+    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
         Pattern p = Pattern.compile("[a-zA-Z0-9\\-\\s\n]");
         //loop through inparameter inputs array
@@ -404,22 +404,51 @@ public class Library {
         return valid;
     }
 
+    // List all books alphabetically sorted by title
     public void displayBooksByTitle() {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
-        System.out.println(listByTitle);
 
-        //bookList.forEach(book -> System.out.println("Title: " + book.getValue().getTitle() + "| Author: " + book.getValue().getAuthor() + "| Genre: " + book.getValue().getGenres() + "| Available: " + book.getValue().isAvailable()));
+        String checkAvailable;
+
+        for (int i = 0; i < listByTitle.size(); i++) {
+            if (listByTitle.get(i).getValue().isAvailable() == true) {
+                checkAvailable = "Available!";
+            }
+            else {
+                checkAvailable = "Not available";
+            }
+            System.out.println(
+                    "Title: " + listByTitle.get(i).getValue().getTitle() +
+                    "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
+                    "\nGenre: " + listByTitle.get(i).getValue().getGenres() +
+                    "\nAvailability: " + checkAvailable + "\n");
+        }
         //change property available to a better printout, ex. available: yes/no
     }
 
-
-    public void displayBooksByAuthor () {
+    // List all books alphabetically sorted by author
+    public void displayBooksByAuthor() {
         List<Map.Entry<String, Book>> listByAuthor = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
-        System.out.println(listByAuthor);
+
+        String checkAvailable;
+
+        for (int i = 0; i < listByAuthor.size(); i++) {
+            if (listByAuthor.get(i).getValue().isAvailable() == true) {
+                checkAvailable = "Available!";
+            }
+            else {
+                checkAvailable = "Not available";
+            }
+            System.out.println(
+                    "Author: " + listByAuthor.get(i).getValue().getAuthor() +
+                    "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
+                    "\nGenre: " + listByAuthor.get(i).getValue().getGenres() +
+                    "\nAvailability: " + checkAvailable + "\n");
+        }
     }
 
     public void displayBookCollection () {
@@ -431,7 +460,7 @@ public class Library {
     }
 
     //method to set a collection of 20-30 books.
-    public void addStartBooks () {
+    public void addStartBooks() {
         bookCollection.put("Sofies World",
                 new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));
         bookCollection.put("Eileen",
@@ -479,9 +508,10 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
+    //Metod to see ALL books avalible
+    public void seeAllBooksInLibrary(){
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
+    }
 
-    /*//Metod to see ALL books avalible
-    public void seeAllBooksInLibrary() {
-        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
-    }*/
+
 }

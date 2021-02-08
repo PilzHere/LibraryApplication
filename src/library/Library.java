@@ -451,6 +451,14 @@ public class Library {
         }
     }
 
+    public void displayBookCollection () {
+        System.out.println("The Library have the following books: \n");
+        this.bookCollection.entrySet().forEach(book ->
+                System.out.println("Title: " + book.getValue().getTitle()
+                        + "| Author: " + book.getValue().getAuthor()));
+
+    }
+
     //method to set a collection of 20-30 books.
     public void addStartBooks() {
         bookCollection.put("Sofies World",

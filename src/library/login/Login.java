@@ -225,7 +225,7 @@ public class Login {
                         break;
                     case SHOW_TIME_LEFT_ON_LENT_BOOK:
                         System.out.println("View time left on lent book...");
-                        //TODO AMIN
+                        Library.getInstance().timeLeftOnLentBook();
                         break;
                     case VIEW_BOOK_BY_TITLE_OR_AUTHOR:
                         System.out.println("View books by author or title...");

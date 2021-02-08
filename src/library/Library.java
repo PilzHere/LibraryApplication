@@ -339,22 +339,6 @@ public class Library {
         foundBooks = removeDuplicatedBooksFromList(foundBooks);
 
         printBooksFoundFromSearch(foundBooks);
-
-        /* old FROM ADAM
-            Scanner input = new Scanner(System.in);
-            System.out.println("Enter search: ");
-            String searchPhrase = input.nextLine();
-
-            List<Map.Entry<String, Book>> bookList =
-                    bookCollection.entrySet().stream().filter(book -> book.getValue().getAuthor().equals(searchPhrase)).collect(Collectors.toList());
-
-            for (Map.Entry<String, Book> book : bookList) {
-                if (book.getValue().getAuthor().equalsIgnoreCase(searchPhrase)) {
-                    System.out.println("Author found!\n" + book.getValue());
-                }
-            }
-            System.out.println("Search completed");
-        */
     }
 
     /**
@@ -409,9 +393,6 @@ public class Library {
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
         System.out.println(listByTitle);
-
-        //bookList.forEach(book -> System.out.println("Title: " + book.getValue().getTitle() + "| Author: " + book.getValue().getAuthor() + "| Genre: " + book.getValue().getGenres() + "| Available: " + book.getValue().isAvailable()));
-        //change property available to a better printout, ex. available: yes/no
     }
 
 
@@ -428,6 +409,36 @@ public class Library {
                 System.out.println("Title: " + book.getValue().getTitle()
                         + "| Author: " + book.getValue().getAuthor()));
 
+    }
+
+    private void printMessageErrorUnknownInput() {
+        System.out.println("Error! unknown input");
+    }
+
+    public void bookSearch() {
+        addStartBooks();
+        System.out.println("Do you wanna search for\n1: Book title\n2: Author");
+        Scanner scanner = new Scanner(System.in);
+        int userInput = scanner.nextInt();
+        switch (userInput) {
+            case 1 -> searchBookTitle();
+            case 2 -> searchBookAuthor();
+            default -> printMessageErrorUnknownInput();
+        }
+    }
+
+    public void bookList() {
+        addStartBooks();
+        System.out.println("Please choose how you want to sort the list\n" +
+                "1. Sort by title\n" +
+                "2. Sort by author");
+        Scanner scanner = new Scanner(System.in);
+        int userInput = scanner.nextInt();
+        switch (userInput) {
+            case 1 -> Library.getInstance().displayBooksByTitle();
+            case 2 -> Library.getInstance().displayBooksByAuthor();
+            default -> printMessageErrorUnknownInput();
+        }
     }
 
     //method to set a collection of 20-30 books.

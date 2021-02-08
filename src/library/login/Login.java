@@ -26,7 +26,7 @@ public class Login {
      * The login constructor contains the while loop where everything happens inside.
      * It will end when boolean isRunning is false. a
      */
-    public Login () {
+    public Login() {
         printWelcomeMessage();
         addLibraryUsers();
 
@@ -46,7 +46,7 @@ public class Login {
     /**
      * Prints a welcome message.
      */
-    private void printWelcomeMessage () {
+    private void printWelcomeMessage() {
         System.out.println("\u001B[33mWelcome to the library.\u001B[0m");
     }
 
@@ -55,7 +55,7 @@ public class Login {
      *
      * @return if username exists.
      */
-    private boolean askForUsername () {
+    private boolean askForUsername() {
         System.out.println("Please type your \u001B[32m" + "username" + "\u001B[0m to log in. Type " + "\u001B[32m" + "exit" + "\u001B[0m" + " to quit.");
         Scanner scanner = new Scanner(System.in);
         final String username = scanner.next();
@@ -75,7 +75,7 @@ public class Login {
      * @param username The user's name.
      * @return if username is "exit".
      */
-    private boolean checkUserNameForExit (String username) {
+    private boolean checkUserNameForExit(String username) {
         return username.equalsIgnoreCase("exit");
     }
 
@@ -85,7 +85,7 @@ public class Login {
      * @param userName The user's name.
      * @return if username exists in Username List.
      */
-    private boolean checkUser (final String userName) {
+    private boolean checkUser(final String userName) {
         for (User user : users) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 currentUser = user;
@@ -102,7 +102,7 @@ public class Login {
      * Prints and listens for usable commands depending on {@link User} type:
      * {@link Librarian} or {@link Lender}.
      */
-    private void getUserRequest () {
+    private void getUserRequest() {
         Library.getInstance().bookCollection = FileUtils.checkIfFilesExists(Library.getInstance().bookCollection);
         Library.getInstance().remindToReturnBook(currentUser);
 
@@ -147,7 +147,7 @@ public class Login {
                 switch (choice) {
                     case SEARCH_FOR_BOOKS:
                         System.out.println("Search for books...");
-                        bookSearch();
+                        Library.getInstance().bookSearch();
                         break;
                     case VIEW_ALL_BOOKS:
                         System.out.println("View all books...");
@@ -199,7 +199,7 @@ public class Login {
                 switch (choice) {
                     case SEARCH_FOR_BOOKS:
                         System.out.println("Search for books...");
-                        bookSearch();
+                        Library.getInstance().bookSearch();
                         break;
                     case LEND_BOOKS:
                         System.out.println("Lend book...");
@@ -215,7 +215,7 @@ public class Login {
                         break;
                     case VIEW_BOOK_BY_TITLE_OR_AUTHOR:
                         System.out.println("View books by author or title...");
-                        bookList();
+                        Library.getInstance().bookList();
                         break;
                     case VIEW_ALL_BOOKS:
                         System.out.println("View all books...");
@@ -249,18 +249,14 @@ public class Login {
         }
     }
 
-    private void printMessageNoOption () {
+    private void printMessageNoOption() {
         System.out.println("\u001B[31mThat is not an option.\u001B[0m");
-    }
-
-    private void printMessageErrorUnknownInput () {
-        System.out.println("Error! unknown input");
     }
 
     /**
      * Adds new users to the usersList.
      */
-    private void addLibraryUsers () {
+    private void addLibraryUsers() {
         // Librarians
         users.add(new Librarian("Marcel"));
         users.add(new Librarian("Johan"));
@@ -271,31 +267,5 @@ public class Login {
         users.add(new Lender("Annika"));
         users.add(new Lender("Christian"));
         users.add(new Lender("Sandra"));
-    }
-
-    private void bookSearch () {
-        Library.getInstance().addStartBooks();
-        System.out.println("Do you wanna search for\n1: Book title\n2: Author");
-        Scanner scanner = new Scanner(System.in);
-        int userInput = scanner.nextInt();
-        switch (userInput) {
-            case 1 -> Library.getInstance().searchBookTitle();
-            case 2 -> Library.getInstance().searchBookAuthor();
-            default -> printMessageErrorUnknownInput();
-        }
-    }
-
-    private void bookList () {
-        Library.getInstance().addStartBooks();
-        System.out.println("Please choose how you want to sort the list\n" +
-                "1. Sort by title\n" +
-                "2. Sort by author");
-        Scanner scanner = new Scanner(System.in);
-        int userInput = scanner.nextInt();
-        switch (userInput) {
-            case 1 -> Library.getInstance().displayBooksByTitle();
-            case 2 -> Library.getInstance().displayBooksByAuthor();
-            default -> printMessageErrorUnknownInput();
-        }
     }
 }

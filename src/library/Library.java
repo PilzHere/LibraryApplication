@@ -375,7 +375,7 @@ public class Library {
     }
 
     //Validation method to check string input
-    public boolean validateStringInput (String... inputs) { //... = uncertain amount of inputs
+    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
         Pattern p = Pattern.compile("[a-zA-Z0-9\\-\\s\n]");
         //loop through inparameter inputs array
@@ -486,7 +486,7 @@ public class Library {
     }
 
     //method to set a collection of 20-30 books.
-    public void addStartBooks () {
+    public void addStartBooks() {
         bookCollection.put("Sofies World",
                 new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));
         bookCollection.put("Eileen",
@@ -534,9 +534,10 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
+    //Metod to see ALL books avalible
+    public void seeAllBooksInLibrary(){
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
+    }
 
-    /*//Metod to see ALL books avalible
-    public void seeAllBooksInLibrary() {
-        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
-    }*/
+
 }

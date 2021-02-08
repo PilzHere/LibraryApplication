@@ -407,7 +407,7 @@ public class Library {
                     "Title: " + listByTitle.get(i).getValue().getTitle() +
                             "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
                             "\nGenre: " + listByTitle.get(i).getValue().getGenres() +
-                            "\nAvailability: " + checkAvailable + "\n");
+                            "\n");
         }
         //change property available to a better printout, ex. available: yes/no
     }
@@ -431,7 +431,7 @@ public class Library {
                     "Author: " + listByAuthor.get(i).getValue().getAuthor() +
                             "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
                             "\nGenre: " + listByAuthor.get(i).getValue().getGenres() +
-                            "\nAvailability: " + checkAvailable + "\n");
+                    "\n");
         }
     }
 
@@ -449,13 +449,20 @@ public class Library {
 
     public void bookSearch() {
         addStartBooks();
-        System.out.println("Do you wanna search for\n1: Book title\n2: Author");
+        System.out.println("Please choose what you would like to search for\n" +
+                "1: Book title\n" +
+                "2: Author");
         Scanner scanner = new Scanner(System.in);
-        int userInput = scanner.nextInt();
-        switch (userInput) {
-            case 1 -> searchBookTitle();
-            case 2 -> searchBookAuthor();
-            default -> printMessageErrorUnknownInput();
+        try {
+            int userInput = scanner.nextInt();
+            switch (userInput) {
+                case 1 -> searchBookTitle();
+                case 2 -> searchBookAuthor();
+                default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
+            }
+        }
+        catch (Exception e) {
+            printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
         }
     }
 
@@ -465,11 +472,16 @@ public class Library {
                 "1. Sort by title\n" +
                 "2. Sort by author");
         Scanner scanner = new Scanner(System.in);
-        int userInput = scanner.nextInt();
-        switch (userInput) {
-            case 1 -> Library.getInstance().displayBooksByTitle();
-            case 2 -> Library.getInstance().displayBooksByAuthor();
-            default -> printMessageErrorUnknownInput();
+        try {
+            int userInput = scanner.nextInt();
+            switch (userInput) {
+                case 1 -> displayBooksByTitle();
+                case 2 -> displayBooksByAuthor();
+                default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
+            }
+        }
+        catch (Exception e) {
+            printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
         }
     }
 

@@ -6,6 +6,7 @@ import library.users.User;
 import library.utils.FileUtils;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +25,11 @@ import java.util.Calendar;
 public class Library {
     private static final Library instance = new Library();
 
-    public static Library getInstance() {
+    public static Library getInstance () {
         return instance;
     }
 
-    public Library() {
+    public Library () {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
 
     }
@@ -41,7 +42,7 @@ public class Library {
      * Admin to remove book from bookCollection
      * check input from admin, secondly checks if book exists, if true -> book is removed
      */
-    public void removeBook() {
+    public void removeBook () {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter title of the book you wish to remove: ");
         String adminInput = scan.nextLine();
@@ -66,7 +67,7 @@ public class Library {
     }
 
     //Admin - Add book
-    public boolean addBook() {
+    public boolean addBook () {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter book title: ");
         String bookTitle = input.nextLine();
@@ -90,7 +91,7 @@ public class Library {
     }
 
     //Admin to get list of Lenders
-    public List<Lender> getLenderList(List<User> users) {
+    public List<Lender> getLenderList (List<User> users) {
         List<Lender> lenderList = new ArrayList<>();
 
         for (User user : users) {
@@ -99,13 +100,13 @@ public class Library {
             }
         }
         System.out.println("Current Lenders: \n");
-        lenderList.forEach(lender -> System.out.println(lender.getName())); //Only prints names
+        lenderList.forEach(lender -> System.out.println(lender.getName() + " \n")); //Only prints names
 
         return lenderList;
     }
 
     //Admin to search for a Lender and view Lenders books
-    public void searchForLender(List<User> users) {
+    public void searchForLender (List<User> users) {
         Scanner scan = new Scanner(System.in);
         List<Lender> lenderList = getLenderList(users);
 
@@ -114,13 +115,17 @@ public class Library {
 
         if (validateStringInput(name)) {
 
-            for (Lender lender : lenderList) {
-                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() != null) {
-                    System.out.println(lender.getName() + " have lended: " + lender.getLendedBooks() + "\n");
-                }
-                if (lender.getName().equalsIgnoreCase(name) && lender.getLendedBooks() == null) {
-                    System.out.println(name + " has not lended any books.\n");
-                }
+            //TODO second validate, check if user is in userslist
+            //filter out all books reserved by one lender
+            List<Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
+                    .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
+                    .collect(Collectors.toList());
+
+            if (booksOnLend.size() != 0) {
+                System.out.println(name + " have lent: ");
+                booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
+            } else {
+                System.out.println(name + " has not lent any books.\n");
             }
         } else {
             System.out.println("Not a valid input.");
@@ -128,12 +133,12 @@ public class Library {
     }
 
     //Admin - get list of borrowed books
-    public HashMap<String, Book> getBorrowedBooks() {
+    public HashMap<String, Book> getBorrowedBooks () {
         return (HashMap<String, Book>) bookCollection.entrySet().stream().filter(b -> !b.getValue().isAvailable()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     //Admin - check borrowed and return date
-    public void printBorrowedAndReturnDate() {
+    public void printBorrowedAndReturnDate () {
         HashMap<String, Book> borrowedBookList = getBorrowedBooks();
         for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
             LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
@@ -141,19 +146,19 @@ public class Library {
         }
     }
 
-    //prevent DRY. Takes bookCollection and returns a List-Map.Entry
+    /*//prevent DRY. Takes bookCollection and returns a List-Map.Entry
     public List<Map.Entry<String, Book>> hashmapToList(HashMap<String, Book> bookCollection) {
         List<Map.Entry<String, Book>> bookList = bookCollection.entrySet()
                 .stream()
                 .collect(Collectors.toList());
 
         return bookList;
-    }
+    }*/
 
     //LENDER METHODS
 
     //Lender - See available books
-    public void checkAvailableBooks() {
+    public void checkAvailableBooks () {
 
         System.out.println("Available books to lend:");
 
@@ -165,22 +170,22 @@ public class Library {
     }
 
     //Lender - reminder to return book (SHOWS WHEN LENDERLOGS IN)
-    public void remindToReturnBook(User user) {
+    public void remindToReturnBook (User user) {
         HashMap<String, Book> borrowedBooks = getBorrowedBooks();
 
         for (Map.Entry<String, Book> entry : borrowedBooks.entrySet()) {
             if (user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())) {
                 LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
                 LocalDate currentDate = LocalDate.now();
-                
+
                 if (returnDate.isEqual(currentDate) || returnDate.isBefore(currentDate)) {
-                    System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor()+"\u001B[O");
+                    System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + "\u001B[O");
                 }
             }
         }
     }
 
-    //user - se my lended books
+   /* //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
 
@@ -191,10 +196,25 @@ public class Library {
             ((Lender) user).getLendedBooks().forEach(System.out::println);
             System.out.println();
         }
+    }*/
+
+    //User to view lent books
+    public void booksBorrowed2 (User user) {
+        List<Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
+                .stream()
+                .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
+                .collect(Collectors.toList());
+
+        if (foundMatch.size() != 0) {
+            System.out.println(user.getName() + " have borrowed: ");
+            foundMatch.stream().forEach(book -> System.out.println(book.getValue().getTitle()));
+        } else {
+            System.out.println("No borrowed book/books");
+        }
     }
 
     //user - lend books
-    public void lendBooks(User user) {
+    public void lendBooks (User user) {
         checkAvailableBooks();
         System.out.println("Witch one would you like to rent?\nPlease enter Title or Author:");
         Scanner input = new Scanner(System.in);
@@ -211,7 +231,32 @@ public class Library {
                 book.getValue().setReservedBy(user.getName()); //set ReservedBy to lendersName //TODO clear when returned
                 book.getValue().setAvailable(false); // TODO clear when returned
                 book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
-                ((Lender) user).uppdateLendedBooks(book.getValue().getTitle());
+
+                FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
+            } else {
+                System.out.println("No such book was found!");
+            }
+        } else {
+            System.out.println("Your input was not valid");
+        }
+    }
+
+    // Lender - return borrowed book
+    public void returnBook() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Whats the title on the book you like to return? ");
+        String bookReturn = input.nextLine();
+
+        if (validateStringInput(bookReturn) && bookReturn.length() > 1) {
+            Map.Entry<String, Book> book = bookCollection.entrySet().stream()
+                    .filter(b -> b.getKey().equalsIgnoreCase(bookReturn)).findAny().orElse(null);
+            if (book != null) {
+                System.out.println("You have returned - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor());
+                book.getValue().setReservedBy("");
+                book.getValue().setAvailable(true);
+                book.getValue().setBorrowedDate(null);
+
+                FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
             } else {
                 System.out.println("No such book was found!");
             }
@@ -221,7 +266,7 @@ public class Library {
     }
 
     //mer info om önskad bok
-    public void moreInfoSpecificBook() {
+    public void moreInfoSpecificBook () {
         System.out.println("Please enter the book title you would like more information on: ");
         Scanner input = new Scanner(System.in);
         String bookOrAuthor = input.nextLine();
@@ -239,12 +284,11 @@ public class Library {
                 System.out.println("The author you are looking for cannot be found :(");
             }
         }
-     /*   input.close();*/
+        /*   input.close();*/
     }
 
     //librarian AND lender - check laoned books
-    public void checkLoanedBooks() {
-        //FileUtils.readObjectFromFileG(new File ("src/books.ser"));
+    public void checkLoanedBooks () {
         System.out.println("Following book/books is lent out at the moment:");
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (!entry.getValue().isAvailable()) {
@@ -253,43 +297,97 @@ public class Library {
         }
     }
 
-
     //METHODS FOR BOTH ADMIN AND LENDER
 
     // Search for a specific book by title
-    public void searchBookTitle() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter search: ");
-        String searchPhrase = input.nextLine();
+    public void searchBookTitle () {
+        System.out.println("Enter \u001B[32msearch words\u001B[0m seperated with space...");
+        final Scanner input = new Scanner(System.in);
+        final String[] words = input.nextLine().toLowerCase().split("\\s");
+        ArrayList<Book> foundBooks = new ArrayList<>();
 
-        List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream().filter(book -> book.getValue().getTitle().equals(searchPhrase)).collect(Collectors.toList());
-
-        for (Map.Entry<String, Book> book : bookList) {
-            if (book.getValue().getTitle().equalsIgnoreCase(searchPhrase)) {
-                System.out.println("Book found!\n" + book.getValue());
+        // Add matching books to foundBooks list.
+        for (String word : words) {
+            for (Book book : bookCollection.values()) {
+                if (book.getTitle().toLowerCase().contains(word)) {
+                    foundBooks.add(book);
+                }
             }
         }
-        System.out.println("Search completed");
+
+        foundBooks = removeDuplicatedBooksFromList(foundBooks);
+
+        printBooksFoundFromSearch(foundBooks);
     }
 
     // Search for book(s) by author
-    public void searchBookAuthor() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter search: ");
-        String searchPhrase = input.nextLine();
+    public void searchBookAuthor () {
+        System.out.println("Enter \u001B[32msearch words\u001B[0m seperated with space...");
+        final Scanner input = new Scanner(System.in);
+        final String[] words = input.nextLine().toLowerCase().split("\\s");
+        ArrayList<Book> foundBooks = new ArrayList<>();
 
-        List<Map.Entry<String, Book>> bookList =
-                bookCollection.entrySet().stream().filter(book -> book.getValue().getAuthor().equals(searchPhrase)).collect(Collectors.toList());
-
-        for (Map.Entry<String, Book> book : bookList) {
-            if (book.getValue().getAuthor().equalsIgnoreCase(searchPhrase)) {
-                System.out.println("Author found!\n" + book.getValue());
+        // Add matching books to foundBooks list.
+        for (String word : words) {
+            for (Book book : bookCollection.values()) {
+                if (book.getAuthor().toLowerCase().contains(word)) {
+                    foundBooks.add(book);
+                }
             }
         }
-        System.out.println("Search completed");
 
+        foundBooks = removeDuplicatedBooksFromList(foundBooks);
 
+        printBooksFoundFromSearch(foundBooks);
+
+        /* old FROM ADAM
+            Scanner input = new Scanner(System.in);
+            System.out.println("Enter search: ");
+            String searchPhrase = input.nextLine();
+
+            List<Map.Entry<String, Book>> bookList =
+                    bookCollection.entrySet().stream().filter(book -> book.getValue().getAuthor().equals(searchPhrase)).collect(Collectors.toList());
+
+            for (Map.Entry<String, Book> book : bookList) {
+                if (book.getValue().getAuthor().equalsIgnoreCase(searchPhrase)) {
+                    System.out.println("Author found!\n" + book.getValue());
+                }
+            }
+            System.out.println("Search completed");
+        */
+    }
+
+    /**
+     * Removes duplicated books from ArrayList.
+     * @param bookList
+     * @return
+     */
+    private ArrayList<Book> removeDuplicatedBooksFromList(final ArrayList<Book> bookList) {
+        for (int i = 0; i < bookList.size(); i++) {
+            for (int j = i + 1 ; j < bookList.size(); j++) {
+                if (bookList.get(i).getTitle().equalsIgnoreCase(bookList.get(j).getTitle())) {
+                    bookList.remove(j);
+                }
+            }
+        }
+
+        return bookList;
+    }
+
+    /**
+     * Prints books found in list if size greater than 0.
+     * @param bookList
+     */
+    private void printBooksFoundFromSearch(final ArrayList<Book> bookList) {
+        if (bookList.size() == 0) {
+            System.out.println("\u001B[31mNo books found matching your search criteria.\u001B[0m");
+            return;
+        }
+
+        System.out.println("\u001B[33mThese books matches your search criteria:\u001B[0m");
+        for (Book book : bookList) {
+            System.out.println(book.getTitle());
+        }
     }
 
     //Validation method to check string input
@@ -306,29 +404,59 @@ public class Library {
         return valid;
     }
 
-    public void displayBooksByTitle () {
+    // List all books alphabetically sorted by title
+    public void displayBooksByTitle() {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
-        System.out.println(listByTitle);
 
-        //bookList.forEach(book -> System.out.println("Title: " + book.getValue().getTitle() + "| Author: " + book.getValue().getAuthor() + "| Genre: " + book.getValue().getGenres() + "| Available: " + book.getValue().isAvailable()));
+        String checkAvailable;
+
+        for (int i = 0; i < listByTitle.size(); i++) {
+            if (listByTitle.get(i).getValue().isAvailable() == true) {
+                checkAvailable = "Available!";
+            }
+            else {
+                checkAvailable = "Not available";
+            }
+            System.out.println(
+                    "Title: " + listByTitle.get(i).getValue().getTitle() +
+                    "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
+                    "\nGenre: " + listByTitle.get(i).getValue().getGenres() +
+                    "\nAvailability: " + checkAvailable + "\n");
+        }
         //change property available to a better printout, ex. available: yes/no
     }
 
-
+    // List all books alphabetically sorted by author
     public void displayBooksByAuthor() {
         List<Map.Entry<String, Book>> listByAuthor = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
-        System.out.println(listByAuthor);
+
+        String checkAvailable;
+
+        for (int i = 0; i < listByAuthor.size(); i++) {
+            if (listByAuthor.get(i).getValue().isAvailable() == true) {
+                checkAvailable = "Available!";
+            }
+            else {
+                checkAvailable = "Not available";
+            }
+            System.out.println(
+                    "Author: " + listByAuthor.get(i).getValue().getAuthor() +
+                    "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
+                    "\nGenre: " + listByAuthor.get(i).getValue().getGenres() +
+                    "\nAvailability: " + checkAvailable + "\n");
+        }
     }
 
-    public void displayBookCollection() {
+    public void displayBookCollection () {
         System.out.println("The Library have the following books: \n");
         this.bookCollection.entrySet().forEach(book ->
                 System.out.println("Title: " + book.getValue().getTitle()
-                        + ", Author: " + book.getValue().getAuthor()));
+                        + "| Author: " + book.getValue().getAuthor()));
+
     }
 
     //method to set a collection of 20-30 books.
@@ -380,9 +508,10 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
-
     //Metod to see ALL books avalible
-    public void seeAllBooksInLibrary() {
-        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor()));
+    public void seeAllBooksInLibrary(){
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
     }
+
+
 }

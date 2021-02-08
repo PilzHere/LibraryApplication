@@ -110,7 +110,7 @@ public class Login {
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
                     "2: View all books in collection.\n" +
-                    "3: See list of lenders.\n" +
+                    "3: View list of lenders.\n" +
                     "4: Search lender and view lent books.\n" +
                     "5: Add book.\n" +
                     "6: Remove book.\n" +
@@ -122,7 +122,7 @@ public class Login {
                     "1: Search for books.\n" +
                     "2: Lend book.\n" +
                     "3: My lent books.\n" +
-                    "4: Show time left lending for book.\n" +
+                    "4: View time left on lent book.\n" +
                     "5: View book by title/author.\n" +
                     "6: View all books.\n" +
                     "7: More detailed book info\n" +
@@ -150,31 +150,31 @@ public class Login {
                         bookSearch();
                         break;
                     case VIEW_ALL_BOOKS:
-                        System.out.println("View all books in collection");
-                        Library.getInstance().displayBooksByTitle();
+                        System.out.println("View all books...");
+                        Library.getInstance().displayBookCollection();
                         break;
                     case SEE_LIST_OF_LENDERS:
-                        System.out.println("See list of Lenders...");
+                        System.out.println("View list of Lenders...");
                         Library.getInstance().getLenderList(users);
                         break;
                     case SEARCH_LENDER_AND_VIEW_LENDED_BOOKS:
-                        System.out.println("Search for Lender and view lended books...");
+                        System.out.println("Search for Lender and view lent books...");
                         Library.getInstance().searchForLender(users);
                         break;
                     case ADD_BOOK_TO_LIBARY:
-                        System.out.println("Add book to library...");
+                        System.out.println("Add book...");
                         Library.getInstance().addBook();
                         break;
                     case REMOVE_BOOK_FROM_COLLECTION:
-                        System.out.println("Remove book from collection...");
+                        System.out.println("Remove book...");
                         Library.getInstance().removeBook();
                         break;
                     case SEE_BORROWED_BOOKS:
-                        System.out.println("See list of borrowed books...");
+                        System.out.println("View list of lent books...");
                         Library.getInstance().checkLoanedBooks();
                         break;
                     case SEE_BORROWED_BOOKS_WITH_RETURN_DATES:
-                        System.out.println("Show borrowed books with borrowed/return date...");
+                        System.out.println("View books by borrowed/return date...");
                         Library.getInstance().printBorrowedAndReturnDate();
                         break;
                     case LOG_OUT_USER:
@@ -202,19 +202,19 @@ public class Login {
                         bookSearch();
                         break;
                     case LEND_BOOKS:
-                        System.out.println("Lending book...");
+                        System.out.println("Lend book...");
                         Library.getInstance().lendBooks(currentUser);
                         break;
                     case LIST_LENT_BOOKS:
-                        System.out.println("List user's lended books...");
-                        Library.getInstance().booksBorrowed(currentUser);
+                        System.out.println("My lent books...");
+                        Library.getInstance().booksBorrowed2(currentUser);
                         break;
                     case SHOW_TIME_LEFT_ON_LENT_BOOK:
-                        System.out.println("Showing time left on lent book...");
+                        System.out.println("View time left on lent book...");
                         //TODO AMIN
                         break;
                     case VIEW_BOOK_BY_TITLE_OR_AUTHOR:
-                        System.out.println("Booklist...");
+                        System.out.println("View books by author or title...");
                         bookList();
                         break;
                     case VIEW_ALL_BOOKS:
@@ -231,7 +231,7 @@ public class Login {
                         break;
                     case RETURN_BOOK:
                         System.out.println("Return book...");
-                        //TODO
+                        Library.getInstance().returnBook();
                         break;
                     case LOG_OUT_USER:
                         System.out.println("Logging out \u001B[34m" + currentUser.getName() + "\u001B[0m.");

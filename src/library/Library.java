@@ -199,7 +199,7 @@ public class Library {
     }*/
 
     //User to view lent books
-    public void booksBorrowed2 (User user) {    
+    public void booksBorrowed2 (User user) {
         List<Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
                 .stream()
                 .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
@@ -374,7 +374,8 @@ public class Library {
         }
     }
 
-    //Validation method to check string input
+    //***VALIDATION METHODS***
+    //Validation method to check one or more string input
     public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
         Pattern p = Pattern.compile("[a-zA-Z0-9\\-\\s\n]");
@@ -385,6 +386,15 @@ public class Library {
                 valid = false;
             }
         }
+        return valid;
+    }
+
+    //Validation for 1 single string
+    public boolean validateSingleStringInput(String input) {
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");
+        Matcher m = p.matcher(input);
+
+        boolean valid = m.matches();
         return valid;
     }
 

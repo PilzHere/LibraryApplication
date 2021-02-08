@@ -529,10 +529,9 @@ public class Library {
 
         Scanner scanner = new Scanner(System.in);
         if (scanner.hasNextInt()) {
-            int userInput = scanner.nextInt();
-            System.out.println(userInput);
-
+            final int userInput = scanner.nextInt();
             getChoiceBookSearchAndBookListFunctions(userInput);
+
             return;
         }
 
@@ -544,13 +543,12 @@ public class Library {
         System.out.println("Please choose how you want to sort the list\n" +
                 "1. Sort by title\n" +
                 "2. Sort by author");
+
         Scanner scanner = new Scanner(System.in);
-
         if (scanner.hasNextInt()) {
-            int userInput = scanner.nextInt();
-            System.out.println(userInput);
-
+            final int userInput = scanner.nextInt();
             getChoiceBookSearchAndBookListFunctions(userInput);
+
             return;
         }
 

@@ -169,6 +169,7 @@ public class Library {
     private void printMessageErrorUnknownInput () {
         System.out.println("Error! unknown input");
     }
+
     //Admin to remove user
     public void removeLender (List<User> users) {
         Scanner scan = new Scanner(System.in);
@@ -362,7 +363,7 @@ public class Library {
         /*   input.close();*/
     }
 
-    //librarian AND lender - check laoned books
+    //librarian AND lender - check lent books
     public void checkLoanedBooks () {
         System.out.println("Following book/books is lent out at the moment:");
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
@@ -516,10 +517,6 @@ public class Library {
                 System.out.println("Title: " + book.getValue().getTitle()
                         + "| Author: " + book.getValue().getAuthor()));
 
-    }
-
-    private void printMessageErrorUnknownInput() {
-        System.out.println("Error! unknown input");
     }
 
     public void bookSearch() {

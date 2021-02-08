@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
+import java.util.stream.Stream;
+import java.util.Calendar;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Library {
     private static final Library instance = new Library();
@@ -251,6 +254,17 @@ public class Library {
         }
     }
 
+    //Lender - time left on rented book
+    public void timeLeftOnLentBook (){
+        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
+        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
+            LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
+            LocalDate currentDate = LocalDate.now();
+            Long daysLeft = DAYS.between(currentDate,returnDate);
+            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Days left " + daysLeft);
+        }
+    }
+
    /* //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
@@ -265,7 +279,7 @@ public class Library {
     }*/
 
     //User to view lent books
-    public void booksBorrowed2 (User user) {    
+    public void booksBorrowed2 (User user) {
         List<Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
                 .stream()
                 .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
@@ -293,10 +307,10 @@ public class Library {
                                     b.getValue().getAuthor().equalsIgnoreCase(bookToLent)).findAny().orElse(null);
             if (book != null) {
                 System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
-                        "\nDon't forget to return book within 2 weeks \n");
-                book.getValue().setReservedBy(user.getName()); //set ReservedBy to lendersName //TODO clear when returned
-                book.getValue().setAvailable(false); // TODO clear when returned
-                book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
+                        "\nDon't forget to return book within 2 weeks");
+                book.getValue().setReservedBy(user.getName());
+                book.getValue().setAvailable(false);
+                book.getValue().setBorrowedDate(LocalDate.now());
 
                 FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
             } else {
@@ -440,7 +454,8 @@ public class Library {
         }
     }
 
-    //Validation method to check string input
+    //***VALIDATION METHODS***
+    //Validation method to check one or more string input
     public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
         Pattern p = Pattern.compile("[a-zA-Z0-9\\-\\s\n]");
@@ -454,6 +469,15 @@ public class Library {
         return valid;
     }
 
+    //Validation for 1 single string
+    public boolean validateSingleStringInput(String input) {
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");
+        Matcher m = p.matcher(input);
+
+        boolean valid = m.matches();
+        return valid;
+    }
+
     private void printMessageErrorUnknownInput () {
         System.out.println("Error! unknown input");
     }
@@ -464,22 +488,12 @@ public class Library {
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
 
-        String checkAvailable;
-
         for (int i = 0; i < listByTitle.size(); i++) {
-            if (listByTitle.get(i).getValue().isAvailable() == true) {
-                checkAvailable = "Available!";
-            }
-            else {
-                checkAvailable = "Not available";
-            }
             System.out.println(
                     "Title: " + listByTitle.get(i).getValue().getTitle() +
                             "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
-                            "\nGenre: " + listByTitle.get(i).getValue().getGenres() +
                             "\n");
         }
-        //change property available to a better printout, ex. available: yes/no
     }
 
     // List all books alphabetically sorted by author
@@ -488,19 +502,10 @@ public class Library {
                 .stream().collect(Collectors.toList());
         listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
 
-        String checkAvailable;
-
         for (int i = 0; i < listByAuthor.size(); i++) {
-            if (listByAuthor.get(i).getValue().isAvailable() == true) {
-                checkAvailable = "Available!";
-            }
-            else {
-                checkAvailable = "Not available";
-            }
             System.out.println(
                     "Author: " + listByAuthor.get(i).getValue().getAuthor() +
                             "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
-                            "\nGenre: " + listByAuthor.get(i).getValue().getGenres() +
                     "\n");
         }
     }
@@ -509,7 +514,7 @@ public class Library {
         System.out.println("The Library have the following books: \n");
         this.bookCollection.entrySet().forEach(book ->
                 System.out.println("Title: " + book.getValue().getTitle()
-                        + "| Author: " + book.getValue().getAuthor() + " \n"));
+                        + "| Author: " + book.getValue().getAuthor()));
 
     }
 

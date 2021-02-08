@@ -274,7 +274,7 @@ public class Library {
     }*/
 
     //User to view lent books
-    public void booksBorrowed2 (User user) {
+    public void booksBorrowed2 (User user) {    
         List<Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
                 .stream()
                 .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
@@ -414,22 +414,6 @@ public class Library {
         foundBooks = removeDuplicatedBooksFromList(foundBooks);
 
         printBooksFoundFromSearch(foundBooks);
-
-        /* old FROM ADAM
-            Scanner input = new Scanner(System.in);
-            System.out.println("Enter search: ");
-            String searchPhrase = input.nextLine();
-
-            List<Map.Entry<String, Book>> bookList =
-                    bookCollection.entrySet().stream().filter(book -> book.getValue().getAuthor().equals(searchPhrase)).collect(Collectors.toList());
-
-            for (Map.Entry<String, Book> book : bookList) {
-                if (book.getValue().getAuthor().equalsIgnoreCase(searchPhrase)) {
-                    System.out.println("Author found!\n" + book.getValue());
-                }
-            }
-            System.out.println("Search completed");
-        */
     }
 
     /**
@@ -496,9 +480,9 @@ public class Library {
             }
             System.out.println(
                     "Title: " + listByTitle.get(i).getValue().getTitle() +
-                    "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
-                    "\nGenre: " + listByTitle.get(i).getValue().getGenres() +
-                    "\nAvailability: " + checkAvailable + "\n");
+                            "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
+                            "\nGenre: " + listByTitle.get(i).getValue().getGenres() +
+                            "\n");
         }
         //change property available to a better printout, ex. available: yes/no
     }
@@ -520,9 +504,9 @@ public class Library {
             }
             System.out.println(
                     "Author: " + listByAuthor.get(i).getValue().getAuthor() +
-                    "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
-                    "\nGenre: " + listByAuthor.get(i).getValue().getGenres() +
-                    "\nAvailability: " + checkAvailable + "\n");
+                            "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
+                            "\nGenre: " + listByAuthor.get(i).getValue().getGenres() +
+                    "\n");
         }
     }
 
@@ -532,6 +516,48 @@ public class Library {
                 System.out.println("Title: " + book.getValue().getTitle()
                         + "| Author: " + book.getValue().getAuthor()));
 
+    }
+
+    private void printMessageErrorUnknownInput() {
+        System.out.println("Error! unknown input");
+    }
+
+    public void bookSearch() {
+        addStartBooks();
+        System.out.println("Please choose what you would like to search for\n" +
+                "1: Book title\n" +
+                "2: Author");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            int userInput = scanner.nextInt();
+            switch (userInput) {
+                case 1 -> searchBookTitle();
+                case 2 -> searchBookAuthor();
+                default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
+            }
+        }
+        catch (Exception e) {
+            printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
+        }
+    }
+
+    public void bookList() {
+        addStartBooks();
+        System.out.println("Please choose how you want to sort the list\n" +
+                "1. Sort by title\n" +
+                "2. Sort by author");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            int userInput = scanner.nextInt();
+            switch (userInput) {
+                case 1 -> displayBooksByTitle();
+                case 2 -> displayBooksByAuthor();
+                default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
+            }
+        }
+        catch (Exception e) {
+            printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
+        }
     }
 
     //method to set a collection of 20-30 books.

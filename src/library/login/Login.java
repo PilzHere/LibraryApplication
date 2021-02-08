@@ -231,7 +231,7 @@ public class Login {
                         break;
                     case RETURN_BOOK:
                         System.out.println("Return book...");
-                        //TODO
+                        Library.getInstance().returnBook();
                         break;
                     case LOG_OUT_USER:
                         System.out.println("Logging out \u001B[34m" + currentUser.getName() + "\u001B[0m.");

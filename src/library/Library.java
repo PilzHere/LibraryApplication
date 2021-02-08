@@ -37,7 +37,8 @@ public class Library {
 
     //ADMIN METHODS
 
-    /**Admin to remove book from bookCollection
+    /**
+     * Admin to remove book from bookCollection
      * check input from admin, secondly checks if book exists, if true -> book is removed
      */
     public void removeBook() {
@@ -113,17 +114,16 @@ public class Library {
 
         if (validateStringInput(name)) {
 
-        //TODO second validate, check if user is in userslist
-        //filter out all books reserved by one lender
-        List <Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
-                .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
-                .collect(Collectors.toList());
+            //TODO second validate, check if user is in userslist
+            //filter out all books reserved by one lender
+            List<Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
+                    .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
+                    .collect(Collectors.toList());
 
-            if(booksOnLend.size() != 0){
+            if (booksOnLend.size() != 0) {
                 System.out.println(name + " have lent: ");
                 booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
-            }
-            else{
+            } else {
                 System.out.println(name + " has not lent any books.\n");
             }
         } else {
@@ -178,7 +178,7 @@ public class Library {
                 LocalDate currentDate = LocalDate.now();
 
                 if (returnDate.isEqual(currentDate) || returnDate.isBefore(currentDate)) {
-                    System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor()+"\u001B[O");
+                    System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + "\u001B[O");
                 }
             }
         }
@@ -197,24 +197,23 @@ public class Library {
         }
     }*/
 
-    //User to view lent books
+    //Lender to view lent books
     public void booksBorrowed2(User user) {
 
-        List <Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
+        List<Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
                 .stream()
-                .filter(book ->book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
+                .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
                 .collect(Collectors.toList());
 
-        if(foundMatch.size() != 0){
+        if (foundMatch.size() != 0) {
             System.out.println(user.getName() + " have borrowed: ");
-            foundMatch.stream().forEach(book-> System.out.println(book.getValue().getTitle()));
-        }
-        else{
+            foundMatch.stream().forEach(book -> System.out.println(book.getValue().getTitle()));
+        } else {
             System.out.println("No borrowed book/books");
         }
     }
 
-    //user - lend books
+    //Lender - lend books
     public void lendBooks(User user) {
         checkAvailableBooks();
         System.out.println("Witch one would you like to rent?\nPlease enter Title or Author:");
@@ -233,7 +232,32 @@ public class Library {
                 book.getValue().setAvailable(false); // TODO clear when returned
                 book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
 
-                FileUtils.writeObjectToFileG(bookCollection, new File ("src/books.ser"));
+                FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
+
+            } else {
+                System.out.println("No such book was found!");
+            }
+        } else {
+            System.out.println("Your input was not valid");
+        }
+    }
+
+    // Lender - return borrowed book
+    public void returnBook() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Whats the title on the book you like to return? ");
+        String bookReturn = input.nextLine();
+
+        if (validateStringInput(bookReturn) && bookReturn.length() > 1) {
+            Map.Entry<String, Book> book = bookCollection.entrySet().stream()
+                    .filter(b -> b.getKey().equalsIgnoreCase(bookReturn)).findAny().orElse(null);
+            if (book != null) {
+                System.out.println("You have returned - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor());
+                book.getValue().setReservedBy("");
+                book.getValue().setAvailable(true);
+                book.getValue().setBorrowedDate(null);
+
+                FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
 
             } else {
                 System.out.println("No such book was found!");
@@ -262,7 +286,7 @@ public class Library {
                 System.out.println("The author you are looking for cannot be found :(");
             }
         }
-     /*   input.close();*/
+        /*   input.close();*/
     }
 
     //librarian AND lender - check laoned books
@@ -328,7 +352,7 @@ public class Library {
         return valid;
     }
 
-    public void displayBooksByTitle () {
+    public void displayBooksByTitle() {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));

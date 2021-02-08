@@ -36,7 +36,7 @@ public class Library {
 
     public HashMap<String, Book> bookCollection = new HashMap<>();
 
-    //ADMIN METHODS
+    //******************ADMIN/LIBRARIAN METHODS*********************************************
 
     /**
      * Admin to remove book from bookCollection
@@ -90,6 +90,11 @@ public class Library {
 
     }
 
+    /**
+     *
+     * @param users from Login - userList
+     * @return list of Lenders
+     */
     //Admin to get list of Lenders
     public List<Lender> getLenderList (List<User> users) {
         List<Lender> lenderList = new ArrayList<>();
@@ -146,16 +151,87 @@ public class Library {
         }
     }
 
-    /*//prevent DRY. Takes bookCollection and returns a List-Map.Entry
-    public List<Map.Entry<String, Book>> hashmapToList(HashMap<String, Book> bookCollection) {
-        List<Map.Entry<String, Book>> bookList = bookCollection.entrySet()
-                .stream()
-                .collect(Collectors.toList());
+    public void addOrRemoveMenu(List <User> users) {
 
-        return bookList;
-    }*/
+        System.out.println("Do you want to add or remove a lender \nAdd \nRemove");
+        Scanner scanner = new Scanner(System.in);
+        String adminInput = scanner.nextLine().toLowerCase();
 
-    //LENDER METHODS
+        if(validateStringInput(adminInput)) {
+            switch (adminInput) {
+                case "add" -> addLender(users);
+                case "remove" -> removeLender(users);
+                default -> printMessageErrorUnknownInput();
+            }
+        }
+    }
+
+    private void printMessageErrorUnknownInput () {
+        System.out.println("Error! unknown input");
+    }
+
+    //Admin to remove user
+    public void removeLender (List<User> users) {
+        Scanner scan = new Scanner(System.in);
+        getLenderList(users);
+        System.out.println("Enter name of the user you wish to remove: \n");
+
+        String adminInput = scan.nextLine();
+
+        try {
+            if (validateStringInputLetters(adminInput)) {
+                List <User> lenders = users.stream().filter(u-> u instanceof Lender).collect(Collectors.toList());
+                int nameFound = -1;
+
+                for(User o : lenders){
+                    if(o.getName().equalsIgnoreCase(adminInput)){
+                        nameFound = users.indexOf(o);
+                        System.out.println(nameFound);
+                    }
+                }
+                if(nameFound > 0){
+                    users.remove(users.get(nameFound));
+                    System.out.println(adminInput + " was removed.\n");
+
+                }else{
+                    System.out.println("No user with that name was found");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Admin add lender
+    public void addLender(List <User> users){
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Enter name of new lender: ");
+        String adminInput = scan.nextLine();
+
+        if(validateStringInputLetters(adminInput)){
+            users.add(new Lender(adminInput));
+            System.out.println(adminInput + " was added as a Lender");
+
+        }
+        else{
+            System.out.println("Not a valid input");
+        }
+    }
+    public boolean validateStringInputLetters(String... inputs) { //... = uncertain amount of inputs
+        boolean valid = true;
+        Pattern p = Pattern.compile("[a-zA-Z\\-\\s\n]");
+        //loop through inparameter inputs array
+        for (String input : inputs) {
+            Matcher m = p.matcher(input);
+            if (!m.find()) { // regex to check a-z and -, whitespaces, newline
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    //*****************LENDER METHODS**********************************************************
 
     //Lender - See available books
     public void checkAvailableBooks () {
@@ -287,7 +363,7 @@ public class Library {
         /*   input.close();*/
     }
 
-    //librarian AND lender - check laoned books
+    //librarian AND lender - check lent books
     public void checkLoanedBooks () {
         System.out.println("Following book/books is lent out at the moment:");
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
@@ -297,7 +373,7 @@ public class Library {
         }
     }
 
-    //METHODS FOR BOTH ADMIN AND LENDER
+    //***************METHODS FOR BOTH ADMIN AND LENDER********************************************
 
     // Search for a specific book by title
     public void searchBookTitle () {
@@ -434,10 +510,6 @@ public class Library {
 
     }
 
-    private void printMessageErrorUnknownInput() {
-        System.out.println("Error! unknown input");
-    }
-
     public void bookSearch() {
         addStartBooks();
         System.out.println("Please choose what you would like to search for\n" +
@@ -525,10 +597,10 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
-    //Metod to see ALL books avalible
+    /*//Metod to see ALL books avalible
     public void seeAllBooksInLibrary(){
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
-    }
+    }*/
 
 
 }

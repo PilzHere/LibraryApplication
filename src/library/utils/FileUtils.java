@@ -1,10 +1,15 @@
 package library.utils;
 
 import library.Library;
+import library.login.Login;
 import library.books.Book;
+import library.users.Lender;
+import library.users.User;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FileUtils {
 
@@ -13,23 +18,24 @@ public class FileUtils {
      * @param hashmap books or lenders
      * @return hashmap with book objects or lender objects
      */
+
+
     public static HashMap checkIfFilesExists(HashMap hashmap) {
         File fileBooks = new File("src/books.ser");
-        //TODO File fileUsers = new File("src/users.ser"); to save user and books that are on lend
-
         try {
-            if (fileBooks.exists()) {  //&& fileUser.exists()
+            if (fileBooks.exists()) {
                 hashmap = readObjectFromFileG(fileBooks);
+
             } else {
                 Library.getInstance().addStartBooks();
                 writeObjectToFileG(hashmap, fileBooks);
             }
-
         }catch(NullPointerException e){
                 e.getMessage();
         }
         return hashmap;
     }
+
 
     /**Generic method to write object to file
      *
@@ -71,5 +77,4 @@ public class FileUtils {
        writeObjectToFileG(hashmap, fileBooks);
 
     }
-
 }

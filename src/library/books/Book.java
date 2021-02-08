@@ -1,6 +1,8 @@
 package library.books;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Book implements Serializable {
     private String title;
@@ -8,6 +10,7 @@ public class Book implements Serializable {
     private String genres;
     private boolean available;
     private String reservedBy;
+    private LocalDate borrowedDate;
 
     public Book(String title, String author, String genres, boolean available, String reservedBy) {
         this.title = title;
@@ -64,12 +67,21 @@ public class Book implements Serializable {
         this.reservedBy = reservedBy;
     }
 
+    public void setBorrowedDate(LocalDate borrowedDate) {
+        this.borrowedDate = borrowedDate;
+    }
+
+    public LocalDate getBorrowedDate() {
+        return borrowedDate;
+    }
+
     @Override
     public String toString() {
         return "Book: " +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", genres='" + genres + '\'' +
-                ", available=" + available + '.';
+                ", available=" + available +
+                ", reserved by=" + reservedBy;
     }
 }

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.Calendar;
-
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Library {
     private static final Library instance = new Library();
@@ -185,6 +185,17 @@ public class Library {
         }
     }
 
+    //Lender - time left on rented book
+    public void timeLeftOnLentBook (){
+        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
+        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
+            LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
+            LocalDate currentDate = LocalDate.now();
+            Long daysLeft = DAYS.between(currentDate,returnDate);
+            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Days left " + daysLeft);
+        }
+    }
+
    /* //user - se my lended books
     public void booksBorrowed(User user) {
         //addStartBooks();
@@ -228,9 +239,9 @@ public class Library {
             if (book != null) {
                 System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
                         "\nDon't forget to return book within 2 weeks");
-                book.getValue().setReservedBy(user.getName()); //set ReservedBy to lendersName //TODO clear when returned
-                book.getValue().setAvailable(false); // TODO clear when returned
-                book.getValue().setBorrowedDate(LocalDate.now()); // TODO clear when returned
+                book.getValue().setReservedBy(user.getName());
+                book.getValue().setAvailable(false);
+                book.getValue().setBorrowedDate(LocalDate.now());
 
                 FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
             } else {

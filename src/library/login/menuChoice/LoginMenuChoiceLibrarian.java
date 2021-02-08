@@ -13,11 +13,12 @@ public enum LoginMenuChoiceLibrarian {
     VIEW_ALL_BOOKS(2),
     SEE_LIST_OF_LENDERS(3),
     SEARCH_LENDER_AND_VIEW_LENDED_BOOKS(4),
-    ADD_BOOK_TO_LIBARY(5),
-    REMOVE_BOOK_FROM_COLLECTION(6),
-    SEE_BORROWED_BOOKS(7),
-    SEE_BORROWED_BOOKS_WITH_RETURN_DATES(8),
-    LOG_OUT_USER(9);
+    ADD_REMOVE_LENDER(5),
+    ADD_BOOK_TO_LIBARY(6),
+    REMOVE_BOOK_FROM_COLLECTION(7),
+    SEE_BORROWED_BOOKS(8),
+    SEE_BORROWED_BOOKS_WITH_RETURN_DATES(9),
+    LOG_OUT_USER(10);
 
     private final int value;
     private static final Map map = new HashMap();

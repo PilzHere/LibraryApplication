@@ -293,19 +293,14 @@ public class Library {
     }
 
     //Time left of borrowed book
-    public void timeLeftOnBorrowedBooks (User user) {
-        for (Map.Entry<String,
-                Book> entry : bookCollection.entrySet()) {
-            if (user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())) {
-                LocalDate currentDate =
-                        LocalDate.now();
+    public void timeLeftOnBorrowedBooks(User user) {
+        for(Map.Entry<String, Book> entry : bookCollection.entrySet()){
+            if(user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())){
+                LocalDate currentDate = LocalDate.now();
                 LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
-                Period period =
-                        Period.between(currentDate, returnDate);
-                System.out.println("Title: " +
-                        entry.getValue().getTitle()
-                        + " expires in " + period.getDays()
-                        + " days");
+                Period period = Period.between(currentDate, returnDate);
+
+                System.out.println("Book: " + entry.getValue().getTitle() + " expires in " + period.getDays() + " days");
             }
         }
     }

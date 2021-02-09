@@ -334,7 +334,7 @@ public class Library {
         }
     }
 
-    //more info specific book
+    //more info specific book.
     public void moreInfoSpecificBook() {
         System.out.println("Please enter the book title or Author you would like more information on: ");
         Scanner input = new Scanner(System.in);

@@ -235,19 +235,7 @@ public class Library {
         }
     }
 
-    //Lender - time left on rented book
-    public void timeLeftOnLentBook (User user) {
-        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
-        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
-            if (entry.getValue().getReservedBy().equalsIgnoreCase(user.getName())) {
-                LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
-                LocalDate currentDate = LocalDate.now();
-                long daysLeft = DAYS.between(currentDate, returnDate);
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() +
-                        " | Days left " + daysLeft);
-            }
-        }
-    }
+
 
     //User to view lent books
     public void booksBorrowed2 (User user) {

@@ -1,4 +1,4 @@
-package library.users;
+package login.users;
 
 /**
  * A user entity.
@@ -16,9 +16,5 @@ public abstract class User {
 
     public String getName () {
         return name;
-    }
-
-    public void setName (String name) {
-        this.name = name;
     }
 }

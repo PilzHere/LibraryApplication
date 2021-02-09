@@ -1,4 +1,4 @@
-package library.login.menuChoice;
+package login.menuChoice;
 
 import java.util.HashMap;
 import java.util.Map;

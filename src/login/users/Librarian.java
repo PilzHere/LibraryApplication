@@ -1,4 +1,4 @@
-package library.users;
+package login.users;
 
 /**
  * A subclass of {@link User}.

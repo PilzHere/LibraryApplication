@@ -34,7 +34,7 @@ public class Library {
     //******************LIBRARIAN METHODS*********************************************
 
     /**
-     * Admin to remove book from bookCollection
+     * Admin to remove book from bookCollection.
      * check input from admin, secondly checks if book exists, if true -> book is removed
      */
     public void removeBook () {

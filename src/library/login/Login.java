@@ -118,7 +118,7 @@ public class Login {
         if (currentUser instanceof Librarian)
             System.out.println("\u001B[33mWhat would you like to do? Pick an option.\u001B[0m\n" +
                     "1: Search for books.\n" +
-                    "2: View all books in collection.\n" +
+                    "2: View all books.\n" +
                     "3: View list of lenders.\n" +
                     "4: Search lender and view lent books.\n" +
                     "5: Add or Remove lender.\n" +

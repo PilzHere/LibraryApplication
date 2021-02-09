@@ -235,19 +235,7 @@ public class Library {
         }
     }
 
-    //Lender - time left on rented book
-    public void timeLeftOnLentBook (User user) {
-        HashMap<String, Book> borrowedBookList = getBorrowedBooks();
-        for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
-            if (entry.getValue().getReservedBy().equalsIgnoreCase(user.getName())) {
-                LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
-                LocalDate currentDate = LocalDate.now();
-                long daysLeft = DAYS.between(currentDate, returnDate);
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() +
-                        " | Days left " + daysLeft);
-            }
-        }
-    }
+
 
     //User to view lent books
     public void booksBorrowed2 (User user) {
@@ -330,50 +318,22 @@ public class Library {
         }
     }
 
-    //CAN BE REMOVED IF THE OTHER ONE WORKS- SANDRA
-    public void moreInfoSpecificBookS () {
-        System.out.println("\nPlease enter the book \u001B[32mtitle\u001B[0m you would like more information on: ");
+    //more info specific book
+    public void moreInfoSpecificBook() {
+        System.out.println("Please enter the book title or Author you would like more information on: ");
         Scanner input = new Scanner(System.in);
         String bookOrAuthor = input.nextLine();
-
-        if (validateSingleStringInput(bookOrAuthor)) {
-            Map.Entry<String, Book> foundBook =
-                    bookCollection.entrySet().stream()
-                            .filter(book -> book.getValue().getTitle().equalsIgnoreCase(bookOrAuthor))
-                            .findAny().orElse(null);
-
-            if (foundBook != null) {
-                System.out.println("\n\u001B[33mThe Library found the following book:\u001B[0m\nTitle: " + foundBook.getValue()
-                        .getTitle() + "\nAuthor: " + foundBook.getValue().getAuthor() + "\nGenre: " + foundBook
-                        .getValue().getGenres() + "\nAvailable: " + foundBook.getValue().isAvailable());
-            } else {
-                System.out.println("\n\u001B[31mNo book with that title was found.\u001B[0m");
+        if (validateStringInput(bookOrAuthor) && bookOrAuthor.length() > 1) {
+            boolean found = false;
+            for (String key : bookCollection.keySet()) {
+                if (bookOrAuthor.equalsIgnoreCase(bookCollection.get(key).getAuthor()) || bookOrAuthor.equalsIgnoreCase(bookCollection.get(key).getTitle())) {
+                    System.out.println("The Library found the following " + bookCollection.get(key).toString());
+                    found = true;
+                }
             }
-        } else {
-            printMessageErrorUnknownInput();
+            if(!found) { System.out.println("The book title or author you are looking for cannot be found :("); }
         }
-    }
-
-    //mer info om önskad bok
-    public void moreInfoSpecificBook () {
-        System.out.println("\nPlease enter the book \u001B[32mtitle\u001B[0m you would like more information on: ");
-        Scanner input = new Scanner(System.in);
-        String bookOrAuthor = input.nextLine();
-
-        if (bookCollection.containsKey(bookOrAuthor)) {
-            System.out.println(bookCollection.get(bookOrAuthor).toString());
-        } else {
-            System.out.println("\n\u001B[31mThe book title you are looking for cannot be found.\u001B[0m");
-        }
-        //search for author
-        for (String key : bookCollection.keySet()) {
-            if (bookOrAuthor.equals(bookCollection.get(key).getAuthor())) {
-                System.out.println(bookCollection.get(key).toString());
-            } else {
-                System.out.println("\n\u001B[31mThe author you are looking for cannot be found.\u001B[0m");
-            }
-        }
-        /*   input.close();*/
+        else { printMessageErrorUnknownInput(); }
     }
 
     //librarian AND lender - check lent books

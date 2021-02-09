@@ -174,7 +174,7 @@ public class Login {
                     case SHOW_TIME_LEFT_ON_LENT_BOOK -> Library.getInstance().timeLeftOnBorrowedBooks(currentUser); //Library.getInstance().timeLeftOnLentBook();
                     case VIEW_BOOK_BY_TITLE_OR_AUTHOR -> Library.getInstance().bookList();
                     case VIEW_ALL_BOOKS -> Library.getInstance().displayBookCollection();
-                    case MORE_DETAIL_BOOK -> Library.getInstance().moreInfoSpecificBookS(); //Library.getInstance().moreInfoSpecificBook();
+                    case MORE_DETAIL_BOOK -> Library.getInstance().moreInfoSpecificBook(); //Library.getInstance().moreInfoSpecificBook();
                     case VIEW_AVAILABLE_BOOKS -> Library.getInstance().checkAvailableBooks();
                     case RETURN_BOOK -> Library.getInstance().returnBook();
                     case LOG_OUT_USER -> {

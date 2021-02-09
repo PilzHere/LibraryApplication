@@ -496,8 +496,7 @@ public class Library {
         for (int i = 0; i < listByTitle.size(); i++) {
             System.out.println(
                     "Title: " + listByTitle.get(i).getValue().getTitle() +
-                            "\nAuthor: " + listByTitle.get(i).getValue().getAuthor() +
-                            "\n");
+                            " | Author: " + listByTitle.get(i).getValue().getAuthor());
         }
     }
 
@@ -510,8 +509,7 @@ public class Library {
         for (int i = 0; i < listByAuthor.size(); i++) {
             System.out.println(
                     "Author: " + listByAuthor.get(i).getValue().getAuthor() +
-                            "\nTitle: " + listByAuthor.get(i).getValue().getTitle() +
-                            "\n");
+                    " | Title: " + listByAuthor.get(i).getValue().getTitle());
         }
     }
 

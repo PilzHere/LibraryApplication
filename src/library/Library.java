@@ -30,7 +30,7 @@ public class Library {
 
     public HashMap<String, Book> bookCollection = new HashMap<>();
 
-    //******************ADMIN/LIBRARIAN METHODS*********************************************
+    //******************LIBRARIAN METHODS*********************************************
 
     /**
      * Admin to remove book from bookCollection
@@ -56,7 +56,7 @@ public class Library {
             }
 
         } else {
-            System.out.println("No valid input");
+            printMessageErrorUnknownInput();
         }
     }
 
@@ -78,24 +78,26 @@ public class Library {
             System.out.println("Book added!");
             return true;
         } else {
-            System.out.println("Your input was not valid");
+            printMessageErrorUnknownInput();
             return false;
         }
-
     }
 
     /**
      *
      * @param users from Login - userList
-     * @return list of Lenders
      */
     //Admin to get list of Lenders
     public void getLenderList (List<User> users) {
-        System.out.println("Current Lenders: \n");
+        if (users != null) {
+            System.out.println("Current Lenders: \n");
 
-        users.stream().forEach(user -> {if(user instanceof Lender){
-            System.out.println(user.getName());
-        }});
+            users.forEach(user -> {
+                if (user instanceof Lender) {
+                    System.out.println(user.getName());
+                }
+            });
+        }
     }
 
     //Admin to search for a Lender and view Lenders books
@@ -119,7 +121,7 @@ public class Library {
                     .collect(Collectors.toList());
 
             if (booksOnLend.size() != 0) {
-                System.out.println(name + " have lent: ");
+                System.out.println(name + " have borrowed: ");
                 booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
             }else {
                 System.out.println(name + " has not lent any books.\n");
@@ -159,10 +161,6 @@ public class Library {
         }
     }
 
-    private void printMessageErrorUnknownInput() {
-        System.out.println("\u001B[31mThat is not an option.\u001B[0m");
-    }
-
     //Admin to remove user
     public void removeLender (List<User> users) {
         Scanner scan = new Scanner(System.in);
@@ -172,14 +170,13 @@ public class Library {
         String adminInput = scan.nextLine();
 
         try {
-            if (validateStringInputLetters(adminInput)) {
+            if (validateSingleStringInput(adminInput)) {
                 List <User> lenders = users.stream().filter(u-> u instanceof Lender).collect(Collectors.toList());
                 int nameFound = -1;
 
                 for(User o : lenders){
                     if(o.getName().equalsIgnoreCase(adminInput)){
                         nameFound = users.indexOf(o);
-                        System.out.println(nameFound);
                     }
                 }
                 if(nameFound > 0){
@@ -202,27 +199,16 @@ public class Library {
         System.out.println("Enter name of new lender: \n");
         String adminInput = scan.nextLine();
 
-        if(validateStringInputLetters(adminInput)){
+        if(validateSingleStringInput(adminInput)){
             users.add(new Lender(adminInput));
             System.out.println(adminInput + " was added as a Lender\n");
 
         }
         else{
-            System.out.println("Not a valid input\n");
+            printMessageErrorUnknownInput();
         }
     }
-    public boolean validateStringInputLetters(String... inputs) { //... = uncertain amount of inputs
-        boolean valid = true;
-        Pattern p = Pattern.compile("[a-zA-Z\\-\\s\n]");
-        //loop through inparameter inputs array
-        for (String input : inputs) {
-            Matcher m = p.matcher(input);
-            if (!m.find()) { // regex to check a-z and -, whitespaces, newline
-                valid = false;
-            }
-        }
-        return valid;
-    }
+
 
     //*****************LENDER METHODS**********************************************************
 
@@ -238,7 +224,7 @@ public class Library {
         }
     }
 
-    //Lender - reminder to return book (SHOWS WHEN LENDERLOGS IN)
+    //Lender - reminder to return book (SHOWS WHEN LENDER LOGS IN)
     public void remindToReturnBook (User user) {
         HashMap<String, Book> borrowedBooks = getBorrowedBooks();
 
@@ -286,8 +272,8 @@ public class Library {
                 .collect(Collectors.toList());
 
         if (foundMatch.size() != 0) {
-            System.out.println(user.getName() + " have borrowed: ");
-            foundMatch.stream().forEach(book -> System.out.println(book.getValue().getTitle()));
+            System.out.println("You have borrowed: \n");
+            foundMatch.forEach(book -> System.out.println(book.getValue().getTitle()));
         } else {
             System.out.println("No borrowed book/books");
         }
@@ -344,6 +330,31 @@ public class Library {
             System.out.println("Your input was not valid");
         }
     }
+
+    /*//CAN BE REMOVED IF THE OTHER ONE WORKS- SANDRA
+    public void moreInfoSpecificBookS () {
+        System.out.println("Please enter the book title you would like more information on: ");
+        Scanner input = new Scanner(System.in);
+        String bookOrAuthor = input.nextLine();
+
+        if(validateSingleStringInput(bookOrAuthor)){
+            Map.Entry<String, Book> foundBook =
+                    bookCollection.entrySet().stream()
+                    .filter(book -> book.getValue().getTitle().equalsIgnoreCase(bookOrAuthor))
+                    .findAny().orElse(null);
+
+            if(foundBook != null){
+                System.out.println("The Library found the following book: \nTitle: " + foundBook.getValue()
+                .getTitle() + "| Author: " + foundBook.getValue().getAuthor() + " | Genre: " + foundBook
+                .getValue().getGenres() + " | Available: " + foundBook.getValue().isAvailable());
+            }
+            else{
+                System.out.println("No book with that title was found.");
+            }
+        }else{
+            printMessageErrorUnknownInput();
+        }
+    }*/
 
     //mer info om önskad bok
     public void moreInfoSpecificBook () {
@@ -454,29 +465,7 @@ public class Library {
         }
     }
 
-    //***VALIDATION METHODS***
-    //Validation method to check one or more string input
-    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
-        boolean valid = true;
-        Pattern p = Pattern.compile("^[a-zA-Z0-9\\-\\s\n]+$");
-        //loop through inparameter inputs array
-        for (String input : inputs) {
-            Matcher m = p.matcher(input);
-            if (!m.find()) { // regex to check a-z, 0-9 and -, whitespaces, newline
-                valid = false;
-            }
-        }
-        return valid;
-    }
 
-    //Validation for 1 single string
-    public boolean validateSingleStringInput(String input) {
-        Pattern p = Pattern.compile("^[a-zA-Z]+$");
-        Matcher m = p.matcher(input);
-
-        boolean valid = m.matches();
-        return valid;
-    }
 
     // List all books alphabetically sorted by title
     public void displayBooksByTitle() {
@@ -508,14 +497,12 @@ public class Library {
 
     public void displayBookCollection () {
         System.out.println("The Library have the following books: \n");
-        this.bookCollection.entrySet().forEach(book ->
-                System.out.println("Title: " + book.getValue().getTitle()
-                        + " | Author: " + book.getValue().getAuthor()));
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle()
+                + " | Author: " + value.getAuthor()));
 
     }
 
     public void bookSearch() {
-        //addStartBooks();
         System.out.println("Please choose what you would like to search for\n" +
                 "1: Book title\n" +
                 "2: Author");
@@ -523,7 +510,7 @@ public class Library {
         Scanner scanner = new Scanner(System.in);
         if (scanner.hasNextInt()) {
             final int userInput = scanner.nextInt();
-            getChoiceBookSearchAndBookListFunctions(userInput);
+            getChoiceBookSearchFunctions(userInput);
 
             return;
         }
@@ -532,7 +519,6 @@ public class Library {
     }
 
     public void bookList() {
-        //addStartBooks();
         System.out.println("Please choose how you want to sort the list\n" +
                 "1. Sort by title\n" +
                 "2. Sort by author");
@@ -540,7 +526,7 @@ public class Library {
         Scanner scanner = new Scanner(System.in);
         if (scanner.hasNextInt()) {
             final int userInput = scanner.nextInt();
-            getChoiceBookSearchAndBookListFunctions(userInput);
+            getChoiceBookListFunctions(userInput);
 
             return;
         }
@@ -548,12 +534,47 @@ public class Library {
         printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
     }
 
-    private void getChoiceBookSearchAndBookListFunctions(final int choice) {
+    private void getChoiceBookListFunctions(final int choice) {
         switch (choice) {
             case 1 -> displayBooksByTitle();
             case 2 -> displayBooksByAuthor();
             default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
         }
+    }
+    private void getChoiceBookSearchFunctions(final int choice) {
+        switch (choice) {
+            case 1 -> searchBookTitle();
+            case 2 -> searchBookAuthor();
+            default -> printMessageErrorUnknownInput(); // <- Deals with unexpected numbers
+        }
+    }
+
+    //***VALIDATION METHODS***
+    //Validation method to check one or more string input
+    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
+        boolean valid = true;
+        Pattern p = Pattern.compile("^[a-zA-Z0-9\\-\\s\n]+$");
+        //loop through inparameter inputs array
+        for (String input : inputs) {
+            Matcher m = p.matcher(input);
+            if (!m.find()) { // regex to check a-z, 0-9 and -, whitespaces, newline
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    //Validation for 1 single string
+    public boolean validateSingleStringInput(String input) {
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");
+        Matcher m = p.matcher(input);
+
+        boolean valid = m.matches();
+        return valid;
+    }
+
+    private void printMessageErrorUnknownInput() {
+        System.out.println("\u001B[31mThat is not an option.\u001B[0m");
     }
 
     //DO NOT USE IN METHODS - ONLY FOR SAVE TO FILE

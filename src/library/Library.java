@@ -1,18 +1,19 @@
 package library;
 
 import library.books.Book;
-import library.users.Lender;
-import library.users.User;
-import library.utils.FileUtils;
+import login.users.Lender;
+import login.users.User;
+import utils.FileUtils;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.Comparator;
 import java.util.Scanner;
-import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -21,17 +22,15 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Library {
     private static final Library instance = new Library();
+    public HashMap<String, Book> bookCollection = new HashMap<>();
 
-    public static Library getInstance() {
+    public static Library getInstance () {
         return instance;
     }
 
-    public Library() {
+    /*public Library() {
         System.out.println("DEBUG: Library class instantiated. You should not see this message anymore.");
-
-    }
-
-    public HashMap<String, Book> bookCollection = new HashMap<>();
+    }*/
 
     //******************LIBRARIAN METHODS*********************************************
 
@@ -39,46 +38,44 @@ public class Library {
      * Admin to remove book from bookCollection
      * check input from admin, secondly checks if book exists, if true -> book is removed
      */
-    public void removeBook() {
+    public void removeBook () {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter title of the book you wish to remove: ");
+        System.out.println("\nEnter \u001B[32mtitle\u001B[0m of the book you wish to remove: ");
         String adminInput = scan.nextLine();
 
         if (validateStringInput(adminInput)) {
             Map.Entry<String, Book> foundBook = bookCollection.entrySet().stream()
                     .filter(book -> book.getValue().getTitle().equalsIgnoreCase(adminInput))
                     .findAny().orElse(null);
-
             if (foundBook != null) {
                 bookCollection.remove(foundBook.getKey());
                 FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
-                System.out.println(adminInput + " was deleted from book collection.");
+                System.out.println("\n\u001B[32m" + adminInput + "\u001B[0m was deleted from book collection.");
 
             } else {
-                System.out.println("No book with title " + adminInput + " was found.");
+                System.out.println("\n\u001B[31mNo book with title \u001B[32m" + adminInput + "\u001B[31m was found.\u001B[0m");
             }
-
         } else {
             printMessageErrorUnknownInput();
         }
     }
 
     //Admin - Add book
-    public boolean addBook() {
+    public boolean addBook () {
+        System.out.println("\nEnter book \u001B[32mtitle\u001B[0m: ");
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter book title: ");
         String bookTitle = input.nextLine();
 
-        System.out.println("Enter author: ");
+        System.out.println("\nEnter \u001B[32mauthor\u001B[0m: ");
         String author = input.nextLine();
 
-        System.out.println("Enter genre: ");
+        System.out.println("\nEnter \u001B[32mgenre\u001B[0m: ");
         String genre = input.nextLine();
 
         if (validateStringInput(bookTitle, author, genre)) {
             bookCollection.put(bookTitle, new Book(bookTitle, author, genre, true, ""));
             FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
-            System.out.println("Book added!");
+            System.out.println("\n\u001B[32mBook added!\u001B[0m");
             return true;
         } else {
             printMessageErrorUnknownInput();
@@ -90,9 +87,9 @@ public class Library {
      * @param users from Login - userList
      */
     //Admin to get list of Lenders
-    public void getLenderList(List<User> users) {
+    public void getLenderList (List<User> users) {
         if (users != null) {
-            System.out.println("Current Lenders: \n");
+            System.out.println("\n\u001B[33mCurrent Lenders:\u001B[0m");
 
             users.forEach(user -> {
                 if (user instanceof Lender) {
@@ -103,10 +100,10 @@ public class Library {
     }
 
     //Admin to search for a Lender and view Lenders books
-    public void searchForLender(List<User> users) {
+    public void searchForLender (List<User> users) {
         Scanner scan = new Scanner(System.in);
         getLenderList(users);
-        System.out.println("\nEnter name of Lender you wish to view: ");
+        System.out.println("\nEnter \u001B[32mname\u001B[0m of Lender you wish to view: ");
         final String name = scan.next();
         boolean foundMatch = false;
 
@@ -121,34 +118,37 @@ public class Library {
             List<Map.Entry<String, Book>> booksOnLend = bookCollection.entrySet().stream()
                     .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(name))
                     .collect(Collectors.toList());
-
             if (booksOnLend.size() != 0) {
-                System.out.println(name + " have borrowed: ");
+                System.out.println("\n\u001B[34m" + name + " \u001B[0mhave borrowed: ");
                 booksOnLend.stream().forEach(lender -> System.out.println(lender.getValue().getTitle()));
             } else {
-                System.out.println(name + " has not lent any books.\n");
+                System.out.println("\n\u001B[34m" + name + " \u001B[0mhas not lent any books.\n");
             }
         } else {
-            System.out.println("No lender with that name was found");
+            System.out.println("\n\u001B[31mNo lender with that name was found.\u001B[0m");
         }
     }
 
     //Admin - get list of borrowed books
-    public HashMap<String, Book> getBorrowedBooks() {
-        return (HashMap<String, Book>) bookCollection.entrySet().stream().filter(b -> !b.getValue().isAvailable()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    public HashMap<String, Book> getBorrowedBooks () {
+        return (HashMap<String, Book>) bookCollection.entrySet().stream().filter(b -> !b.getValue().isAvailable())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     //Admin - check borrowed and return date
-    public void printBorrowedAndReturnDate() {
+    public void printBorrowedAndReturnDate () {
         HashMap<String, Book> borrowedBookList = getBorrowedBooks();
+        System.out.println();
         for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
             LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
-            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Borrowed Date: " + entry.getValue().getBorrowedDate() + " | Return Date: " + returnDate);
+            System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() +
+                    " | Borrowed Date: " + entry.getValue().getBorrowedDate() + " | Return Date: " + returnDate);
         }
     }
 
-    public void addOrRemoveMenu(List<User> users) {
-        System.out.println("Do you want to add or remove a lender \n1: Add lender \n2: Remove lender");
+    public void addOrRemoveMenu (List<User> users) {
+        System.out.println("\nDo you want to \u001B[32madd\u001B[0m or \u001B[32mremove\u001B[0m a lender \n1: Add lender \n" +
+                "2: Remove lender");
         Scanner scanner = new Scanner(System.in);
         try {
             int adminInput = scanner.nextInt();
@@ -163,29 +163,27 @@ public class Library {
     }
 
     //Admin to remove user
-    public void removeLender(List<User> users) {
-        Scanner scan = new Scanner(System.in);
+    public void removeLender (List<User> users) {
+        System.out.println("\nEnter \u001B[32mname of the user\u001B[0m you wish to remove:");
         getLenderList(users);
-        System.out.println("Enter name of the user you wish to remove: \n");
-
+        Scanner scan = new Scanner(System.in);
         String adminInput = scan.nextLine();
 
         try {
             if (validateSingleStringInput(adminInput)) {
-                List<User> lenders = users.stream().filter(u -> u instanceof Lender).collect(Collectors.toList());
+                List<User> lenders = users.stream().filter(user -> user instanceof Lender).collect(Collectors.toList());
                 int nameFound = -1;
 
-                for (User o : lenders) {
-                    if (o.getName().equalsIgnoreCase(adminInput)) {
-                        nameFound = users.indexOf(o);
+                for (User user : lenders) {
+                    if (user.getName().equalsIgnoreCase(adminInput)) {
+                        nameFound = users.indexOf(user);
                     }
                 }
                 if (nameFound > 0) {
                     users.remove(users.get(nameFound));
-                    System.out.println(adminInput + " was removed.\n");
-
+                    System.out.println("\n\u001B[34m" + adminInput + "\u001B[0m was removed.");
                 } else {
-                    System.out.println("No user with that name was found");
+                    System.out.println("\n\u001B[31mNo user with that name was found.\u001B[0m");
                 }
             }
         } catch (Exception e) {
@@ -194,28 +192,24 @@ public class Library {
     }
 
     //Admin add lender
-    public void addLender(List<User> users) {
+    public void addLender (List<User> users) {
+        System.out.println("\nEnter \u001B[32mname\u001B[0m of new lender:");
         Scanner scan = new Scanner(System.in);
+        String newUserName = scan.nextLine();
 
-        System.out.println("Enter name of new lender: \n");
-        String adminInput = scan.nextLine();
-
-        if (validateSingleStringInput(adminInput)) {
-            users.add(new Lender(adminInput));
-            System.out.println(adminInput + " was added as a Lender\n");
-
+        if (validateSingleStringInput(newUserName)) {
+            users.add(new Lender(newUserName));
+            System.out.println("\n\u001B[34m" + newUserName + "\u001B[0m was added as a Lender.");
         } else {
             printMessageErrorUnknownInput();
         }
     }
 
-
     //*****************LENDER METHODS**********************************************************
 
     //Lender - See available books
-    public void checkAvailableBooks() {
-
-        System.out.println("Available books to lend:");
+    public void checkAvailableBooks () {
+        System.out.println("\n\u001B[33mAvailable books to lend:\u001B[0m");
 
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (entry.getValue().isAvailable()) {
@@ -225,7 +219,7 @@ public class Library {
     }
 
     //Lender - reminder to return book (SHOWS WHEN LENDER LOGS IN)
-    public void remindToReturnBook(User user) {
+    public void remindToReturnBook (User user) {
         HashMap<String, Book> borrowedBooks = getBorrowedBooks();
 
         for (Map.Entry<String, Book> entry : borrowedBooks.entrySet()) {
@@ -234,83 +228,72 @@ public class Library {
                 LocalDate currentDate = LocalDate.now();
 
                 if (returnDate.isEqual(currentDate) || returnDate.isBefore(currentDate)) {
-                    System.out.println("\u001B[31m*** THE LEND PERIOD HAS EXPIRES FOR FOLLOWING BOOK/BOOKS ***\nTitle: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + "\u001B[O");
+                    System.out.println("\n\u001B[31m*** The lending period has expired for the following book(s) ***\nTitle: " +
+                            entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + "\u001B[O");
                 }
             }
         }
     }
 
     //Lender - time left on rented book
-    public void timeLeftOnLentBook(User user) {
+    public void timeLeftOnLentBook (User user) {
         HashMap<String, Book> borrowedBookList = getBorrowedBooks();
         for (Map.Entry<String, Book> entry : borrowedBookList.entrySet()) {
             if (entry.getValue().getReservedBy().equalsIgnoreCase(user.getName())) {
                 LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
                 LocalDate currentDate = LocalDate.now();
-                Long daysLeft = DAYS.between(currentDate, returnDate);
-                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() + " | Days left " + daysLeft);
+                long daysLeft = DAYS.between(currentDate, returnDate);
+                System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor() +
+                        " | Days left " + daysLeft);
             }
         }
     }
 
-   /* //user - se my lended books
-    public void booksBorrowed(User user) {
-        //addStartBooks();
-
-        if (((Lender) user).getLendedBooks().isEmpty()) {
-            System.out.println("You have no borrowed book/books\n");
-        } else {
-            System.out.println("Your borrowed books: \n");
-            ((Lender) user).getLendedBooks().forEach(System.out::println);
-            System.out.println();
-        }
-    }*/
-
     //User to view lent books
-    public void booksBorrowed2(User user) {
+    public void booksBorrowed2 (User user) {
         List<Map.Entry<String, Book>> foundMatch = bookCollection.entrySet()
                 .stream()
                 .filter(book -> book.getValue().getReservedBy().equalsIgnoreCase(user.getName()))
                 .collect(Collectors.toList());
 
         if (foundMatch.size() != 0) {
-            System.out.println("You have borrowed: \n");
+            System.out.println("\n\u001B[33mYou have borrowed:\u001B[0m");
             foundMatch.forEach(book -> System.out.println(book.getValue().getTitle()));
         } else {
-            System.out.println("No borrowed book/books");
+            System.out.println("\n\u001B[31mYou have no borrowed book.\u001B[0m");
         }
     }
 
     //user - lend books
-    public void lendBooks(User user) {
+    public void lendBooks (User user) {
         checkAvailableBooks();
-        System.out.println("Witch one would you like to rent?\nPlease enter Title or Author:");
+        System.out.println("\n\u001B[33mWhich book would you like to borrow?\u001B[0m\nEnter \u001B[32mTitle\u001B[0m or \u001B[32mAuthor\u001B[0m:");
         Scanner input = new Scanner(System.in);
         String bookToLent = input.nextLine();
         if (validateStringInput(bookToLent) && bookToLent.length() > 1) {
-
             Map.Entry<String, Book> book =
                     bookCollection.entrySet().stream()
-                            .filter(b -> b.getValue().getTitle().equalsIgnoreCase(bookToLent) ||
-                                    b.getValue().getAuthor().equalsIgnoreCase(bookToLent)).findAny().orElse(null);
+                            .filter(currentBook -> currentBook.getValue().getTitle().equalsIgnoreCase(bookToLent) ||
+                                    currentBook.getValue().getAuthor().equalsIgnoreCase(bookToLent)).findAny().orElse(null);
+
             if (book != null) {
-                System.out.println("Borrowed - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor() +
-                        "\nDon't forget to return book within 2 weeks");
+                System.out.println("\nBorrowed book - Title: " + book.getValue().getTitle() + " | Author: " +
+                        book.getValue().getAuthor() + "\nDon't forget to return book within 2 weeks");
                 book.getValue().setReservedBy(user.getName());
                 book.getValue().setAvailable(false);
                 book.getValue().setBorrowedDate(LocalDate.now());
 
                 FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
             } else {
-                System.out.println("No such book was found!");
+                System.out.println("\n\u001B[31mNo such book was found.\u001B[0m");
             }
         } else {
-            System.out.println("Your input was not valid");
+            System.out.println("\n\u001B[31mYour input was not valid.\u001B[0m");
         }
     }
 
     //Time left of borrowed book
-    public void timeLeftOnBorrowedBooks(User user) {
+    public void timeLeftOnBorrowedBooks (User user) {
         for (Map.Entry<String,
                 Book> entry : bookCollection.entrySet()) {
             if (user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())) {
@@ -328,32 +311,33 @@ public class Library {
     }
 
     // Lender - return borrowed book
-    public void returnBook() {
+    public void returnBook () {
         Scanner input = new Scanner(System.in);
-        System.out.println("Whats the title on the book you like to return? ");
+        System.out.println("\nWhats the \u001B[32mtitle\u001B[0m on the book you like to return? ");
         String bookReturn = input.nextLine();
 
         if (validateStringInput(bookReturn) && bookReturn.length() > 1) {
             Map.Entry<String, Book> book = bookCollection.entrySet().stream()
                     .filter(b -> b.getKey().equalsIgnoreCase(bookReturn)).findAny().orElse(null);
             if (book != null) {
-                System.out.println("You have returned - Title: " + book.getValue().getTitle() + " | Author: " + book.getValue().getAuthor());
+                System.out.println("\n\u001B[33mYou have returned\u001B[0m - Title: " + book.getValue().getTitle() + " | Author: " +
+                        book.getValue().getAuthor());
                 book.getValue().setReservedBy("");
                 book.getValue().setAvailable(true);
                 book.getValue().setBorrowedDate(null);
 
                 FileUtils.writeObjectToFileG(bookCollection, new File("src/books.ser"));
             } else {
-                System.out.println("No such book was found!");
+                System.out.println("\n\u001B[31mNo such book was found.\u001B[0m");
             }
         } else {
-            System.out.println("Your input was not valid");
+            System.out.println("\n\u001B[31mYour input was not valid.\u001B[0m");
         }
     }
 
     //CAN BE REMOVED IF THE OTHER ONE WORKS- SANDRA
-    public void moreInfoSpecificBookS() {
-        System.out.println("Please enter the book title you would like more information on: ");
+    public void moreInfoSpecificBookS () {
+        System.out.println("\nPlease enter the book \u001B[32mtitle\u001B[0m you would like more information on: ");
         Scanner input = new Scanner(System.in);
         String bookOrAuthor = input.nextLine();
 
@@ -364,11 +348,11 @@ public class Library {
                             .findAny().orElse(null);
 
             if (foundBook != null) {
-                System.out.println("The Library found the following book: \nTitle: " + foundBook.getValue()
+                System.out.println("\n\u001B[33mThe Library found the following book:\u001B[0m\nTitle: " + foundBook.getValue()
                         .getTitle() + "\nAuthor: " + foundBook.getValue().getAuthor() + "\nGenre: " + foundBook
                         .getValue().getGenres() + "\nAvailable: " + foundBook.getValue().isAvailable());
             } else {
-                System.out.println("No book with that title was found.");
+                System.out.println("\n\u001B[31mNo book with that title was found.\u001B[0m");
             }
         } else {
             printMessageErrorUnknownInput();
@@ -376,30 +360,30 @@ public class Library {
     }
 
     //mer info om önskad bok
-    public void moreInfoSpecificBook() {
-        System.out.println("Please enter the book title you would like more information on: ");
+    public void moreInfoSpecificBook () {
+        System.out.println("\nPlease enter the book \u001B[32mtitle\u001B[0m you would like more information on: ");
         Scanner input = new Scanner(System.in);
         String bookOrAuthor = input.nextLine();
 
         if (bookCollection.containsKey(bookOrAuthor)) {
             System.out.println(bookCollection.get(bookOrAuthor).toString());
         } else {
-            System.out.println("The book title you are looking for cannot be found :(");
+            System.out.println("\n\u001B[31mThe book title you are looking for cannot be found.\u001B[0m");
         }
         //search for author
         for (String key : bookCollection.keySet()) {
             if (bookOrAuthor.equals(bookCollection.get(key).getAuthor())) {
                 System.out.println(bookCollection.get(key).toString());
             } else {
-                System.out.println("The author you are looking for cannot be found :(");
+                System.out.println("\n\u001B[31mThe author you are looking for cannot be found.\u001B[0m");
             }
         }
         /*   input.close();*/
     }
 
     //librarian AND lender - check lent books
-    public void checkLoanedBooks() {
-        System.out.println("Following book/books is lent out at the moment:");
+    public void checkLoanedBooks () {
+        System.out.println("\n\u001B[33mFollowing book(s) is/are lent out at the moment:\u001B[0m");
         for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (!entry.getValue().isAvailable()) {
                 System.out.println("Title: " + entry.getValue().getTitle() + " | Author: " + entry.getValue().getAuthor());
@@ -410,8 +394,8 @@ public class Library {
     //***************METHODS FOR BOTH ADMIN AND LENDER********************************************
 
     // Search for a specific book by title
-    public void searchBookTitle() {
-        System.out.println("Enter \u001B[32msearch words\u001B[0m seperated with space...");
+    public void searchBookTitle () {
+        System.out.println("\nEnter \u001B[32msearch words\u001B[0m seperated with space...");
         final Scanner input = new Scanner(System.in);
         final String[] words = input.nextLine().toLowerCase().split("\\s");
         ArrayList<Book> foundBooks = new ArrayList<>();
@@ -426,13 +410,12 @@ public class Library {
         }
 
         foundBooks = removeDuplicatedBooksFromList(foundBooks);
-
         printBooksFoundFromSearch(foundBooks);
     }
 
     // Search for book(s) by author
-    public void searchBookAuthor() {
-        System.out.println("Enter \u001B[32msearch words\u001B[0m seperated with space...");
+    public void searchBookAuthor () {
+        System.out.println("\nEnter \u001B[32msearch words\u001B[0m seperated with space...");
         final Scanner input = new Scanner(System.in);
         final String[] words = input.nextLine().toLowerCase().split("\\s");
         ArrayList<Book> foundBooks = new ArrayList<>();
@@ -447,7 +430,6 @@ public class Library {
         }
 
         foundBooks = removeDuplicatedBooksFromList(foundBooks);
-
         printBooksFoundFromSearch(foundBooks);
     }
 
@@ -457,7 +439,7 @@ public class Library {
      * @param bookList
      * @return
      */
-    private ArrayList<Book> removeDuplicatedBooksFromList(final ArrayList<Book> bookList) {
+    private ArrayList<Book> removeDuplicatedBooksFromList (final ArrayList<Book> bookList) {
         for (int i = 0; i < bookList.size(); i++) {
             for (int j = i + 1; j < bookList.size(); j++) {
                 if (bookList.get(i).getTitle().equalsIgnoreCase(bookList.get(j).getTitle())) {
@@ -474,85 +456,81 @@ public class Library {
      *
      * @param bookList
      */
-    private void printBooksFoundFromSearch(final ArrayList<Book> bookList) {
+    private void printBooksFoundFromSearch (final ArrayList<Book> bookList) {
         if (bookList.size() == 0) {
-            System.out.println("\u001B[31mNo books found matching your search criteria.\u001B[0m");
+            System.out.println("\n\u001B[31mNo books found matching your search criteria.\u001B[0m");
             return;
         }
 
-        System.out.println("\u001B[33mThese books matches your search criteria:\u001B[0m");
+        System.out.println("\n\u001B[33mThese books matches your search criteria:\u001B[0m");
         for (Book book : bookList) {
             System.out.println(book.getTitle());
         }
     }
 
-
     // List all books alphabetically sorted by title
-    public void displayBooksByTitle() {
+    public void displayBooksByTitle () {
         List<Map.Entry<String, Book>> listByTitle = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByTitle.sort(Comparator.comparing(book -> (book.getValue().getTitle())));
 
-        for (int i = 0; i < listByTitle.size(); i++) {
+        for (Map.Entry<String, Book> stringBookEntry : listByTitle) {
             System.out.println(
-                    "Title: " + listByTitle.get(i).getValue().getTitle() +
-                            " | Author: " + listByTitle.get(i).getValue().getAuthor());
+                    "Title: " + stringBookEntry.getValue().getTitle() +
+                            " | Author: " + stringBookEntry.getValue().getAuthor());
         }
     }
 
     // List all books alphabetically sorted by author
-    public void displayBooksByAuthor() {
+    public void displayBooksByAuthor () {
         List<Map.Entry<String, Book>> listByAuthor = bookCollection.entrySet()
                 .stream().collect(Collectors.toList());
         listByAuthor.sort(Comparator.comparing(book -> (book.getValue().getAuthor())));
 
-        for (int i = 0; i < listByAuthor.size(); i++) {
+        for (Map.Entry<String, Book> stringBookEntry : listByAuthor) {
             System.out.println(
-                    "Author: " + listByAuthor.get(i).getValue().getAuthor() +
-                    " | Title: " + listByAuthor.get(i).getValue().getTitle());
+                    "Author: " + stringBookEntry.getValue().getAuthor() +
+                            " | Title: " + stringBookEntry.getValue().getTitle());
         }
     }
 
-    public void displayBookCollection() {
-        System.out.println("The Library have the following books: \n");
+    public void displayBookCollection () {
+        System.out.println("\n\u001B[33mThe Library have the following books:\u001B[0m");
         this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle()
                 + " | Author: " + value.getAuthor()));
-
     }
 
-    public void bookSearch() {
-        System.out.println("Please choose what you would like to search for\n" +
+    public void bookSearch () {
+        System.out.println("\nPlease \u001B[32mchoose\u001B[0m what you would like to search for.\n" +
                 "1: Book title\n" +
                 "2: Author");
-
         Scanner scanner = new Scanner(System.in);
+
         if (scanner.hasNextInt()) {
             final int userInput = scanner.nextInt();
             getChoiceBookSearchFunctions(userInput);
 
             return;
         }
-
         printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
     }
 
-    public void bookList() {
-        System.out.println("Please choose how you want to sort the list\n" +
+    public void bookList () {
+        System.out.println("\nPlease \u001B[32mchoose\u001B[0m how you want to sort the list.\n" +
                 "1. Sort by title\n" +
                 "2. Sort by author");
-
         Scanner scanner = new Scanner(System.in);
+
         if (scanner.hasNextInt()) {
             final int userInput = scanner.nextInt();
             getChoiceBookListFunctions(userInput);
 
             return;
         }
-
         printMessageErrorUnknownInput(); // <- Deals with unexpected characters (anything that's not numbers)
     }
 
-    private void getChoiceBookListFunctions(final int choice) {
+    private void getChoiceBookListFunctions (final int choice) {
         switch (choice) {
             case 1 -> displayBooksByTitle();
             case 2 -> displayBooksByAuthor();
@@ -560,7 +538,7 @@ public class Library {
         }
     }
 
-    private void getChoiceBookSearchFunctions(final int choice) {
+    private void getChoiceBookSearchFunctions (final int choice) {
         switch (choice) {
             case 1 -> searchBookTitle();
             case 2 -> searchBookAuthor();
@@ -570,7 +548,7 @@ public class Library {
 
     //***VALIDATION METHODS***
     //Validation method to check one or more string input
-    public boolean validateStringInput(String... inputs) { //... = uncertain amount of inputs
+    public boolean validateStringInput (String... inputs) { //... = uncertain amount of inputs
         boolean valid = true;
         Pattern p = Pattern.compile("^[a-zA-Z0-9\\-\\s\n]+$");
         //loop through inparameter inputs array
@@ -584,30 +562,32 @@ public class Library {
     }
 
     //Validation for 1 single string
-    public boolean validateSingleStringInput(String input) {
+    public boolean validateSingleStringInput (String input) {
         Pattern p = Pattern.compile("^[a-zA-Z]+$");
         Matcher m = p.matcher(input);
 
-        boolean valid = m.matches();
-        return valid;
+        return m.matches();
     }
 
-    private void printMessageErrorUnknownInput() {
-        System.out.println("\u001B[31mThat is not an option.\u001B[0m");
+    private void printMessageErrorUnknownInput () {
+        System.out.println("\n\u001B[31mThat is not an option.\u001B[0m");
     }
 
     //DO NOT USE IN METHODS - ONLY FOR SAVE TO FILE
-    public void addStartBooks() {
+    public void addStartBooks () {
         bookCollection.put("Sofies World",
                 new Book("Sofies World", "Jostein Gaarder", "Philosophy", true, ""));
         bookCollection.put("Eileen",
                 new Book("Eileen", "Ottessa Moshfegh", "Fiction", true, ""));
         bookCollection.put("Lord of the Rings: The Fellowship of the Rings",
-                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Fellowship of the Rings", "J.R.R Tolkien", "Fantasy, Classic",
+                        true, ""));
         bookCollection.put("Lord of the Rings: The Two Towers",
-                new Book("Lord of the Rings: The Two Towers", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Two Towers", "J.R.R Tolkien", "Fantasy, Classic",
+                        true, ""));
         bookCollection.put("Lord of the Rings: The Return of the King",
-                new Book("Lord of the Rings: The Return of the King", "J.R.R Tolkien", "Fantasy, Classic", true, ""));
+                new Book("Lord of the Rings: The Return of the King", "J.R.R Tolkien", "Fantasy, Classic",
+                        true, ""));
         bookCollection.put("Alice in Wonderland",
                 new Book("Alice in Wonderland", "Lewis Carroll", "Classic", true, ""));
         bookCollection.put("Crime and Punishment",
@@ -621,13 +601,16 @@ public class Library {
         bookCollection.put("The Age of Bowie",
                 new Book("The Age of Bowie", "Paul Morley", "Biography", true, ""));
         bookCollection.put("Martin Luther King: a self-biograhpy",
-                new Book("Martin Luther King: a self-biograhpy", "Martin Luther King", "Biography", true, ""));
+                new Book("Martin Luther King: a self-biograhpy", "Martin Luther King", "Biography",
+                        true, ""));
         bookCollection.put("No Logo",
                 new Book("No Logo", "Naomi Klein", "Non-fiction", true, ""));
         bookCollection.put("This Changes Everything",
-                new Book("This Changes Everything", "Naomi Klein", "Non-fiction", true, ""));
+                new Book("This Changes Everything", "Naomi Klein", "Non-fiction", true,
+                        ""));
         bookCollection.put("I am Malala",
-                new Book("I am Malala", "Malala Yousafzai", "Non-fiction, Biography", true, ""));
+                new Book("I am Malala", "Malala Yousafzai", "Non-fiction, Biography", true,
+                        ""));
         bookCollection.put("Carrie",
                 new Book("Carrie", "Stephen King", "Horror", true, ""));
         bookCollection.put("It",
@@ -635,7 +618,8 @@ public class Library {
         bookCollection.put("The Shining",
                 new Book("The Shining", "Stephen King", "Horror", true, ""));
         bookCollection.put("The Bell Jar",
-                new Book("The Bell Jar", "Sylvia Plath", "Modern Classic, Fiction", true, ""));
+                new Book("The Bell Jar", "Sylvia Plath", "Modern Classic, Fiction", true,
+                        ""));
         bookCollection.put("The Sellout",
                 new Book("The Sellout", "Paul Beatty", "Fiction", true, ""));
         bookCollection.put("The Luminaries",
@@ -645,10 +629,10 @@ public class Library {
         bookCollection.put("Nocturner",
                 new Book("Nocturner", "Kazuo Ishiguro", "Modern Classic", true, ""));
     }
+
     /*//Metod to see ALL books avalible
     public void seeAllBooksInLibrary(){
-        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " + value.getAuthor() + " | Genres: " + value.getGenres()));
+        this.bookCollection.forEach((key, value) -> System.out.println("Title: " + value.getTitle() + " | Author: " +
+        value.getAuthor() + " | Genres: " + value.getGenres()));
     }*/
-
-
 }

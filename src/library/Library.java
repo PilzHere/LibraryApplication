@@ -164,8 +164,8 @@ public class Library {
 
     //Admin to remove user
     public void removeLender (List<User> users) {
-        System.out.println("\nEnter \u001B[32mname of the user\u001B[0m you wish to remove:");
         getLenderList(users);
+        System.out.println("\nEnter \u001B[32mname of the user\u001B[0m you wish to remove:");
         Scanner scan = new Scanner(System.in);
         String adminInput = scan.nextLine();
 
@@ -294,9 +294,12 @@ public class Library {
 
     //Time left of borrowed book
     public void timeLeftOnBorrowedBooks (User user) {
-        for (Map.Entry<String,
-                Book> entry : bookCollection.entrySet()) {
+        boolean atLeastOneBookFound = false;
+        System.out.println();
+        for (Map.Entry<String, Book> entry : bookCollection.entrySet()) {
             if (user.getName().equalsIgnoreCase(entry.getValue().getReservedBy())) {
+                atLeastOneBookFound = true;
+
                 LocalDate currentDate =
                         LocalDate.now();
                 LocalDate returnDate = entry.getValue().getBorrowedDate().plusDays(14);
@@ -307,6 +310,10 @@ public class Library {
                         + " expires in " + period.getDays()
                         + " days");
             }
+        }
+
+        if (!atLeastOneBookFound) {
+            System.out.println("\n\u001B[31mYou have no borrowed book.\u001B[0m");
         }
     }
 

@@ -135,7 +135,7 @@ public class Library {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    //Admin - check borrowed and return date
+    //Admin - check borrowed and return date.
     public void printBorrowedAndReturnDate () {
         HashMap<String, Book> borrowedBookList = getBorrowedBooks();
         System.out.println();

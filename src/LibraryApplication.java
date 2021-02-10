@@ -1,7 +1,5 @@
-import login.Login;
+import library.login.Login;
 
 public class LibraryApplication {
-    public static void main (String[] args) {
-        Login login = new Login();
-    }
+    public static void main(String[] args) { Login login = new Login(); }
 }

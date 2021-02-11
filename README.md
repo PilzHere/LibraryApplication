@@ -7,7 +7,7 @@ A school project.
 *Marcel*<br />
 *Johan*<br />
 ### Lenders
-*Annika*<br />
 *Amin*<br />
+*Annika*<br />
 *Christian*<br />
 *Sandra*

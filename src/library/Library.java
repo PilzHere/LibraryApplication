@@ -307,7 +307,7 @@ public class Library {
                         Period.between(currentDate, returnDate);
                 System.out.println("Title: " +
                         entry.getValue().getTitle()
-                        + " expires in " + period.getDays()
+                        + ", expires in " + period.getDays()
                         + " days");
             }
         }
